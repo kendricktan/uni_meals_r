@@ -363,22 +363,21 @@
 
 /* End Eatery Info */
 
-/* Message Info */
-.message-op-username{
-    font-size: 12px;
-    margin-left: -6px
-}
-
-.message-op{    
-}
-
-.message-op > img{    
-}
-
-.message-post-wrapper{
+/* Inbox & Message Info */
+.inbox-post-wrapper{
     -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);        
     font-size: 15px;
     margin: 15px;
 }
-/* End Message Info */
+
+.message-post-wrapper{
+    -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);        
+    font-size: 15px;    
+}
+
+.message-datetime{
+    color: #BDC3C7;
+}
+/* End Inbox Message Info */
