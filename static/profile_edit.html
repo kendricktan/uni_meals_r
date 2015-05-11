@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Uni Meals - Home</title>
+        <title>Uni Meals - Edit Profile</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Bootstrap -->
@@ -20,7 +20,7 @@
     <body>
         <!-- NAVBAR -->
         <div class="navbar-wrapper row">
-            <div class="col-sm-12">
+            <div class="col-xs-12">
                 <nav class="navbar navbar-default" role="navigation">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
@@ -42,9 +42,9 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Me<b class="caret"></b></a>
                                 <span class="dropdown-arrow"></span>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Activity</a></li>
+                                    <li><a href="#">Activity</a></li>                                    
                                     <li><a href="#">Messages<span class="badge">25</span></a></li>
-                                    <li class="divider"></li>
+                                    <li class="divider"></li                                    
                                     <li><a href="#">Edit profile</a></li>
                                     <li class="divider"></li>    
                                     <li><a href="#">Log out</a></li>
@@ -57,76 +57,34 @@
             </div>
         </div>
         <!-- END NAVBAR -->
-
-        <!-- SEARCH-->
-        <div class="row">
-            <div class="container col-sm-10 col-sm-offset-1">
-                <div class="form-group">
-                    <div class="col-sm-6"><input placeholder="What?" class="form-control" type="text" id="typeahead-food-query"></div>
-                    <div class="col-sm-6"><input placeholder="Where?" class="form-control" type="text" id="typeahead-city-query"></div>
-                    <div class="row" style="margin-bottom: 15px;"></div>
-                    <div class="col-xs-6">
-                        <div class="btn-right">
-                            <button class="btn btn-success btn-wide" type="submit">Search</button>                            
-                            
-                        </div>           
-                    </div>                    
-                    <div class="col-xs-6">
-                        <div class="btn-left">
-                            <button class="btn btn-success btn-wide" type="submit">Random</button>                            
-                        </div>           
-                    </div>                    
-                </div>
-            </div>
-        </div>
-        <!-- END SEARCH -->
         <hr noshade>
         
-        <!-- DISCOVER UNI MEALS-->
-        <div class="container">
-            <h3>What's Popular</h3>
-            <h6>Discover great deals from Uni Meals today!</h6>
-            
-            <div class="col-sm-3 pull-right">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
-                        Popular from: <strong>Today</strong><span class="caret"></span>
-                    </button>                
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Today</a></li>
-                        <li><a href="#">Last Week</a></li>
-                        <li><a href="#">Last Month</a></li>
-                    </ul>
-                </div>  
-            </div>                                    
-        </div>
-        
-        <div class="container">
-            <hr noshade>
-            <div class="search-results">
-                <span style="color: #2980B9"><strong>Restaurant name</strong></span>, UQ Saint Lucia<br/>
-                <div class="result-div">                    
-                    Insert short description here<br/>                    
-                </div>                
-                <div class="addition-info-results">
-                    42 people recommends this
+        <!-- USER PROFILE -->
+        <div class="row">
+            <div class="container">
+                <div style="text-align: center" class="centered col-sm-4">
+                    <img height=200 src="img/profile/blank.png" alt="User"><br/><br/>
+                    <button class="btn btn-info">Change picture</button>
                 </div>
-            </div>
-            <hr noshade>
-            <div class="search-results">
-                <span style="color: #2980B9"><strong>Restaurant name</strong></span>, UQ Saint Lucia<br/>
-                <div class="result-div">                    
-                    Insert short description here<br/>                    
-                </div>                
-                <div class="addition-info-results">
-                    20 people recommends this
+                <div class="col-sm-8">
+                    <div class="profile-info">
+                        <p><textarea placeholder="Enter new username" style="font-size: 15px; width:100%" rows="1" id="edit-username-textarea"></textarea></p>
+                        <p><textarea placeholder="Enter new email" style="font-size: 15px; width:100%" rows="1" id="edit-email-textarea"></textarea></p>
+                        <p><textarea placeholder="Enter new location" style="font-size: 15px; width:100%" rows="1" id="edit-location-textarea"></textarea></p>                                                
+                        <p><textarea placeholder="Enter new description" style="font-size: 15px; width:100%" rows="4" id="edit-description-textarea"></textarea></p>                                                                        
+                        <button class="btn btn-info pull-right">Update</button>                                                
+                        
+                        <p><textarea placeholder="Enter new password" style="margin-top: 20px; font-size: 15px; width:100%" rows="1" id="edit-password-textarea"></textarea></p>                                                
+                        <p><textarea placeholder="Re-enter new password" style="font-size: 15px; width:100%" rows="1" id="edit-password-textarea"></textarea></p>    
+                        <button class="btn btn-info pull-right">Change password</button>
+                    </div>
                 </div>
+                <br/>
             </div>
-            <hr noshade>
         </div>
-        <!-- END DISCOVER UNI MEALS-->
+        <!-- END USER PROFILE -->                
         
-        <hr noshade>                
+        <hr noshade>        
         <!-- FOOTER -->
         <div class="footer container">
             <div class="col-sm-3">
@@ -161,8 +119,11 @@
         
         <!-- jQuery -->
         <script src="js/vendor/jquery.min.js"></script>
+        <script src="js/vendor/bootstrap.min.js"></script>
+        <script src="js/vendor/jquery.bootstrap.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="js/vendor/video.js"></script>
         <script src="js/flat-ui.min.js"></script>
+        <script src="js/uni-meals.js"></script>
     </body>
 </html>

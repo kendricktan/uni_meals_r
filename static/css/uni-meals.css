@@ -103,11 +103,11 @@
 /* End Login/Signup Form*/
 
 /* Profile */
-.profile-info {
+.profile-info, .message-info {
     margin-top: 10px;
 }
 
-.profile-info, .profile-info > p{
+.profile-info, .profile-info > p, .message-info, .message-info > p{
     font-size: 15px;
 }
 /* Wall Post */
@@ -362,3 +362,23 @@
 }
 
 /* End Eatery Info */
+
+/* Message Info */
+.message-op-username{
+    font-size: 12px;
+    margin-left: -6px
+}
+
+.message-op{    
+}
+
+.message-op > img{    
+}
+
+.message-post-wrapper{
+    -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);        
+    font-size: 15px;
+    margin: 15px;
+}
+/* End Message Info */
