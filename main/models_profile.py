@@ -105,3 +105,30 @@ class vote_given(models.Model):
 '''
     #### END USER'S TIMELINE ####
 '''  
+
+
+'''
+    #### USER'S MESSAGES ####
+'''  
+class message(models.Model):
+    op_id = models.IntegerField()
+    title = models.CharField(max_length=50)
+    text = models.CharField(max_length=32767)
+    datetime_sent = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(user)
+    
+    def __unicode__(self):
+        return unicode(self.title)
+        
+class message_reply(models.Model):
+    op_id = models.IntegerField()
+    text = models.CharField(max_length=32767)
+    datetime_sent = models.DateTimeField(auto_now_add=True)
+    message = models.ForeignKey(message)
+    
+    def __unicode__(self):
+        return unicode(self.text)
+    
+'''
+    #### END USER'S MESSAGES ####
+'''  
