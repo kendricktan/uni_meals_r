@@ -51,28 +51,27 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>680</x>
-      <y>220</y>
+      <x>890</x>
+      <y>190</y>
       <w>90</w>
-      <h>70</h>
+      <h>50</h>
     </coordinates>
     <panel_attributes>tags
 --
-- keyword
-- additional</panel_attributes>
+- keyword</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>710</x>
-      <y>280</y>
-      <w>130</w>
-      <h>140</h>
+      <y>200</y>
+      <w>200</w>
+      <h>220</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;many to many&gt;&gt;</panel_attributes>
-    <additional_attributes>10.0;120.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;200.0;10.0;10.0;180.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -140,7 +139,7 @@
     </coordinates>
     <panel_attributes>votes
 --
-- eatery_id</panel_attributes>
+- eatery</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -264,5 +263,30 @@
     <panel_attributes>lt=&lt;.
 &lt;&lt;foreign key&gt;&gt;</panel_attributes>
     <additional_attributes>10.0;20.0;320.0;20.0;320.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>890</x>
+      <y>120</y>
+      <w>110</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>special_tags
+--
+- keyword</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>670</x>
+      <y>140</y>
+      <w>240</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;many to many&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;260.0;10.0;10.0;220.0;10.0</additional_attributes>
   </element>
 </diagram>
