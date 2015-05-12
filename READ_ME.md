@@ -2,8 +2,7 @@
 
 To fix:
 
-To do:	
-	Register and Login user
+To do:		
 	Design admin page
 	Design admin page to add eatery
 
@@ -15,3 +14,4 @@ Done:
 	Finish eatery database
 	Serve static and media files
 	Add templates into app	
+	Register and Login user

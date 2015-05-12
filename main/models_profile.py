@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, logout, login as auth_login
 from django.db import models
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
@@ -38,29 +39,38 @@ def create_new_user(username, email, password):
         
         return _u, None
         
-# Logins user
-def login_user(username, email, password):    
+    # Logins user
+def login_user(username, email, password, request):    
+    # _U = django's user model
+    # _u = custom user model extended django's user model
+    
+    # Assuming its an username at first
     _username = username
     
     # If logging in via email
     if email:    
         # Gets user email
         try:
+            # Gets user via email
             _U = User.objects.get(email=email)
             if _U is not None:
+                # Get's user's email
                 _username = _U.username
                 
         except Exception as e:
             return False
     
     # Authenticate
-    _u = authenticate(username=_username, password=password)
+    _U = authenticate(username=_username, password=password)
     
-    # Returns true false cased on authentication
-    if _u is not None:
+    # Our custom database is what stores the users, not Django's defualt user database
+    try: 
+        _u = _U.user
+        auth_login(request, _U)
         return True
-        
-    return False
+    
+    except Exception as e:
+        return False    
   
 '''
     #### USER'S WALL ####

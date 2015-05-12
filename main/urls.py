@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^signup/adduser/?$', views.signup_adduser, name='signup_adduser'),
     url(r'^login/?$', views.login_view, name='login_view'),
     url(r'^login/loginuser/?$', views.login_loginuser, name='login_loginuser'),
+    url(r'^logout/?$', views.logout_user, name='logout_user'),
     
     # Browse, search
     url(r'^browse/?$', views.browse_view, name='browse_view'),

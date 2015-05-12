@@ -50,7 +50,7 @@ def login_loginuser(request):
         password = request.POST['password']
         
         # Boolean var to see if we logged in correctly
-        login_bool = login_user(username, email, password)
+        login_bool = login_user(username, email, password, request)
         
         # Response data
         response_data = {}
@@ -65,6 +65,11 @@ def login_loginuser(request):
             json.dumps(response_data),
             content_type="application/json"
         )
+    
+    # Logs user out
+def logout_user(request):
+    logout(request)
+    return HttpResponseRedirect('/')
     
 # Browse, search
 def browse_view(request):
