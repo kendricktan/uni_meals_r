@@ -12,6 +12,7 @@ class user(models.Model):
     user = models.OneToOneField(User)
     picture = models.ImageField(upload_to="text", blank=True, null=True)
     location = models.CharField(max_length=20)
+    description = models.CharField(max_length=255)
     
     def __unicode__(self):
         return unicode(self.user.get_username())   
@@ -71,6 +72,14 @@ def login_user(username, email, password, request):
     
     except Exception as e:
         return False    
+  
+# Gets custom model's user
+def get_custom_model_user(_U):
+    try:
+        _u = _U.user
+        return _u
+    except Exception as e:
+        return None
   
 '''
     #### USER'S WALL ####

@@ -21,8 +21,8 @@ urlpatterns = [
     url(r'^eatery/?$', views.eatery_view, name='eatery_view'),
     
     # Profile
-    url(r'profile/?$', views.profile_view, name='profile_view'),
-    url(r'profile/edit/?$', views.profile_edit_view, name='profile_edit_view'),
+    url(r'profile/(?P<profile_id>[0-9]+)/?$', views.profile_view, name='profile_view'),
+    url(r'profile/edit/(?P<profile_id>[0-9]+)/?$', views.profile_edit_view, name='profile_edit_view'),
     
     # Inbox, messages
     url(r'inbox/?$', views.inbox_view, name='inbox_view'),
