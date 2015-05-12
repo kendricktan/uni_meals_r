@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template.context_processors import csrf
 from datetime import datetime
 from .models import *
+import json
 
 
 # Requests index page
@@ -14,8 +15,56 @@ def index_view(request):
 def signup_view(request):
     return render(request, 'main/signup.html')
     
-def login_view(request):
+    # Signs user up
+def signup_adduser(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+    
+        # creates a user
+        _u, error = create_new_user(username, email, password)
+        
+        # Creates our response data object
+        response_data = {}
+        
+        if _u:
+            response_data['username'] = _u.get_username()                        
+            
+        elif _u is None:
+            response_data['error'] = error;
+            
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+    
+def login_view(request):    
     return render(request, 'main/login.html')
+    
+    # Logs user in
+def login_loginuser(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        
+        # Boolean var to see if we logged in correctly
+        login_bool = login_user(username, email, password)
+        
+        # Response data
+        response_data = {}
+        
+        if login_bool is True:
+            response_data['success'] = True
+            
+        else:
+            response_data['error'] = True
+        
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
     
 # Browse, search
 def browse_view(request):

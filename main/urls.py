@@ -8,7 +8,9 @@ urlpatterns = [
     
     # Sign up, login
     url(r'^signup/?$', views.signup_view, name='signup_view'),
+    url(r'^signup/adduser/?$', views.signup_adduser, name='signup_adduser'),
     url(r'^login/?$', views.login_view, name='login_view'),
+    url(r'^login/loginuser/?$', views.login_loginuser, name='login_loginuser'),
     
     # Browse, search
     url(r'^browse/?$', views.browse_view, name='browse_view'),

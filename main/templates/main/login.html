@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Uni Meals - Sign Up</title>
+        <title>Uni Meals - Log in</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Bootstrap -->
@@ -63,10 +63,15 @@
         <!-- LOGIN FORM -->
         <div style="padding: 50px 0px 50px 0px;" class="container">
             <div class="col-sm-6 col-sm-offset-3">
-                <form class="form-authenticate" method="post">
+                <form id="form-login" class="form-authenticate" method="POST" action="">{% csrf_token %}
                     <span style="font-size: 25px">Log in</span><p></p>
-                    <input type="text" class="form-control input-sm" placeholder="Username/Email"/><p></p>                                        
-                    <input type="text" class="form-control input-sm" placeholder="Password"/><p></p>                    
+                    <div class="form-error" id="login-details-error"></div>
+                    <input id="username-email-field" type="text" class="form-control input-sm" placeholder="Username/Email" required/>
+                    <p></p>                                        
+                    <input id="password-field" type="password" class="form-control input-sm" placeholder="Password" required/>
+                    <a style="padding-left: 5px; font-size: 13px" href="#">Forgot your password?</a>
+                    <p></p> 
+                    
                     <button style="width:100%" class="btn btn-primary btn-success">Log in!</button>                    
                 </form>
             </div>
@@ -108,6 +113,9 @@
         
         <!-- jQuery -->
         <script src="{% static "js/vendor/jquery.min.js" %}"></script>
+        <script src="{% static "js/vendor/jquery.bootstrap.min.js" %}"></script>
+        <!-- Custom Javascript -->
+        <script src="{% static "js/uni-meals.js" %}"></script>        
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="{% static "js/vendor/video.js" %}"></script>
         <script src="{% static "js/flat-ui.min.js" %}"></script>

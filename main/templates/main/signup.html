@@ -62,16 +62,21 @@
         
         <!-- REGISTER FORM -->
         <div style="padding: 50px 0px 50px 0px;" class="container">
-            <div class="col-sm-6 col-sm-offset-3">
-                <form class="form-authenticate" method="post">
+            <div id="form-wrapper" class="col-sm-6 col-sm-offset-3">
+                <form id="form-signup" class="form-authenticate" method="POST" action="">{% csrf_token %}
                     <span style="font-size: 25px">Sign Up</span><p></p>
-                    <input type="text" class="form-control input-sm" placeholder="Username"/><p></p>
-                    <input type="text" class="form-control input-sm" placeholder="Email"/><p></p>
-                    <input type="text" class="form-control input-sm" placeholder="Re-enter email"/><p></p>
-                    <input type="text" class="form-control input-sm" placeholder="Password"/><p></p>
-                    <input type="text" class="form-control input-sm" placeholder="Re-enter password"/><p></p>
-                    <button style="width:100%" class="btn btn-primary btn-success">Sign Up!</button>
-                    <div style="text-align: center"><span style="font-size: 12px">*By signing up, you're agreeing to our <a href="#">terms and conditions</a></span></div>
+                    <input id="username-field" id="username-field" type="text" class="form-control input-sm" placeholder="Username" required/>
+                    <div class="form-error" id="username-error"></div><p></p>
+                    <input id="email-field" type="text" class="form-control input-sm" placeholder="Email" required/>
+                    <div class="form-error" id="email-error"></div><p></p>
+                    <input id="reemail-field" type="text" class="form-control input-sm" placeholder="Re-enter email" required/>
+                    <div class="form-error" id="reemail-error"></div><p></p>
+                    <input id="password-field" type="password" class="form-control input-sm" placeholder="Password" required/>
+                    <div class="form-error" id="password-error"></div><p></p>
+                    <input id="repassword-field" type="password" class="form-control input-sm" placeholder="Re-enter password" required/>
+                    <div class="form-error" id="repassword-error"></div><p></p>
+                    <button id="btn-signup" style="width:100%" class="btn btn-primary btn-success">Sign Up!</button>
+                    <div style="line-height: 1em; text-align: center"><span style="font-size: 12px">*By signing up, you're agreeing to our <a href="#">terms and conditions</a></span></div>
                 </form>
             </div>
         </div>
@@ -112,6 +117,9 @@
         
         <!-- jQuery -->
         <script src="{% static "js/vendor/jquery.min.js" %}"></script>
+        <script src="{% static "js/vendor/jquery.bootstrap.min.js" %}"></script>
+        <!-- Custom Javascript -->
+        <script src="{% static "js/uni-meals.js" %}"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="{% static "js/vendor/video.js" %}"></script>
         <script src="{% static "js/flat-ui.min.js" %}"></script>

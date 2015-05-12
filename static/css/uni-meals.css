@@ -141,7 +141,7 @@
 }
 
 .wall-post-reply-textarea{
-    width: 100%;
+    width: 97%;
     margin-top: 15px; 
     font-size: 13px;
 }
@@ -373,6 +373,10 @@
     margin: 15px;
 }
 
+.message-img{
+    margin-top: 10px;
+}
+
 .message-post-wrapper{
     -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);        
@@ -383,3 +387,8 @@
     color: #BDC3C7;
 }
 /* End Inbox Message Info */
+.form-error {
+    color: #E74C3C; 
+    padding-left: 5px; 
+    font-size: 13px;
+}

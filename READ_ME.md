@@ -2,9 +2,10 @@
 
 To fix:
 
-To do:
-	Add templates into app	
-	
+To do:	
+	Register and Login user
+	Design admin page
+	Design admin page to add eatery
 
 Done:
 	Designed main layouts
@@ -13,3 +14,4 @@ Done:
 	Design messages layout
 	Finish eatery database
 	Serve static and media files
+	Add templates into app	

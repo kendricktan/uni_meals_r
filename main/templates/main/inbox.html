@@ -85,7 +85,7 @@
                                         <div class="col-sm-12">
                                             <!-- USER DP -->
                                             <div style="text-align: center" class="col-sm-2">
-                                                <img src="{{MEDIA_URL}}img/login/imac.png" width=50 height=50/><br/>
+                                                <img class="message-img" src="{{MEDIA_URL}}img/login/imac.png" width=50 height=50/><br/>
                                                 Username
                                             </div>                            
                                             <!-- END USER DP -->
@@ -110,7 +110,7 @@
                                         <div class="col-sm-12">
                                             <!-- USER DP -->
                                             <div style="text-align: center" class="col-sm-2">
-                                                <img src="{{MEDIA_URL}}img/login/imac.png" width=50 height=50/><br/>
+                                                <img class="message-img" src="{{MEDIA_URL}}img/login/imac.png" width=50 height=50/><br/>
                                                 Username
                                             </div>                            
                                             <!-- END USER DP -->
@@ -137,18 +137,26 @@
                             <div class="tab-pane" id="unread-messages-tab">
                                 <div class="container message-wrapper">
                                     <!-- MESSAGE OP -->
-                                    <div class="row message-post-wrapper">                                                                                
-                                        <div class="col-sm-2 display-cell message-op">
-                                            <img src="{{MEDIA_URL}}img/login/imac.png" width=50 height=50/><br/>
-                                            <div class="message-op-username">Username</div>                                            
-                                        </div>                                        
-                                        <div class="col-sm-8 display-cell message-op">
-                                            <strong>Message title</strong><br/>
-                                            Hello, my message is to be displayed here. Lets talk in paragraphs, in mean why the hell not? Isn't that just great?
-                                        </div>
-                                        <div class="col-sm-2 display-cell message-op">
-                                            <a href="#" rel="tooltip" title="Load all"><i class="glyphicon fui-plus"></i></a>&nbsp;&nbsp;                                            
-                                            <a href="#" rel="tooltip" title="Reply"><i class="glyphicon fui-bubble"></i></a><br/>&nbsp;&nbsp;
+                                    <div class="row inbox-post-wrapper">
+                                        <div class="col-sm-12">
+                                            <!-- USER DP -->
+                                            <div style="text-align: center" class="col-sm-2">
+                                                <img class="message-img" src="{{MEDIA_URL}}img/login/imac.png" width=50 height=50/><br/>
+                                                Username
+                                            </div>                            
+                                            <!-- END USER DP -->
+
+                                            <!-- USER TEXT -->
+                                            <div class="col-sm-8">
+                                                <strong>Message title</strong><br/>
+                                                G'day mate, i'm just going to test out how is this message thingy majigy going to render. Is it going to render properly or is it going to poop around and overlay on other stuff??
+                                            </div>
+                                            <!-- END USER TEXT -->                            
+                                        
+                                            <div class="col-sm-2 display-cell message-op">
+                                                <a href="#" rel="tooltip" title="Load more"><i class="glyphicon fui-plus"></i></a>&nbsp;&nbsp;                                            
+                                                <a href="#" rel="tooltip" title="Reply"><i class="glyphicon fui-bubble"></i></a><br/>&nbsp;&nbsp;
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- END MESSAGE OP -->

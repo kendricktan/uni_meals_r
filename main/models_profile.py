@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 
 '''
@@ -12,13 +13,19 @@ class user(models.Model):
     location = models.CharField(max_length=20)
     
     def __unicode__(self):
-        return unicode(self.user.get_username())       
+        return unicode(self.user.get_username())   
+
+    def get_username(self):
+        return unicode(self.user.get_username())
        
 # Creates a new user       
-def create_new_user(username, email, password, location):
+def create_new_user(username, email, password):
     # Checks if username or email exists
-    if User.objects.filter(username=username).count() > 0 or User.objects.filter(email=email).count() > 0:
-        return None
+    if User.objects.filter(username=username).count() > 0:
+        return None, 'Username'
+        
+    elif User.objects.filter(email=email).count() > 0:
+        return None, 'Email'
         
     else:
         # Creates a new user model
@@ -26,10 +33,34 @@ def create_new_user(username, email, password, location):
         _U.set_password(password)
         _U.save()
         
-        _u = user(user=_U, location=location)
+        _u = user(user=_U)
         _u.save()
         
-        return _u
+        return _u, None
+        
+# Logins user
+def login_user(username, email, password):    
+    _username = username
+    
+    # If logging in via email
+    if email:    
+        # Gets user email
+        try:
+            _U = User.objects.get(email=email)
+            if _U is not None:
+                _username = _U.username
+                
+        except Exception as e:
+            return False
+    
+    # Authenticate
+    _u = authenticate(username=_username, password=password)
+    
+    # Returns true false cased on authentication
+    if _u is not None:
+        return True
+        
+    return False
   
 '''
     #### USER'S WALL ####
