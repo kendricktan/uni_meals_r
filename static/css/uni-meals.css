@@ -120,13 +120,15 @@
 .wall-post-op-dp{
     margin: 10px 5px 10px 0;
     float: left;
-    max-height: 50px
+    max-height: 50px;
+    max-width: 45px;
 }
 
 .wall-post-reply-dp{
     margin: 10px 0 15px 0px;
     float: right;
-    max-height: 50px
+    max-height: 50px;
+    max-width: 45px;
 }
 
 .wall-post-text{
@@ -141,7 +143,7 @@
 .wall-post-reply-textarea{
     width: 100%;
     margin-top: 15px; 
-    font-size: 13px
+    font-size: 13px;
 }
 /* End Wall post */
 
