@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, logout, login as auth_login
 from django.db import models
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from .models_functions import *
 
 '''
     #### USER ####
@@ -10,7 +11,7 @@ from django.contrib.auth.models import User
 # user model
 class user(models.Model):
     user = models.OneToOneField(User)
-    picture = models.ImageField(upload_to="text", blank=True, null=True)
+    picture = models.ImageField(upload_to=generate_directory_user, blank=True, null=True)
     location = models.CharField(max_length=20)
     description = models.CharField(max_length=255)
     
@@ -71,7 +72,11 @@ def login_user(username, email, password, request):
         return True
     
     except Exception as e:
-        return False    
+        return False
+
+# Change user dp
+def change_user_dp(user, request):
+    return None
   
 # Gets custom model's user
 def get_custom_model_user(_U):

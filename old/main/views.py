@@ -127,6 +127,19 @@ def profile_edit_view(request, profile_id):
     
     return HttpResponse('Please log in to access this function') 
     
+def profile_edit_dp(request):
+    if request.method == 'POST':
+        img = request.FILES['image']
+        
+        response_data = {}
+
+        if img is not None:
+            return HttpResponse(
+                json.dumps(response_data),
+                content_type="application/json"
+            )
+    return None
+    
 # Inbox, messages
 def inbox_view(request):
     _u = None

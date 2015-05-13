@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Uni Meals - Sign Up</title>
+        <title>Uni Meals - Home</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Bootstrap -->
@@ -21,7 +21,7 @@
     <body>
         <!-- NAVBAR -->
         <div class="navbar-wrapper row">
-            <div class="col-xs-12">
+            <div class="col-sm-12">
                 <nav class="navbar navbar-default" role="navigation">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
@@ -35,7 +35,7 @@
                             <li><a href="/browse/">Browse</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-							{% if not user.is_authenticated %} 
+                            {% if not user.is_authenticated %} 
                             <li><a class="a-authenticate" href="/signup/">Sign up</a></li>
                             <li><a class="a-authenticate" href="/login/">Log in</a></li>
                             <!-- If user is logged in -->
@@ -44,7 +44,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Me<b class="caret"></b></a>
                                 <span class="dropdown-arrow"></span>
                                 <ul class="dropdown-menu">
-                                   <li><a href="/profile/{{USER.id}}">Activity</a></li>
+                                    <li><a href="/profile/{{USER.id}}">Profile</a></li>
                                     <li><a href="/inbox/">Messages<span class="badge">25</span></a></li>
                                     <li class="divider"></li>
                                     <li><a href="/profile/edit/{{USER.id}}">Edit profile</a></li>
@@ -59,31 +59,78 @@
             </div>
         </div>
         <!-- END NAVBAR -->
+
+        <!-- CAROUSEL -->
+        <div id="specialCarousel" class="carousel slide row" date-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#specialCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#specialCarousel" data-slide-to="1"></li>
+                <li data-target="#specialCarousel" data-slide-to="2"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                <div class="item active"><img src="{{MEDIA_URL}}img/promo/001.jpg" alt="McD">
+                    <div class="carousel-caption">
+                        <!--<h3>Mc Donalds</h3>
+                        <p>Burgers go yum yum</p>-->
+                    </div>
+                </div>
+
+                <div class="item"><img src="{{MEDIA_URL}}img/promo/002.jpg" alt="HJ">
+                    <div class="carousel-caption">
+                        <!--<h3>Hungry Jacks</h3>
+                        <p>Burgers go nom nom</p>-->
+                    </div>
+                </div>
+
+                <div class="item"><img src="{{MEDIA_URL}}img/promo/003.png" alt="KFC">
+                    <div class="carousel-caption">
+                        <!--<h3>KFC</h3>
+                        <p>Better than burgers!</p>-->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls for Carousel-->
+            <a class="left carousel-control" href="#specialCarousel" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left fui-arrow-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#specialCarousel" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-left fui-arrow-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+        <!-- END CAROUSEL -->
+
         <hr noshade>
-        
-        <!-- REGISTER FORM -->
-        <div style="padding: 50px 0px 50px 0px;" class="container">
-            <div id="form-wrapper" class="col-sm-6 col-sm-offset-3">
-                <form id="form-signup" class="form-authenticate" method="POST" action="">{% csrf_token %}
-                    <span style="font-size: 25px">Sign Up</span><p></p>
-                    <input id="username-field" id="username-field" type="text" class="form-control input-sm" placeholder="Username" required/>
-                    <div class="form-error" id="username-error"></div><p></p>
-                    <input id="email-field" type="text" class="form-control input-sm" placeholder="Email" required/>
-                    <div class="form-error" id="email-error"></div><p></p>
-                    <input id="reemail-field" type="text" class="form-control input-sm" placeholder="Re-enter email" required/>
-                    <div class="form-error" id="reemail-error"></div><p></p>
-                    <input id="password-field" type="password" class="form-control input-sm" placeholder="Password" required/>
-                    <div class="form-error" id="password-error"></div><p></p>
-                    <input id="repassword-field" type="password" class="form-control input-sm" placeholder="Re-enter password" required/>
-                    <div class="form-error" id="repassword-error"></div><p></p>
-                    <button id="btn-signup" style="width:100%" class="btn btn-primary btn-success">Sign Up!</button>
-                    <div style="line-height: 1em; text-align: center"><span style="font-size: 12px">*By signing up, you're agreeing to our <a href="#">terms and conditions</a></span></div>
-                </form>
+        <!-- SEARCH-->
+        <div class="row">
+            <div class="container col-sm-10 col-sm-offset-1">
+                <div class="form-group">
+                    <div class="col-sm-6"><input placeholder="What?" class="form-control" type="text" id="typeahead-food-query"></div>
+                    <div class="col-sm-6"><input placeholder="Where?" class="form-control" type="text" id="typeahead-city-query"></div>
+                    <div class="row" style="margin-bottom: 15px;"></div>
+                    <div class="col-xs-6">
+                        <div class="btn-right">
+                            <button class="btn btn-success btn-wide" type="submit">Search</button>                            
+                            
+                        </div>           
+                    </div>                    
+                    <div class="col-xs-6">
+                        <div class="btn-left">
+                            <button class="btn btn-success btn-wide" type="submit">Random</button>                            
+                        </div>           
+                    </div>                    
+                </div>
             </div>
         </div>
-        <!-- END REGISTER FORM -->
+        <!-- END SEARCH -->
         
-        <hr noshade>        
+        <hr noshade>
+        
         <!-- FOOTER -->
         <div class="footer container">
             <div class="col-sm-3">
@@ -118,9 +165,6 @@
         
         <!-- jQuery -->
         <script src="{% static "js/vendor/jquery.min.js" %}"></script>
-        <script src="{% static "js/vendor/jquery.bootstrap.min.js" %}"></script>
-        <!-- Custom Javascript -->
-        <script src="{% static "js/uni-meals.js" %}"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="{% static "js/vendor/video.js" %}"></script>
         <script src="{% static "js/flat-ui.min.js" %}"></script>

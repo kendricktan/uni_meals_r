@@ -23,6 +23,7 @@ urlpatterns = [
     # Profile
     url(r'profile/(?P<profile_id>[0-9]+)/?$', views.profile_view, name='profile_view'),
     url(r'profile/edit/(?P<profile_id>[0-9]+)/?$', views.profile_edit_view, name='profile_edit_view'),
+    url(r'profile/edit/upload_dp/?$', views.profile_edit_dp, name='profile_edit_dp'),
     
     # Inbox, messages
     url(r'inbox/?$', views.inbox_view, name='inbox_view'),

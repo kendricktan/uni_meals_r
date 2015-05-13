@@ -44,7 +44,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Me<b class="caret"></b></a>
                                 <span class="dropdown-arrow"></span>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/profile/{{USER.id}}">Activity</a></li>
+                                    <li><a href="/profile/{{USER.id}}">Profile</a></li>
                                     <li><a href="/inbox/">Messages<span class="badge">25</span></a></li>
                                     <li class="divider"></li>
                                     <li><a href="/profile/edit/{{USER.id}}">Edit profile</a></li>
@@ -67,8 +67,8 @@
                 <div style="text-align: center" class="centered col-sm-4"><img width=200 height=200 src="{{MEDIA_URL}}img/login/imac.png" alt="User"></div>
                 <div class="col-sm-8">
                     <div class="profile-info">
-                        <p><strong>{{USER.user.username}}</strong>{% if USER.location %}, {{USER.location}} {% endif %}</p>
-                        <p><strong>About me</strong><br/>{% if USER.description %} USER.description {% else %} Enter something about yourself here!{% endif %}</p>
+                        <p><strong>{{USER.user.username}}</strong>{% if USER.location %}, @ {{USER.location}} {% endif %}</p>
+                        <p><strong>About me</strong><br/>{% if USER.description %} {{USER.description}} {% else %} Enter something about yourself here!{% endif %}</p>
                         <button class="btn btn-info">Message</button>
                     </div>
                 </div>

@@ -33,6 +33,55 @@ $('#form-login').on('submit', function(event){
     login_user()
 });
 
+$('#profile-dp-form').on('submit', function(event){
+    event.preventDefault();
+    //console.log("User attempted to change dp");
+    change_dp();
+ });
+
+function change_dp(){
+    /*var formData = new FormData($('#profile-dp-form')[0]);
+    //console.log(formData);
+    
+    $.ajax({
+        url: "/profile/edit/upload_dp/",    // URL to edit dp
+        type: "POST",
+        xhr: function(){
+            var myXhr = $.ajaxSettings.xhr();   // Server script to process data
+            if(myXhr.upload){   // Custom XMLHttpRequest
+                myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+            }
+            return myXhr;
+        },                    
+        
+        // data to send
+        data:{
+            formData: formData,
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,    // csrf token
+        },
+           
+       cache: false,
+       contentType: false,
+       processData: false,
+        
+        success: function(json){
+            console.log("successfully uploaded!");
+        },
+        
+        // handle a non-successful response
+        error: function(xhr, errmsg, err){
+            console.log(xhr.status + ": " + xhr.responseText);
+        }
+    });*/
+}
+
+// Handle the progress
+function progressHandlingFunction(e){
+    if(e.lengthComputable){
+        //$('progress').attr({value:e.loaded,max:e.total});
+    }
+}
+
 // Sign up and add user into the database
 function add_user(){
     //console.log("adding user!");

@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Uni Meals - Edit Profile</title>
+        <title>Uni Meals - Log in</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Bootstrap -->
@@ -35,7 +35,7 @@
                             <li><a href="/browse/">Browse</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            {% if not user.is_authenticated %} 
+							{% if not user.is_authenticated %} 
                             <li><a class="a-authenticate" href="/signup/">Sign up</a></li>
                             <li><a class="a-authenticate" href="/login/">Log in</a></li>
                             <!-- If user is logged in -->
@@ -44,7 +44,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Me<b class="caret"></b></a>
                                 <span class="dropdown-arrow"></span>
                                 <ul class="dropdown-menu">
-                                   <li><a href="/profile/{{USER.id}}">Activity</a></li>
+                                   <li><a href="/profile/{{USER.id}}">Profile</a></li>
                                     <li><a href="/inbox/">Messages<span class="badge">25</span></a></li>
                                     <li class="divider"></li>
                                     <li><a href="/profile/edit/{{USER.id}}">Edit profile</a></li>
@@ -61,35 +61,23 @@
         <!-- END NAVBAR -->
         <hr noshade>
         
-        <!-- USER PROFILE -->
-        <div class="row">
-            <div class="container">
-                <div style="text-align: center" class="centered col-sm-4">
-                    <img width=200 height=200 src="{{MEDIA_URL}}img/login/imac.png" alt="User"><br/><br/>
-                    <button class="btn btn-info">Change picture</button>
-                </div>
-                <div class="col-sm-8">
-                    <div class="profile-info">
-                        <p><textarea placeholder="Enter new username" style="font-size: 15px; width:100%" rows="1" id="edit-username-textarea">{{ USER.user.username }}</textarea></p>
-                        <p><textarea placeholder="Enter new email" style="font-size: 15px; width:100%" rows="1" id="edit-email-textarea">{{ USER.user.email }}</textarea></p>
-                        <p><textarea placeholder="Enter new location" style="font-size: 15px; width:100%" rows="1" id="edit-location-textarea">{{ USER.location }}</textarea></p>                                                
-                        <p><textarea placeholder="Enter new description" style="font-size: 15px; width:100%" rows="4" id="edit-description-textarea">{{ USER.description }}</textarea></p>                                                                        
-                        <p><button style="margin-bottom: 20px" class="btn btn-info pull-right">Update</button></p>
-                        
-                        <form id="password-change-form" style="margin-top: 15px" method="POST" action="">{% csrf_token %}
-                            <input style="width: 100%; padding-left: 10px" id="password-field" type="password" placeholder="Password" required/>
-                            <p></p>                                        
-                            <input style="width: 100%; padding-left: 10px" id="repassword-field" type="password" placeholder="Re-enter password" required/>                            
-                            <p></p> 
-
-                            <button  class="btn btn-primary btn-info pull-right">Change passwords</button>                    
-                        </form>    
-                    </div>
-                </div>
-                <br/>
+        <!-- LOGIN FORM -->
+        <div style="padding: 50px 0px 50px 0px;" class="container">
+            <div class="col-sm-6 col-sm-offset-3">
+                <form id="form-login" class="form-authenticate" method="POST" action="">{% csrf_token %}
+                    <span style="font-size: 25px">Log in</span><p></p>
+                    <div class="form-error" id="login-details-error"></div>
+                    <input id="username-email-field" type="text" class="form-control input-sm" placeholder="Username/Email" required/>
+                    <p></p>                                        
+                    <input id="password-field" type="password" class="form-control input-sm" placeholder="Password" required/>
+                    <a style="padding-left: 5px; font-size: 13px" href="#">Forgot your password?</a>
+                    <p></p> 
+                    
+                    <button style="width:100%" class="btn btn-primary btn-success">Log in!</button>                    
+                </form>
             </div>
         </div>
-        <!-- END USER PROFILE -->                
+        <!-- END REGISTER FORM -->
         
         <hr noshade>        
         <!-- FOOTER -->
@@ -125,12 +113,12 @@
         <div class="container" style="text-align: left">&copy; 2015 Uni Meals</div>
         
         <!-- jQuery -->
-        <!-- jQuery -->
         <script src="{% static "js/vendor/jquery.min.js" %}"></script>
         <script src="{% static "js/vendor/jquery.bootstrap.min.js" %}"></script>
+        <!-- Custom Javascript -->
+        <script src="{% static "js/uni-meals.js" %}"></script>        
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="{% static "js/vendor/video.js" %}"></script>
         <script src="{% static "js/flat-ui.min.js" %}"></script>
-        <script src="{% static "js/uni-meals.js" %}"></script>
     </body>
 </html>

@@ -1,4 +1,5 @@
 from django.db import models
+from .models_functions import *
 
 '''
     #### EATERY ####
@@ -7,11 +8,12 @@ from django.db import models
 class eatery(models.Model):
     name = models.CharField(max_length=30)
     phone = models.CharField(max_length=14)
+    picture = models.ImageField(upload_to=generate_directory_eatery, blank=True, null=True)
     description = models.CharField(max_length=255)
-    pricing = models.IntegerField()
-    gmaps_url = models.CharField(max_length=255)
-    address = models.CharField(max_length=255)
-    absolute_coordinates = models.CharField(max_length=255)
+    pricing = models.IntegerField(null=True, blank=True)
+    gmaps_url = models.CharField(max_length=255, null=True, blank=True)
+    address = models.CharField(max_length=255, null=True, blank=True)
+    absolute_coordinates = models.CharField(max_length=255, null=True, blank=True)
     
     def __unicode__(self):
         return unicode(self.name)
@@ -23,7 +25,7 @@ class food(models.Model):
     name = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.CharField(max_length=500)
-    picture = models.ImageField(upload_to="text", blank=True, null=True)
+    picture = models.ImageField(upload_to=generate_directory_food, blank=True, null=True)
     eatery = models.ForeignKey(eatery)
     
     def __unicode__(self):
@@ -34,6 +36,7 @@ class specials(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     normal_price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.CharField(max_length=500)
+    picture = models.ImageField(upload_to=generate_directory_specials, blank=True, null=True)
     date_valid_from = models.DateField()
     date_valid_to = models.DateField()
     hour_valid_from = models.TimeField()

@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Uni Meals - Edit Profile</title>
+        <title>Uni Meals - Home</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Bootstrap -->
@@ -21,7 +21,7 @@
     <body>
         <!-- NAVBAR -->
         <div class="navbar-wrapper row">
-            <div class="col-xs-12">
+            <div class="col-sm-12">
                 <nav class="navbar navbar-default" role="navigation">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
@@ -35,7 +35,7 @@
                             <li><a href="/browse/">Browse</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            {% if not user.is_authenticated %} 
+							{% if not user.is_authenticated %} 
                             <li><a class="a-authenticate" href="/signup/">Sign up</a></li>
                             <li><a class="a-authenticate" href="/login/">Log in</a></li>
                             <!-- If user is logged in -->
@@ -44,7 +44,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Me<b class="caret"></b></a>
                                 <span class="dropdown-arrow"></span>
                                 <ul class="dropdown-menu">
-                                   <li><a href="/profile/{{USER.id}}">Activity</a></li>
+                                   <li><a href="/profile/{{USER.id}}">Profile</a></li>
                                     <li><a href="/inbox/">Messages<span class="badge">25</span></a></li>
                                     <li class="divider"></li>
                                     <li><a href="/profile/edit/{{USER.id}}">Edit profile</a></li>
@@ -59,70 +59,76 @@
             </div>
         </div>
         <!-- END NAVBAR -->
-        <hr noshade>
 
-        <!-- MESSAGE -->
-        <div class="container">
-            <div class="message-post-wrapper">
-                <div class="col-sm-12">
-                    <span style="text-align: center"><h4>Message title</h4></span>                    
+        <!-- SEARCH-->
+        <div class="row">
+            <div class="container col-sm-10 col-sm-offset-1">
+                <div class="form-group">
+                    <div class="col-sm-6"><input placeholder="What?" class="form-control" type="text" id="typeahead-food-query"></div>
+                    <div class="col-sm-6"><input placeholder="Where?" class="form-control" type="text" id="typeahead-city-query"></div>
+                    <div class="row" style="margin-bottom: 15px;"></div>
+                    <div class="col-xs-6">
+                        <div class="btn-right">
+                            <button class="btn btn-success btn-wide" type="submit">Search</button>                            
+                            
+                        </div>           
+                    </div>                    
+                    <div class="col-xs-6">
+                        <div class="btn-left">
+                            <button class="btn btn-success btn-wide" type="submit">Random</button>                            
+                        </div>           
+                    </div>                    
                 </div>
-                
-                <!-- MESSAGE CONTENT -->                    
-                <div class="container">
-                    <div class="col-sm-12">
-                        <!-- USER DP -->
-                        <div style="text-align: center" class="col-sm-2">
-                            <img src="{{MEDIA_URL}}img/login/imac.png" width=75 height=75/><br/>
-                            Username
-                        </div>                            
-                        <!-- END USER DP -->
-
-                        <!-- USER TEXT -->
-                        <div style="" class="col-sm-10">
-                            <span class="message-datetime">12/03/2015 at 19:35</span><br/>
-                            G'day mate, i'm just going to test out how is this message thingy majigy going to render. Is it going to render properly or is it going to poop around and overlay on other stuff??
-                        </div>
-                        <!-- END USER TEXT -->                            
-                    </div>                                        
-                </div>
-                <!-- END MESSAGE CONTENT -->
-                
-                <hr noshade>
-                
-                <!-- MESSAGE CONTENT -->
-                <div class="container">
-                    <div class="col-sm-12">
-                        <!-- USER DP -->
-                        <div style="text-align: center" class="col-sm-2">
-                            <img src="{{MEDIA_URL}}img/login/imac.png" width=75 height=75/><br/>
-                            Username
-                        </div>                            
-                        <!-- END USER DP -->
-
-                        <!-- USER TEXT -->
-                        <div class="col-sm-10">
-                            <span class="message-datetime">12/03/2015 at 19:35</span><br/>
-                            G'day mate, i'm just going to test out how is this message thingy majigy going to render. Is it going to render properly or is it going to poop around and 
-                        </div>
-                        <!-- END USER TEXT -->                            
-                    </div>                                        
-                </div>
-                <!-- END MESSAGE CONTENT -->
-                
-                <hr noshade>
-                
-                <div class="container">
-                    <textarea placeholder="Enter reply here" style="font-size: 15px; width:97%;" rows="4" id="edit-password-textarea"></textarea><br/>
-                    <button style="width:97%" class="btn btn-info">Reply</button>                    
-                </div>
-                
-                <hr noshade>
-            </div>            
+            </div>
         </div>
-        <!-- END MESSAGE -->             
+        <!-- END SEARCH -->
+        <hr noshade>
         
-        <hr noshade>        
+        <!-- DISCOVER UNI MEALS-->
+        <div class="container">
+            <h3>What's Popular</h3>
+            <h6>Discover great deals from Uni Meals today!</h6>
+            
+            <div class="col-sm-3 pull-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                        Popular from: <strong>Today</strong><span class="caret"></span>
+                    </button>                
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Today</a></li>
+                        <li><a href="#">Last Week</a></li>
+                        <li><a href="#">Last Month</a></li>
+                    </ul>
+                </div>  
+            </div>                                    
+        </div>
+        
+        <div class="container">
+            <hr noshade>
+            <div class="search-results">
+                <span style="color: #2980B9"><strong>Restaurant name</strong></span>, UQ Saint Lucia<br/>
+                <div class="result-div">                    
+                    Insert short description here<br/>                    
+                </div>                
+                <div class="addition-info-results">
+                    42 people recommends this
+                </div>
+            </div>
+            <hr noshade>
+            <div class="search-results">
+                <span style="color: #2980B9"><strong>Restaurant name</strong></span>, UQ Saint Lucia<br/>
+                <div class="result-div">                    
+                    Insert short description here<br/>                    
+                </div>                
+                <div class="addition-info-results">
+                    20 people recommends this
+                </div>
+            </div>
+            <hr noshade>
+        </div>
+        <!-- END DISCOVER UNI MEALS-->
+        
+        <hr noshade>                
         <!-- FOOTER -->
         <div class="footer container">
             <div class="col-sm-3">
@@ -157,10 +163,8 @@
         
         <!-- jQuery -->
         <script src="{% static "js/vendor/jquery.min.js" %}"></script>
-        <script src="{% static "js/vendor/jquery.bootstrap.min.js" %}"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="{% static "js/vendor/video.js" %}"></script>
         <script src="{% static "js/flat-ui.min.js" %}"></script>
-        <script src="{% static "js/uni-meals.js" %}"></script>
     </body>
 </html>
