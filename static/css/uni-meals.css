@@ -388,7 +388,6 @@
 }
 /* End Inbox Message Info */
 .form-error {
-    color: #E74C3C; 
-    padding-left: 5px; 
+    color: #E74C3C;     
     font-size: 13px;
 }

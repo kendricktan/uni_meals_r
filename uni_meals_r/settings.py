@@ -37,7 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'authentication',
+    'user_profile',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -56,7 +56,9 @@ ROOT_URLCONF = 'uni_meals_r.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'static/html'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -87,7 +89,7 @@ DATABASES = {
 # Custom user model
 # For authentication
 
-AUTH_USER_MODEL = "authentication.user_profile"
+AUTH_USER_MODEL = "user_profile.user_profile"
 
 
 # Internationalization

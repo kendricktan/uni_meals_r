@@ -1,0 +1,18 @@
+{% extends "generic.html" %}
+
+{% block title %}
+Sign up
+{% endblock title %}
+
+{% block content %}
+<div style="padding: 50px 0px 50px 0px;" class="container">
+    <div class="col-sm-6 col-sm-offset-3">
+        <form id="form-signup" class="form-authenticate" method="POST" action="/profile/signup/adduser/">{% csrf_token %}
+            <span style="font-size: 25px">Sign Up</span><p></p>
+            {{form.as_p}} 
+            <button id="btn-signup" style="width:100%" class="btn btn-primary btn-success">Sign Up!</button>
+            <div style="line-height: 1em; text-align: center"><span style="font-size: 12px">*By signing up, you're agreeing to our <a href="#">terms and conditions</a></span></div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

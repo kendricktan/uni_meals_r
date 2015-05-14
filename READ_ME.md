@@ -5,8 +5,13 @@ To improve:
 
 To fix:
 
-To do:		
-	Custom user model
-	Design Admin Page
+To do:				
+	Signing up if username/email clashes
+	Error labels when signing up
+	Sign up success alert
+	Design Admin Page	
 
 Done:
+	Custom user model
+	Error labels when logging in
+	Username doesn't log in when entered email
