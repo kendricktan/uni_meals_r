@@ -18,12 +18,30 @@ class register_form(forms.ModelForm):
         
     # Saves form and creates a user
     def save(self):
+        # Checks if there's any account with similar email
+        # If it passes the check then there is an account with the same details
+        try:
+            user.objects.get(email=self.cleaned_data['email'])
+            return 'email'
+        
+        except Exception:
+            pass
+            
+        # Checks if there's any account with a similar name
+        try:
+            user.objects.get(username=self.cleaned_data['username'])
+            return 'username'
+            
+        except Exception:
+            pass
+    
+        # If it passes that test then it saves the user to the database
         user = super(register_form, self).save()                        
         user.email = self.cleaned_data['email']
         user.set_password(self.cleaned_data['password'])
         user.save()                     
             
-        return user
+        return None
         
 class login_form(forms.ModelForm):
     identifier = forms.CharField(max_length=100, label='', widget=forms.TextInput(attrs={'placeholder': 'Username/Email', 'class': 'form-control input-sm'}))
@@ -36,7 +54,7 @@ class login_form(forms.ModelForm):
     def login(self, request):
         username = self.cleaned_data['identifier']
         identifier = self.cleaned_data['identifier']
-        password = self.cleaned_data['password']
+        password = self.cleaned_data['password']                
         
         # If user used Email to log in
         # we need to extract username and login using username and email combo

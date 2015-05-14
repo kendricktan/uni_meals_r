@@ -28,11 +28,16 @@ def signup_adduser(request):
         
         # Validates form
         if form.is_valid():
-            form.save()
-            response_data['username'] = form.cleaned_data['username']
+        
+            # Gets errors from forms.py
+            response_data['error'] = form.save()
             
-        else:
-            response_data['error'] = form.errors
+            # If there is no errors
+            if response_data['error'] is None:
+                response_data['username'] = form.cleaned_data['username']
+            
+        #else:
+        #   response_data['error'] = form.errors
             
         return HttpResponse(
                 json.dumps(response_data),
