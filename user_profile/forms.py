@@ -5,11 +5,11 @@ from models import *
 
 # Form for registration
 class register_form(forms.ModelForm):
-    username = forms.CharField(max_length=100, label='', widget=forms.TextInput(attrs={'placeholder': 'Username', 'class': 'form-control input-sm'}))
-    email = forms.CharField(max_length=100, label='', widget=forms.TextInput(attrs={'placeholder': 'Email', 'class': 'form-control input-sm'}))
-    re_email = forms.CharField(max_length=100, label='', widget=forms.TextInput(attrs={'placeholder': 'Re-enter email', 'class': 'form-control input-sm'}))
-    password = forms.CharField(max_length=100, label='', widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control input-sm'}))
-    re_password= forms.CharField(max_length=100, label='', widget=forms.PasswordInput(attrs={'placeholder': 'Re-enter password', 'class': 'form-control input-sm'}))
+    username = forms.CharField(max_length=100, label='', widget=forms.TextInput(attrs={'required': '', 'placeholder': 'Username', 'class': 'form-control input-sm'}))
+    email = forms.CharField(max_length=100, label='', widget=forms.TextInput(attrs={'required': '', 'placeholder': 'Email', 'class': 'form-control input-sm'}))
+    re_email = forms.CharField(max_length=100, label='', widget=forms.TextInput(attrs={'required': '', 'placeholder': 'Re-enter email', 'class': 'form-control input-sm'}))
+    password = forms.CharField(max_length=100, label='', widget=forms.PasswordInput(attrs={'required': '', 'placeholder': 'Password', 'class': 'form-control input-sm'}))
+    re_password= forms.CharField(max_length=100, label='', widget=forms.PasswordInput(attrs={'required': '', 'placeholder': 'Re-enter password', 'class': 'form-control input-sm'}))
     
     # Meta class
     class Meta:
@@ -44,8 +44,8 @@ class register_form(forms.ModelForm):
 
         
 class login_form(forms.ModelForm):
-    identifier = forms.CharField(max_length=100, label='', widget=forms.TextInput(attrs={'placeholder': 'Username/Email', 'class': 'form-control input-sm'}))
-    password = forms.CharField(max_length=100, label='', widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control input-sm'}))
+    identifier = forms.CharField(max_length=100, label='', widget=forms.TextInput(attrs={'required': '', 'placeholder': 'Username/Email', 'class': 'form-control input-sm'}))
+    password = forms.CharField(max_length=100, label='', widget=forms.PasswordInput(attrs={'required': '', 'placeholder': 'Password', 'class': 'form-control input-sm'}))
     
     class Meta:
         model = user_profile

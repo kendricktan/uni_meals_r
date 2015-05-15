@@ -151,8 +151,3 @@ function login_user(data){
 }
 
 /* End Forms for authentication */
-
-/* Search */
-
-
-/* End Search */

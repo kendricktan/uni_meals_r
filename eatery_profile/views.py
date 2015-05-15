@@ -43,9 +43,16 @@ def search_view(request):
         return render(request, 'search.html', variables)
         
     if request.method == 'POST':
+        
+        query = request.POST['query']
+        nearby = request.POST['nearby']
+        
         variables = {
             'USER': _u,           
-        }
+        }       
+        
+        # Algorithm to find eatery chuck here
+            
         return render(request, 'search.html', variables)
         
 def eatery_view(request):
