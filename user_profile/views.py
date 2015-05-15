@@ -10,39 +10,39 @@ import json
 # Views sign-up page
 def signup_view(request):
     _u = None
-    if request.user.is_authenticated():
-        _u = request.user
-        
-    form = register_form()
-    return render(request, 'signup.html', {'form': form, 'USER' : _u})
+    # Get page
+    if request.method == 'GET':
+        if request.user.is_authenticated():
+            _u = request.user
+            
+        form = register_form()
+        return render(request, 'signup.html', {'form': form, 'USER' : _u})
     
-# Signs user up
-def signup_adduser(request):       
-    # Checks if request is post
+    # Forms post data
     if request.method == 'POST':
         # Creates new register_form object
         form = register_form(request.POST)
         
         # Generate response data
-        response_data = {}
+        response_data = {}        
+        
+        # Checks if username/email user inputted already exists
+        response_data['error'] = form.check_exists(request)
         
         # Validates form
-        if form.is_valid():
+        if form.is_valid() and response_data['error'] is None:
         
-            # Gets errors from forms.py
-            response_data['error'] = form.save()
-            
-            # If there is no errors
-            if response_data['error'] is None:
-                response_data['username'] = form.cleaned_data['username']
-            
-        #else:
-        #   response_data['error'] = form.errors
-            
+            # Saves user
+            form.save()
+            # Informs client we've successfully added user
+            response_data['username'] = form.cleaned_data['username']
+                            
+        
+        # Returns response
         return HttpResponse(
-                json.dumps(response_data),
-                content_type="application/json"
-            )
+            json.dumps(response_data),
+            content_type="application/json"
+        )
             
 def login_view(request):
     _u = None

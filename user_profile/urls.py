@@ -7,9 +7,7 @@ urlpatterns = [
     url(r'^edit/?$', views.profile_edit_view, name='profile_edit_view'),
     
     # Sign-up view
-    url(r'^signup/?$', views.signup_view, name='signup_view'),         
-        # adding user to database via POST
-    url(r'^signup/adduser/$', views.signup_adduser, name='signup_adduser'),
+    url(r'^signup/?$', views.signup_view, name='signup_view'),
     
     # login view
     url(r'^login/?$', views.login_view, name='login_view'),

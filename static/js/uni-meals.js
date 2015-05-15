@@ -83,13 +83,13 @@ function add_user(data){
     
     // Checks if passwords are the same
     if (document.getElementById('id_password').value != document.getElementById('id_re_password').value){
-        document.getElementById('re_password-error').innerHTML = 'Emails aren\'t the same, check again!';
+        document.getElementById('re_password-error').innerHTML = 'Password aren\'t the same, check again!';
         return false;
     }
     
     // if passes the check points then it pushes the form to the server
     $.ajax({
-        url: "/profile/signup/adduser/",  // URL to adduser
+        url: "/profile/signup/",  // URL to adduser
         type: "POST",  // http method... (change this later)
         
         // data to send

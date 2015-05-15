@@ -16,32 +16,32 @@ class register_form(forms.ModelForm):
         model = user_profile
         fields = ['username', 'email', 're_email', 'password', 're_password']
         
-    # Saves form and creates a user
-    def save(self):
-        # Checks if there's any account with similar email
+    # Checks if there's any account with similar username/email
+    def check_exists(self, request):        
         # If it passes the check then there is an account with the same details
-        try:
-            user.objects.get(email=self.cleaned_data['email'])
-            return 'email'
-        
-        except Exception:
-            pass
-            
         # Checks if there's any account with a similar name
         try:
-            user.objects.get(username=self.cleaned_data['username'])
+            user_profile.objects.get(username=request.POST['username'])
             return 'username'
             
         except Exception:
             pass
-    
-        # If it passes that test then it saves the user to the database
+            
+        # Checks if there's any account with a similar email
+        try:
+            user_profile.objects.get(email=request.POST['email'])
+            return 'email'
+        
+        except Exception:
+            pass                    
+        
+    # Saves form and creates a user
+    def save(self):                   
         user = super(register_form, self).save()                        
         user.email = self.cleaned_data['email']
         user.set_password(self.cleaned_data['password'])
         user.save()                     
-            
-        return None
+
         
 class login_form(forms.ModelForm):
     identifier = forms.CharField(max_length=100, label='', widget=forms.TextInput(attrs={'placeholder': 'Username/Email', 'class': 'form-control input-sm'}))
@@ -65,7 +65,7 @@ class login_form(forms.ModelForm):
                 username = _u.get_username()
                 
             except Exception as e:
-                return False
+                pass
             
         # Authenticate and Log user in
         _u = authenticate(username=username, password=password)
