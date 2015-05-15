@@ -2,7 +2,7 @@ from django.conf.urls import include, url
 from . import views
 
 urlpatterns = [
-    # Profile
+    # User Profile
     url(r'^/?$', views.profile_view, name='profile_view'),
     url(r'^edit/?$', views.profile_edit_view, name='profile_edit_view'),
     

@@ -28,6 +28,7 @@ To do:
 		View eatery profile (specials, menu, review)
 	
 	Medium Priority:
+		Enable user to edit profile, upload_photo, etc
 		Create browse app, search app, inbox + message app
 		Design Admin Page	
 
