@@ -8,3 +8,9 @@ Browse
 
 {% block content %}
 {% endblock content %}
+
+{% block additional_scripts %}
+<!-- Google Map API -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"> </script>
+<script src="{% static "js/geolocation.js" %}"></script>
+{% endblock additional_scripts %}
