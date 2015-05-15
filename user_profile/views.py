@@ -48,7 +48,12 @@ def login_view(request):
     _u = None
     if request.user.is_authenticated():
         _u = request.user
+        
+    if request.method == 'GET':       
+        form = login_form()
+        return render(request, 'login.html', {'form' : form, 'USER' : _u})
 
+    # Form data is posted and redirects to index page
     if request.method == 'POST':
         form = login_form(request.POST)
         
@@ -69,10 +74,7 @@ def login_view(request):
             content_type="application/json"
         )
         
-        return HttpResponse('Unable to log in')
-    else:       
-        form = login_form()
-        return render(request, 'login.html', {'form' : form, 'USER' : _u})
+        return HttpResponse('Unable to log in')          
             
 def logout_view(request):
     auth_logout(request)

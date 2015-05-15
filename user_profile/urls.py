@@ -13,5 +13,5 @@ urlpatterns = [
     url(r'^login/?$', views.login_view, name='login_view'),
     
     # logout and redirects
-    url(r'^logout/?$', views.logout_view, name='logout_view'),           
+    url(r'^logout/?$', views.logout_view, name='logout_view'),        
 ]
