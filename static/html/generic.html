@@ -38,8 +38,8 @@
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
 							{% if not user.is_authenticated %} 
-                            <li><a class="a-authenticate" href="/signup/">Sign up</a></li>
-                            <li><a class="a-authenticate" href="/login/">Log in</a></li>
+                            <li><a class="a-authenticate" href="/profile/signup/">Sign up</a></li>
+                            <li><a class="a-authenticate" href="/profile/login/">Log in</a></li>
                             <!-- If user is logged in -->
                             {% else %}
                             <li class="dropdown">
@@ -47,11 +47,11 @@
                                 <span class="dropdown-arrow"></span>
                                 <ul class="dropdown-menu">
                                    <li><a href="/profile/{{USER.id}}">Profile</a></li>
-                                    <li><a href="/inbox/">Messages<span class="badge">25</span></a></li>
+                                    <li><a href="/profile/inbox/">Messages<span class="badge">25</span></a></li>
                                     <li class="divider"></li>
                                     <li><a href="/profile/edit/{{USER.id}}">Edit profile</a></li>
                                     <li class="divider"></li>    
-                                    <li><a href="/logout/">Log out</a></li>
+                                    <li><a href="/profile/logout/">Log out</a></li>
                                 </ul>
                             </li> 
                             {% endif %}

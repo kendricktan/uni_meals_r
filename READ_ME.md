@@ -16,6 +16,8 @@
 	- View eatery review
 	- View eatery
 	- Tags
+	
+# extra_content consists of the ENTIRE footer html
 
 To improve:
 	Change html forms to django.forms.py?
@@ -23,14 +25,18 @@ To improve:
 To fix:
 
 To do:		
-	High Priority:
-		Create Browse, search for eateries
+	High Priority:		
+		GPS coordinates to search restaurants
+		Make eatery page dynamic
 		View eatery profile (specials, menu, review)
 	
 	Medium Priority:
 		Enable user to edit profile, upload_photo, etc
 		Create browse app, search app, inbox + message app
 		Design Admin Page	
+		
+	Low Priority:
+		Ajax scroll
 
 Done:
 	Custom user model
@@ -39,3 +45,4 @@ Done:
 	Signing up if username/email clashes
 	Error labels when signing up
 	Sign up success alert
+	Create Browse, search for eateries

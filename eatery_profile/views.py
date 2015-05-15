@@ -8,13 +8,53 @@ from .forms import *
 import json
 
 def index_view(request):
-    return HttpResponse("index")
+    _u = None
+    if request.user.is_authenticated():
+        _u = request.user
+        
+    if request.method == 'GET':
+        form = search_form()
+        variables = {
+            'USER': _u,
+            'form': form,
+        }
+        return render(request, 'index.html', variables)           
     
 def browse_view(request):
-    return HttpResponse("browse")
+    _u = None
+    if request.user.is_authenticated():
+        _u = request.user
+        
+    if request.method == 'GET':        
+        variables = {
+            'USER': _u,           
+        }
+        return render(request, 'browse.html', variables)
     
 def search_view(request):
-    return HttpResponse("search")
-    
+    _u = None
+    if request.user.is_authenticated():
+        _u = request.user
+        
+    if request.method == 'GET':        
+        variables = {
+            'USER': _u,           
+        }
+        return render(request, 'search.html', variables)
+        
+    if request.method == 'POST':
+        variables = {
+            'USER': _u,           
+        }
+        return render(request, 'search.html', variables)
+        
 def eatery_view(request):
-    return HttpResponse("eatery")
+    _u = None
+    if request.user.is_authenticated():
+        _u = request.user
+        
+    if request.method == 'GET':        
+        variables = {
+            'USER': _u,           
+        }
+        return render(request, 'eatery.html', variables)

@@ -18,7 +18,7 @@ function is_email(email){
 } 
 /* End useful functions */
 
-/* Forms */
+/* Forms for authentication */
 // Submit sign-up form
 $('#form-signup').submit(function(event){    
     event.preventDefault(); // Won't refresh page
@@ -139,8 +139,8 @@ function login_user(data){
             }
             else{
                 // Logs error
-                console.log(json);
-                //document.getElementById("login-details-error").innerHTML = "Invalid log in details, poo-face."
+                //console.log(json);
+                document.getElementById("login-details-error").innerHTML = "Invalid log in details."
             }
         },
         
@@ -150,4 +150,9 @@ function login_user(data){
     });
 }
 
-/* End forms */
+/* End Forms for authentication */
+
+/* Search */
+
+
+/* End Search */
