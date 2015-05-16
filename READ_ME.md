@@ -9,13 +9,13 @@
 	- View profile Message
 	- View profile Inbox 
 	
-# eatery_profile consists of the ENTIRE eatery profile
+# eatery_profile consists of the ENTIRE eatery profile, as well as the calculation for Geo Coordiantes (maybe stick with postcodes atm)
 	- Browse
 	- Search
 	- View eatery profile
 	- View eatery review
 	- View eatery
-	- Tags
+	- Tags	
 	
 # extra_content consists of the ENTIRE footer html
 

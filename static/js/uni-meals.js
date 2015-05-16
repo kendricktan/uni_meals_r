@@ -151,3 +151,82 @@ function login_user(data){
 }
 
 /* End Forms for authentication */
+
+/* Profile edit */
+// Submit edit profile info form
+$('#profile-info-form').on('submit', function(event){
+    event.preventDefault(); // Won't refresh page
+    //console.log("Attempted to change user info!");
+    update_profile_info($(this).serialize());
+});
+
+function update_profile_info(data){
+    $.ajax({        
+        url: $('#data-div').attr('data-url') + 'update_info/',
+        type: 'POST',
+        
+        data: data,
+        
+        success: function(json){
+            //window.location.reload();
+            document.getElementById('form-status-profile-info').innerHTML = "Successfully updated your details!";
+            console.log("Success in changing user info");
+        },
+        
+        error: function(xhr, errmsg, err){
+            console.log("an error occured");
+        }
+    });
+}
+
+// Submit edit profile password form
+$('#profile-pasword-form').on('submit', function(event){        
+    event.preventDefault(); // Won't refresh page
+    //console.log("Attempted to change user password!");
+    document.getElementById('form-status-profile-password-error').innerHTML = '';
+    
+    if(document.getElementById('id_new_password').value == document.getElementById('id_new_re_password').value){
+        update_profile_password($(this).serialize());
+    }
+    else{
+        document.getElementById('form-status-profile-password-error').innerHTML = 'Passwords do not match';
+    }    
+});
+
+function update_profile_password(data){    
+    $.ajax({        
+        url: $('#data-div').attr('data-url') + 'update_password/',
+        type: 'POST',
+        
+        data: data,
+        
+        success: function(json){
+            //window.location.reload();
+            document.getElementById('form-status-profile-password').innerHTML = "Successfully updated your password!";
+            console.log("Success in changing password");
+        },
+        
+        error: function(xhr, errmsg, err){
+            console.log("an error occured");
+        }
+    });
+}
+
+// Change user dp button
+$("#btn-change-dp").click(function(){
+    // Gets image data
+    var val = $("#id_new_dp").val();
+    
+    // Checks to see if it is a suitable format
+    if (!val.match(/(?:gif|jpg|png|bmp)$/)) {        
+        document.getElementById('form-status-dp-error').innerHTML = 'I can only consume image files!';
+        return false;
+    }
+    
+    else{
+        return true;
+    }
+    
+})
+
+/* End profile edit */

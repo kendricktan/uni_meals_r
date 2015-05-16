@@ -7,6 +7,10 @@ from .models import *
 from .forms import *
 import json
 
+'''
+    # Authentication
+'''
+
 # Views sign-up page
 def signup_view(request):
     _u = None
@@ -55,6 +59,7 @@ def login_view(request):
 
     # Form data is posted and redirects to index page
     if request.method == 'POST':
+        # Populate data from our post data into our form
         form = login_form(request.POST)
         
         # Generate our response data
@@ -75,21 +80,127 @@ def login_view(request):
         )
         
         return HttpResponse('Unable to log in')          
-            
+  
+# Logs user out and redirects to home page  
 def logout_view(request):
     auth_logout(request)
     return HttpResponseRedirect('/')
     
-def profile_edit_view(request):
+
+'''
+    # End Authentication
+'''
+
+
+'''
+    # Profile
+'''
+
+# Request to view the profile page
+def profile_view(request, profile_id):
     _u = None
     if request.user.is_authenticated():
         _u = request.user
         
-    return render(request, 'profile_edit.html', {'USER' : _u})
+    return render(request, 'profile.html', {'USER' : _u})   
+        
+# Request to view the profile editing page
+def profile_edit_view(request, profile_id):
+    _u = None
+    if request.user.is_authenticated():
+        _u = request.user
+        
+        # Only allows user to edit profile if they're the same person
+        if request.method == 'GET' and _u.id == int(profile_id):
+            form_dp = profile_edit_dp_form()
+            form_info = profile_edit_info_form(initial={'new_location': _u.location, 'new_description': _u.description})
+            form_password = profile_edit_password_form()       
+            
+            variables = {
+                'USER' : _u,
+                'form_dp' : form_dp,
+                'form_info' : form_info,
+                'form_password' : form_password,
+            }
+            
+            return render(request, 'profile_edit.html', variables)
     
-def profile_view(request):
-    _u = None
+    return HttpResponse('you don\'t have permissions to view this page!')
+  
+# Edit description
+def update_profile_info(request, profile_id):
+    # Need user to be authenticated to view this page
     if request.user.is_authenticated():
         _u = request.user
+
+        # only lets us edit the profile of the same person
+        if request.method == 'POST' and _u.id == int(profile_id):
         
-    return render(request, 'profile.html', {'USER' : _u})            
+            # Populate data from our post data into our form
+            new_location = request.POST['new_location']
+            new_description = request.POST['new_description']                       
+            
+            # Updates info, if the fields are not null
+            if new_location is not None:
+                _u.location = new_location
+                
+            if new_description is not None:
+                _u.description = new_description
+             
+            # Saves new user info
+            _u.save()
+            
+            # Yay success
+            return HttpResponseRedirect('/')
+            
+    else:
+        return HttpResponse('You don\'t have permissions to view this!')
+        
+# Edit display picture
+def update_profile_dp(request, profile_id):
+    # Need user to be authenticated to view this page
+    if request.user.is_authenticated():
+        _u = request.user
+
+        # only lets us edit the profile of the same person
+        if request.method == 'POST' and _u.id == int(profile_id):
+            form = profile_edit_dp_form(request.POST, request.FILES)
+            
+            if form.is_valid():
+                new_dp = request.FILES['new_dp']                      
+                _u.picture = new_dp
+                _u.save()
+                
+                # Redirects to previous page
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        
+    else:
+        return HttpResponse('You don\'t have permissions to view this!')
+        
+# Update password
+def update_profile_password(request, profile_id):
+    # Need user to be authenticated to view this page
+    if request.user.is_authenticated():
+        _u = request.user
+
+        # only lets us edit the profile of the same person
+        if request.method == 'POST' and _u.id == int(profile_id):
+        
+            # Populate data from our post data into our form
+            new_password = request.POST['new_password']              
+            
+            # Updates user password            
+            _u.set_password(new_password)
+             
+            # Saves new user info
+            _u.save()
+            
+            # Yay success
+            return HttpResponse('!')
+            
+    else:
+        return HttpResponse('You don\'t have permissions to view this!')
+    
+'''
+    # End Profile
+'''    

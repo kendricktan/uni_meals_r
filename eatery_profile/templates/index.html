@@ -81,7 +81,7 @@ Uni Meals - Home
 {% endblock content %}
 
 {% block additional_scripts %}
-<!-- Google Map API -->
+<!-- Google Maps API -->
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"> </script>
 <script src="{% static "js/geolocation.js" %}"></script>
 <script type="text/javascript">    
@@ -95,9 +95,10 @@ Uni Meals - Home
     // Wait till page fully loades
     $(window).bind("load", function() {
         // Wait 3 seconds after page is loaded to get location (usually done in 1.5 seconds)
-        setTimeout(function(){
-            document.getElementById('id_nearby').value = getSuburb() + ", " + getPostal_code();
-        },3000)    
+        //setTimeout(function(){
+        //    document.getElementById('id_nearby').value = getSuburb() + ", " + getPostal_code();
+        //},3000)    
+        document.getElementById('id_nearby').value = "Current location";
     });
 
 </script>

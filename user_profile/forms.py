@@ -42,7 +42,7 @@ class register_form(forms.ModelForm):
         user.set_password(self.cleaned_data['password'])
         user.save()                     
 
-        
+# Form to login        
 class login_form(forms.ModelForm):
     identifier = forms.CharField(max_length=100, label='', widget=forms.TextInput(attrs={'required': '', 'placeholder': 'Username/Email', 'class': 'form-control input-sm'}))
     password = forms.CharField(max_length=100, label='', widget=forms.PasswordInput(attrs={'required': '', 'placeholder': 'Password', 'class': 'form-control input-sm'}))
@@ -76,3 +76,17 @@ class login_form(forms.ModelForm):
                 return True
         
         return False
+        
+# Form to edit profile display picture
+class profile_edit_dp_form(forms.Form):
+    new_dp = forms.ImageField(label='')
+    
+# Form to edit profile description
+class profile_edit_info_form(forms.Form):
+    new_location = forms.CharField(max_length=40, label='', widget=forms.TextInput(attrs={'placeholder': 'Enter new location', 'class': 'profile-edit-input-textbox'}))
+    new_description = forms.CharField(max_length=255, label='', widget=forms.Textarea(attrs={'placeholder': 'Enter new description', 'class': 'profile-edit-input-textarea'}))
+    
+# Form to edit user password
+class profile_edit_password_form(forms.Form):
+    new_password = forms.CharField(max_length=25, label='', widget=forms.PasswordInput(attrs={'required': '', 'placeholder': 'Password', 'class': 'profile-edit-input-textbox'}))
+    new_re_password = forms.CharField(max_length=25, label='', widget=forms.PasswordInput(attrs={'required': '', 'placeholder': 'Re-enter Password', 'class': 'profile-edit-input-textbox'}))

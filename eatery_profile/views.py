@@ -51,7 +51,7 @@ def search_view(request):
             'USER': _u,           
         }       
         
-        # Algorithm to find eatery chuck here
+        # Algorithm to find eatery, chuck here
             
         return render(request, 'search.html', variables)
         

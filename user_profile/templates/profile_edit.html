@@ -1,38 +1,39 @@
 {% extends "generic.html" %}
-
+{% load staticfiles %}
 {% block title %}
 Uni Meals - Edit profile
 {% endblock title %}
 
 {% block content %}
+<!-- DATA INFO FOR URLS -->
+<div id="data-div" data-url={{request.get_full_path}}></div>
+
 <!-- USER PROFILE -->
 <div class="row">
 	<div class="container">
 		<div style="text-align: center" class="centered col-sm-4">
-			<form id="profile-dp-form" method="POST" action="">{% csrf_token %}
-				<img width=200 height=200 src="{{MEDIA_URL}}img/login/imac.png" alt="User"><br/><br/>
-				<div class="" style="padding-left: 25%; font-size: 13px;"><input type="file" accept="image/jpeg, image/png" id="image-upload"/></div>
+			<form enctype="multipart/form-data" id="profile-dp-form" method="POST" action="{{request.get_full_path}}update_dp/">{% csrf_token %}                
+				<img width=200 height=200 src="{{MEDIA_URL}}{{USER.picture}}" alt="User"><br/><br/>
+                <div style="text-align:center; color: #C0392B" id="form-status-dp-error"></div>
+				{{ form_dp.as_p }}
 				<br/>
-				<button class="btn btn-info">Change picture</button>
+				<button id="btn-change-dp" class="btn btn-info">Change picture</button>
 			</form>
 		</div>
 		<div class="col-sm-8">
 			<div class="profile-info">
-				<form id="profile-details-form" method="POST" action="">
-					<p><textarea placeholder="Enter new username" style="font-size: 15px; width:100%" rows="1" id="edit-username-textarea">{{ USER.user.username }}</textarea></p>
-					<p><textarea placeholder="Enter new email" style="font-size: 15px; width:100%" rows="1" id="edit-email-textarea">{{ USER.user.email }}</textarea></p>
-					<p><textarea placeholder="Enter new location" style="font-size: 15px; width:100%" rows="1" id="edit-location-textarea">{{ USER.location }}</textarea></p>                                                
-					<p><textarea placeholder="Enter new description" style="font-size: 15px; width:100%" rows="4" id="edit-description-textarea">{{ USER.description }}</textarea></p>                                                                        
+				<form id="profile-info-form" method="POST" action="">{% csrf_token %}
+                    <div style="text-align:center; color: #27AE60" id="form-status-profile-info"></div>
+                    <div id="div-profile-info-status"></div>
+                    {{ form_info.as_p }}
 					<p><button style="margin-bottom: 20px" class="btn btn-info pull-right">Update</button></p>
 				</form>
 				
-				<form id="password-change-form" style="margin-top: 15px" method="POST" action="">
-					<input style="width: 100%; padding-left: 10px" id="password-field" type="password" placeholder="Password" required/>
-					<p></p>                                        
-					<input style="width: 100%; padding-left: 10px" id="repassword-field" type="password" placeholder="Re-enter password" required/>                            
-					<p></p> 
-
-					<button  class="btn btn-primary btn-info pull-right">Change passwords</button>                    
+				<form id="profile-pasword-form" style="margin-top: 15px" method="POST" action="">{% csrf_token %}                                    
+                    {{ form_password.as_p }}
+                    <div style="text-align:center; color: #27AE60" id="form-status-profile-password"></div>
+                    <div style="text-align:center; color: #C0392B" id="form-status-profile-password-error"></div>
+					<button  class="btn btn-primary btn-info pull-right">Change password</button>                    
 				</form>    
 			</div>
 		</div>
@@ -41,3 +42,8 @@ Uni Meals - Edit profile
 </div>
 <!-- END USER PROFILE -->       
 {% endblock content %}
+
+{% block additional_scripts %}
+<!-- jQuery File Upload -->
+<script src="{% static "js/vendor/jquery.fileupload.js" %}"></script>                               
+{% endblock additional_scripts %}
