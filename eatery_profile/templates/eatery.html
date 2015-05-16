@@ -7,4 +7,158 @@ Eatery
 {% endblock title %}
 
 {% block content %}
+<!-- EATERY PROFILE -->
+<div class="row">
+    <div class="container">
+        <div style="text-align: center" class="centered col-sm-4">
+            <div id="eatery-map-canvas" style="margin: auto; width: 200px; height: 200px"></div>
+            <a href="#">1.2 km from you</a>
+        </div>
+        <div class="col-sm-6">
+            <div class="eatery-info" id="eatery-encapsulate">
+                <h4>Restaurant name</h4>
+                <h6>04 8808 3002</h6>
+                <p><span style="color: #27AE60"><strong>Opened today</strong></span><br/>
+                    10:30-14:25, 17:30-22:00 <a data-toggle="collapse" data-parent="#eatery-encapsulate" href="#eatery-operating-hours-all">(see all)</a>
+                    <div id="eatery-operating-hours-all" class="panel-collapse collapse">
+                        Monday: 12:30-15:20, 22:10-00:30
+                    </div>
+                </p>
+                <p>$<span style="color: #BDC3C7">$$$$</span><a href="#">Japanese</a>, <a href="#">Asian</a><br/>
+                <a href="#">Kid Friendly</a>, <a href="#">Glutten-Free Friendly</a></p>
+                <button class="btn btn-info">Order in Advance</button>
+                <button class="btn btn-info">Book a Table</button>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div style="line-height: 1em; margin-top: 20px">
+                <button class="btn btn-success"><i class="glyphicon fui-triangle-up"></i></button>
+                <button class="btn btn-danger"><i class="glyphicon fui-triangle-down"></i></button>                                   
+            </div>                    
+        </div>
+        <div class="col-sm-1">
+            <span style="font-size: 40px"><strong>42%</strong></span><br/>upvoted<br/><br/>     
+        </div>
+        <br/>
+    </div>            
+</div>
+<!-- END EATERY PROFILE -->
+
+<!-- EATERY TABS -->
+<div class="container">
+    <div id="tab-wizard">
+        <hr style="width: 100%" noshade>
+        <!-- TABS -->
+        <ul class="nav nav-pills">
+            <li><a href="#specials-tab" data-toggle="tab">Specials</a></li>
+            <li><a href="#menu-tab" data-toggle="tab">Menu</a></li>
+            <li><a href="#reviews-tab" data-toggle="tab">Reviews</a></li>
+        </ul>
+        <!-- END TABS -->
+        <hr style="width: 100%" noshade>  
+
+        <!-- TAB CONTENT -->
+        <div class="tab-content">
+            <!-- SPECIALS TAB -->                            
+            <div class="tab-pane" id="specials-tab">
+                <div class="row specials-wrapper">
+                    <div class="container">
+                        <div class="col-sm-3"><img class="eatery-specials-food-dp" src="{{MEDIA_URL}}img/food/food_01.jpg"/></div>      
+                        <div class="col-sm-7 wall-post-text">
+                            <h5>Hamburger special</h5>
+                            <h6>Special price: $10.00, <strike>Normal price: $19.90</strike></h6>
+                            Insert description here
+                        </div>
+                        <div style="margin-top: 25px; font-size: 2.0em" class="col-sm-2 pull-right">
+                            <a href="#" rel="tooltip" title="Heart this"><i class="heart icon"></i><i class="empty heart icon"></i></a>                                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END SPECIALS TAB -->
+
+            <div class="tab-pane" id="menu-tab">
+                <div class="row menu-wrapper">
+                    <div class="container">
+                        <div class="col-sm-3"><img class="eatery-menu-food-dp" src="{{MEDIA_URL}}img/food/food_01.jpg"/></div>      
+                        <div class="col-sm-7 wall-post-text">
+                            <h5>Hamburger beef</h5>
+                            <h6>Price: $10.00</h6>
+                            Insert description here
+                        </div>  
+                        <div style="margin-top: 25px; font-size: 2.0em" class="col-sm-2 pull-right">
+                            <a href="#" rel="tooltip" title="Heart this"><i class="heart icon"></i><i class="empty heart icon"></i></a>                                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EATERY REVIEW TAB -->
+            <div class="tab-pane" id="reviews-tab">
+                <form method="post" action="">
+                    <textarea style="font-size: 15px; width:100%" rows="2" id="wall-post"></textarea>
+                    <div style="text-align: right"><button class="btn btn-info">Write a review!</button></div>
+                </form>
+                <hr style="width: 100%" noshade>
+                <div class="row wall-post-wrapper">                    
+                    <!-- REVIEW POST -->
+                    <div class="container">
+                        <div class="col-sm-1"><img class="wall-post-op-dp" src="{{MEDIA_URL}}img/login/imac.png"/></div>      
+                        <div class="col-sm-9 wall-post-text">
+                            <a href="#">Username</a><br/>
+                            G'day mate! I'm just testing out to see how this thingy majigy is going to render these text and see if it is actually of standard to be user
+                        </div>
+                        <div class="col-sm-2 pull-right">
+                            <a style="font-size: 1.5em;" href="#" rel="tooltip" title="I find this useful"><i class="glyphicon fui-check"></i></a>
+                            <a style="font-size: 1.5em; color: #C0392B" href="#" rel="tooltip" title="I don't find this useful"><i class="glyphicon fui-cross"></i></a>
+                        </div>
+                    </div>
+                    <!-- END POST -->
+                </div>    
+            </div>
+            <!-- END EATERY REVIEW TAB -->
+        </div>
+        <!-- END TAB CONTENT -->
+    </div>
+</div>
+<!-- END EATERY TABS -->
 {% endblock content %}
+
+{% block additional_scripts %}
+<!-- Google Maps API -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"> </script>
+<script src="{% static "js/geolocation.js" %}"></script>
+<script type="text/javascript">   
+
+    // initializes eatery map with latitude and longitude
+    function initialize_eatery_map(){
+        // Longitude and Latitude coordinates
+        // Replace this with the eatery coordinates
+        var eatery_lat = -27.482;
+        var eatery_lng = 152.993;
+        
+        // Initialize new latlng object with our eatery coordinates
+        var eateryLatLng = new google.maps.LatLng(eatery_lat, eatery_lng);        
+        
+        // Map options
+        var mapOptions = {
+            zoom: 15,
+            center: new google.maps.LatLng(eatery_lat, eatery_lng)
+        };
+        
+        // Initializes new map and chucks it into eatery-map-canvas id
+        var map = new google.maps.Map(document.getElementById('eatery-map-canvas'), mapOptions);
+        
+        // Initializes our marker
+        var marker = new google.maps.Marker({
+            position: eateryLatLng,
+            map: map            
+        });
+    }
+    
+    // Event listener 
+    google.maps.event.addDomListener(window, 'load', initialize_eatery_map);
+
+</script>
+                               
+{% endblock additional_scripts %}
