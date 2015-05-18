@@ -19,8 +19,7 @@
 	
 # extra_content consists of the ENTIRE footer html
 
-To improve:
-	Change html forms to django.forms.py?
+To improve:	
 
 To fix:
 
@@ -46,3 +45,4 @@ Done:
 	Error labels when signing up
 	Sign up success alert
 	Create Browse, search for eateries
+	Change html forms to django.forms.py?
