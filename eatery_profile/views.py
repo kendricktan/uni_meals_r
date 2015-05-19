@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template.context_processors import csrf
 from datetime import datetime
+from user_profile.models import *
 from .models import *
 from .forms import *
 import json
@@ -54,7 +55,8 @@ def search_view(request):
         # Algorithm to find eatery, chuck here
             
         return render(request, 'search.html', variables)
-        
+
+# View eatery page
 def eatery_view(request, eatery_id):
     _u = None
     if request.user.is_authenticated():
@@ -86,3 +88,37 @@ def eatery_view(request, eatery_id):
                 break
         
         return render(request, 'eatery.html', variables)
+        
+# Add reviews to eatery page
+def eatery_add_review(request, eatery_id):
+    _u = None
+    user_id = -1
+    review_text = None
+    
+    if request.user.is_authenticated():
+        _u = request.user
+        user_id = _u.id
+        
+    if request.method == 'POST':       
+        try:
+            # add review to eatery
+            review_text = request.POST['id_review_text']
+            _ep = eatery_profile.objects.get(id=int(eatery_id))
+            review = reviews(user_id=user_id, review_text=review_text, eatery_profile=_ep)
+            review.save()
+            
+            '''
+            # if existing + logged in user addeds reviews
+            # add review to user's history
+            if _u is not None:
+                timeline = _u.timeline
+                _er = eatery_reviewed(eatery_id=int(eatery_id), review_stars=3, review_text=review_text, timeline=timeline)
+                _er.save()
+            '''
+            
+        except Exception as e:
+            return HttpResponse(e)
+            
+        
+        
+        return HttpResponse(review_text)

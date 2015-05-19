@@ -24,14 +24,16 @@ To fix:
 To do:		
 	High Priority:		
 		GPS coordinates to search restaurants
-		Eatery Page links to respective eateries
+		Add create and associate wall and timeline with user_creation		
 	
 	Medium Priority:
 		Enable user to edit profile, upload_photo, etc
 		Create browse app, search app, inbox + message app
+		Delete function
 		
 	Low Priority:
 		Ajax auto update when scroll for search, browse, reviews + timeline
+		Resize user image/crop to suit layout needs
 
 Done:
 	Custom user model
@@ -45,3 +47,4 @@ Done:
 	Design Admin Page	
 	View eatery profile (specials, menu, review)
 	Make eatery page dynamic	
+	Eatery Page links to respective eateries	

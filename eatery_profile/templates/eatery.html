@@ -3,7 +3,7 @@
 {% load staticfiles %}
 
 {% block title %}
-Eatery
+{{EATERY.name}}
 {% endblock title %}
 
 {% block content %}
@@ -102,13 +102,14 @@ Eatery
                         </div>
                     </div>
                 </div>
+                </br>
                 {% endfor %}
             </div>
 
             <!-- EATERY REVIEW TAB -->
             <div class="tab-pane" id="reviews-tab">
-                <form method="POST" action="">
-                    <textarea style="font-size: 15px; width:100%" rows="2" id="wall-post"></textarea>
+                <form method="POST" action="add_review/">
+                    <textarea style="font-size: 15px; width:100%" rows="2" name="id_review_text" id="id_review_text" required></textarea>{% csrf_token %}
                     <div style="text-align: right"><button class="btn btn-info">Write a review!</button></div>
                 </form>
                 <hr style="width: 100%" noshade>
@@ -128,6 +129,7 @@ Eatery
                     </div>
                     <!-- END POST -->
                 </div>    
+                <br/>
                 {% endfor %}
             </div>
             <!-- END EATERY REVIEW TAB -->
