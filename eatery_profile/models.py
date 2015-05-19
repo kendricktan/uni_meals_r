@@ -216,8 +216,7 @@ class specials(models.Model):
     # REVIEWS
 '''
 class reviews(models.Model):
-    user_id = models.IntegerField()
-    stars_given = models.IntegerField(null=True, blank=True)
+    user_id = models.IntegerField()    
     review_text = models.CharField(max_length=255)
     useful_count = models.IntegerField(null=True, blank=True)
     not_useful_count = models.IntegerField(null=True, blank=True)
@@ -227,10 +226,14 @@ class reviews(models.Model):
         return unicode(self.eatery_profile.name + '\'s reviews')        
         
     def user_picture_location(self):
-        return user_profile.objects.get(id=self.user_id).picture
+        if self.user_id != -1:
+            return user_profile.objects.get(id=self.user_id).picture
+        return 'img/profile/blank.png'
         
     def user_username(self):
-        return user_profile.objects.get(id=self.user_id).username
+        if self.user_id != -1:
+            return user_profile.objects.get(id=self.user_id).get_username()
+        return 'Anonymous'
     
 '''
     # VOTES 

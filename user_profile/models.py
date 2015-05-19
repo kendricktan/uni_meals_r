@@ -81,8 +81,7 @@ class timeline(models.Model):
         return unicode(self.user_profile.get_username() + '\'s timeline')
         
 class eatery_reviewed(models.Model):
-    eatery_id = models.IntegerField()
-    review_stars= models.IntegerField()
+    eatery_id = models.IntegerField()    
     review_text = models.CharField(max_length=255)
     datetime_reviewed = models.DateTimeField(auto_now_add=True)
     timeline = models.ForeignKey(timeline)
