@@ -11,21 +11,28 @@ Eatery
 <div class="row">
     <div class="container">
         <div style="text-align: center" class="centered col-sm-4">
-            <div id="eatery-map-canvas" style="margin: auto; width: 200px; height: 200px"></div>
-            <a href="#">1.2 km from you</a>
+            <div id="eatery-map-canvas" style="margin: auto; width: 250px; height: 250px"></div>
+            <div style="width: 250px; text-align: center; margin: auto; line-height: 1em"><a style="font-size: 12px" href="#">{{EATERY.location.address}}</a></div>
         </div>
         <div class="col-sm-6">
             <div class="eatery-info" id="eatery-encapsulate">
-                <h4>Restaurant name</h4>
-                <h6>04 8808 3002</h6>
-                <p><span style="color: #27AE60"><strong>Opened today</strong></span><br/>
-                    10:30-14:25, 17:30-22:00 <a data-toggle="collapse" data-parent="#eatery-encapsulate" href="#eatery-operating-hours-all">(see all)</a>
+                <h4>{{EATERY.name}}</h4>
+                <h6>{{EATERY.phone}}</h6>
+                <p>{% if OPEN_NOW %}<span style="color: #27AE60"><strong>Open now</strong></span>{% else %}<span style="color: #C0392B"><strong>Closed now</strong></span>{% endif %}<br/>
+                    {% if OPEN_NOW %} {{OPEN_NOW.get_operational_time}}
+                    <a data-toggle="collapse" data-parent="#eatery-encapsulate" href="#eatery-operating-hours-all">(see all)</a>
                     <div id="eatery-operating-hours-all" class="panel-collapse collapse">
-                        Monday: 12:30-15:20, 22:10-00:30
+                        {% for hours in EATERY.opening_hours_set.all %} {{hours.get_operational_time}} <br/> {% endfor %}
                     </div>
+                    {% else %}
+                    {% for hours in EATERY.opening_hours_set.all %} {{hours.get_operational_time}} <br/> {% endfor %}
+                    {% endif %}
                 </p>
-                <p>$<span style="color: #BDC3C7">$$$$</span><a href="#">Japanese</a>, <a href="#">Asian</a><br/>
-                <a href="#">Kid Friendly</a>, <a href="#">Glutten-Free Friendly</a></p>
+                <p>
+                    {% for i in EATERY.pricing_bold %}${% endfor %}<span style="color: #BDC3C7">{% for i in EATERY.pricing_rest %}${% endfor %}</span>&nbsp;
+                    {% for tag in EATERY.tags_set.all %}<a href="#">{{tag.keyword}}</a>; {% endfor %}<br/>
+                    {% for special_tag in EATERY.special_tags_set.all %}<a href="#">{{special_tag.keyword}}</a>; {% endfor %}<br/>
+                </p>
                 <button class="btn btn-info">Order in Advance</button>
                 <button class="btn btn-info">Book a Table</button>
             </div>
@@ -61,52 +68,58 @@ Eatery
         <div class="tab-content">
             <!-- SPECIALS TAB -->                            
             <div class="tab-pane" id="specials-tab">
+                {% for special in EATERY.specials_set.all %}
                 <div class="row specials-wrapper">
                     <div class="container">
-                        <div class="col-sm-3"><img class="eatery-specials-food-dp" src="{{MEDIA_URL}}img/food/food_01.jpg"/></div>      
+                        <div class="col-sm-3"><img class="eatery-specials-food-dp" src="{{MEDIA_URL}}{{special.picture}}"/></div>      
                         <div class="col-sm-7 wall-post-text">
-                            <h5>Hamburger special</h5>
-                            <h6>Special price: $10.00, <strike>Normal price: $19.90</strike></h6>
-                            Insert description here
+                            <h5>{{special.name}}</h5>
+                            <h6>Special price: ${{special.price}}, <strike>Normal price: ${{special.normal_price}}</strike></h6>
+                            {{special.description}}
                         </div>
                         <div style="margin-top: 25px; font-size: 2.0em" class="col-sm-2 pull-right">
                             <a href="#" rel="tooltip" title="Heart this"><i class="heart icon"></i><i class="empty heart icon"></i></a>                                            
                         </div>
                     </div>
                 </div>
+                <br/>
+                {% endfor %}
             </div>
             <!-- END SPECIALS TAB -->
 
             <div class="tab-pane" id="menu-tab">
+                {% for food in EATERY.food_set.all %}
                 <div class="row menu-wrapper">
                     <div class="container">
-                        <div class="col-sm-3"><img class="eatery-menu-food-dp" src="{{MEDIA_URL}}img/food/food_01.jpg"/></div>      
+                        <div class="col-sm-3"><img class="eatery-menu-food-dp" src="{{MEDIA_URL}}{{food.picture}}"/></div>      
                         <div class="col-sm-7 wall-post-text">
-                            <h5>Hamburger beef</h5>
-                            <h6>Price: $10.00</h6>
-                            Insert description here
+                            <h5>{{food.name}}</h5>
+                            <h6>${{food.price}}</h6>
+                            {{food.description}}
                         </div>  
                         <div style="margin-top: 25px; font-size: 2.0em" class="col-sm-2 pull-right">
                             <a href="#" rel="tooltip" title="Heart this"><i class="heart icon"></i><i class="empty heart icon"></i></a>                                            
                         </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
 
             <!-- EATERY REVIEW TAB -->
             <div class="tab-pane" id="reviews-tab">
-                <form method="post" action="">
+                <form method="POST" action="">
                     <textarea style="font-size: 15px; width:100%" rows="2" id="wall-post"></textarea>
                     <div style="text-align: right"><button class="btn btn-info">Write a review!</button></div>
                 </form>
                 <hr style="width: 100%" noshade>
+                {% for review in EATERY.reviews_set.all %}
                 <div class="row wall-post-wrapper">                    
                     <!-- REVIEW POST -->
                     <div class="container">
-                        <div class="col-sm-1"><img class="wall-post-op-dp" src="{{MEDIA_URL}}img/login/imac.png"/></div>      
+                        <div class="col-sm-1"><img class="wall-post-op-dp" src="{{MEDIA_URL}}{{review.user_picture_location}}"/></div>      
                         <div class="col-sm-9 wall-post-text">
-                            <a href="#">Username</a><br/>
-                            G'day mate! I'm just testing out to see how this thingy majigy is going to render these text and see if it is actually of standard to be user
+                            <a href="#">{{review.user_username}}</a><br/>
+                            {{review.review_text}}
                         </div>
                         <div class="col-sm-2 pull-right">
                             <a style="font-size: 1.5em;" href="#" rel="tooltip" title="I find this useful"><i class="glyphicon fui-check"></i></a>
@@ -115,6 +128,7 @@ Eatery
                     </div>
                     <!-- END POST -->
                 </div>    
+                {% endfor %}
             </div>
             <!-- END EATERY REVIEW TAB -->
         </div>
@@ -134,8 +148,8 @@ Eatery
     function initialize_eatery_map(){
         // Longitude and Latitude coordinates
         // Replace this with the eatery coordinates
-        var eatery_lat = -27.482;
-        var eatery_lng = 152.993;
+        var eatery_lat = {{EATERY.location.coordinates_latitude}};
+        var eatery_lng = {{EATERY.location.coordinates_longitude}};
         
         // Initialize new latlng object with our eatery coordinates
         var eateryLatLng = new google.maps.LatLng(eatery_lat, eatery_lng);        

@@ -1,3 +1,5 @@
+import datetime
+from user_profile.models import user_profile
 from django.db import models
 
 '''
@@ -38,6 +40,11 @@ class eatery_profile(models.Model):
     def __unicode__(self):
         return unicode(self.name);
    
+    def pricing_bold(self):
+        return [i+1 for i in range(self.pricing)]
+        
+    def pricing_rest(self):
+        return [i+1 for i in range(5-self.pricing+1, 5)]
 
 '''
     # LOCATION
@@ -82,28 +89,37 @@ class opening_hours(models.Model):
     eatery_profile = models.ForeignKey(eatery_profile)
     
     def __unicode__(self):
-        return unicode(self.eatery_profile.name + self.get_operational_time())
+        return unicode(self.eatery_profile.name + '\'s opening hours')
+        
+    def is_opened_now(self):
+        cur_day = datetime.datetime.today().weekday()
+        
+        # If its open today
+        if cur_day >= self.day_from-1 and cur_day <= self.day_to-1:
+            
+            cur_time = datetime.datetime.today().strftime("%H:%M")
+            
+            # We don't want
+            hour_from = self.hour_from.strftime("%H:%M")
+            hour_to = self.hour_to.strftime("%H:%M")
+            
+            # If its open 
+            if cur_time > hour_from and cur_time < hour_to:
+                return True
+        
+        return False
         
     def get_operational_time(self):
-        str_day_from = ''
-        str_day_to = ''
-        if(len(str(self.hour_from)) > 5):
-            str_day_from = str(self.hour_from)[:-3]
-        else:
-            str_day_from = str(self.hour_from)
-            
-        if(len(str(self.hour_to)) > 5):
-            str_day_to = str(self.hour_to)[:-3]
-        else:
-            str_day_to = str(self.hour_to)
+        hour_from = self.hour_from.strftime("%H:%M")
+        hour_to = self.hour_to.strftime("%H:%M")        
         
-        return unicode(self.get_day_from_display() + ' - ' + self.get_day_to_display() + ' (' + str_day_from + ' - ' + str_day_to + ')')
+        return unicode(self.get_day_from_display() + ' - ' + self.get_day_to_display() + ' (' + hour_from + ' - ' + hour_to + ')')
     
     def get_day_from_display(self):
-        return DAYS[self.day_from]
+        return DAYS[self.day_from-1][1]
         
     def get_day_to_display(self):
-        return DAYS[self.day_to]
+        return DAYS[self.day_to-1][1]
     
 class special_days(models.Model):
     name = models.CharField(max_length=50)
@@ -117,7 +133,7 @@ class special_days(models.Model):
         return unicode(self.name)
         
     def get_check(self):
-        output = str(self.date)
+        output = unicode(self.date)
         
         str_day_from = ''
         str_day_to = ''
@@ -140,19 +156,19 @@ class special_days(models.Model):
     def get_day_hour_from(self):
         if self.opened is True:
             return self.hour_from
-        return str('Closed!')
+        return unicode('Closed!')
         
     def get_day_hour_to(self):
         if self.opened  is True:
             return self.hour_to
-        return str('Closed!')
+        return unicode('Closed!')
         
 '''
     # TAGS & SPECIAL TAGS ####
 '''
 # Tags to identify restaurant genre such as "Japanese, Chinese, Malaysian, etc"
 class tags(models.Model):
-    keyword = models.CharField(max_length=50)
+    keyword = models.CharField(primary_key=True, max_length=50)
     eatery_profile = models.ManyToManyField(eatery_profile)
     
     def __unicode__(self):
@@ -160,7 +176,7 @@ class tags(models.Model):
     
 # Special tags to identify additional info such as "Glutten free, vegetarian, Kid-friendly, smoker friendly" etc
 class special_tags(models.Model):
-    keyword = models.CharField(max_length=50)
+    keyword = models.CharField(primary_key=True, max_length=50)
     eatery_profile = models.ManyToManyField(eatery_profile)
     
     def __unicode__(self):
@@ -183,6 +199,7 @@ class food(models.Model):
 
 class specials(models.Model):
     name = models.CharField(max_length=50)
+    normal_price = models.DecimalField(max_digits=5, decimal_places=2)
     price = models.DecimalField(max_digits=5, decimal_places=2)
     description = models.CharField(max_length=255)
     picture = models.ImageField(upload_to=generate_directory_eatery_specials, null=True, blank=True)
@@ -207,7 +224,13 @@ class reviews(models.Model):
     eatery_profile = models.ForeignKey(eatery_profile)
     
     def __unicode__(self):
-        return unicode(self.eatery_profile.name + '\'s reviews')
+        return unicode(self.eatery_profile.name + '\'s reviews')        
+        
+    def user_picture_location(self):
+        return user_profile.objects.get(id=self.user_id).picture
+        
+    def user_username(self):
+        return user_profile.objects.get(id=self.user_id).username
     
 '''
     # VOTES 

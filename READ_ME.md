@@ -15,9 +15,7 @@
 	- View eatery profile
 	- View eatery review
 	- View eatery
-	- Tags	
-	
-# extra_content consists of the ENTIRE footer html
+	- Tags		
 
 To improve:	
 
@@ -26,16 +24,14 @@ To fix:
 To do:		
 	High Priority:		
 		GPS coordinates to search restaurants
-		Make eatery page dynamic
-		View eatery profile (specials, menu, review)
+		Eatery Page links to respective eateries
 	
 	Medium Priority:
 		Enable user to edit profile, upload_photo, etc
 		Create browse app, search app, inbox + message app
-		Design Admin Page	
 		
 	Low Priority:
-		Ajax scroll
+		Ajax auto update when scroll for search, browse, reviews + timeline
 
 Done:
 	Custom user model
@@ -46,3 +42,6 @@ Done:
 	Sign up success alert
 	Create Browse, search for eateries
 	Change html forms to django.forms.py?
+	Design Admin Page	
+	View eatery profile (specials, menu, review)
+	Make eatery page dynamic	
