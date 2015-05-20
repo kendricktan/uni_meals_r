@@ -84,7 +84,9 @@
                             {{special.description}}
                         </div>
                         <div style="margin-top: 25px; font-size: 2.0em" class="col-sm-2 pull-right">
-                            <a id="heart_special_{{special.id}}" onclick="return user_heart_special(this);" href="/profile/heart/special/{{special.id}}/" rel="tooltip" title="Heart/Unheart this"><i class="empty heart icon"></i></a>                                                                        
+                            {% if not special.user_liked %}<a id="heart_special_{{special.id}}" onclick="return user_heart_special(this);" href="/profile/heart/special/{{special.id}}/" rel="tooltip" title="Heart/Unheart this"><i class="empty heart icon"></i></a>
+                            {% else %}<a id="unheart_special_{{special.id}}" onclick="return user_unheart_special(this);" href="/profile/unheart/special/{{special.id}}/" rel="tooltip" title="Heart/Unheart this"><i class="heart icon"></i></a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

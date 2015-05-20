@@ -207,6 +207,7 @@ class specials(models.Model):
     date_valid_to = models.DateField()
     hour_valid_from = models.TimeField(null=True, blank=True)
     hour_valid_to = models.TimeField(null=True, blank=True)
+    user_liked = models.BooleanField(default=False) # checks if user liked it or not (mainly for the heart/unheart page)
     eatery_profile = models.ForeignKey(eatery_profile)
     
     def __unicode__(self):

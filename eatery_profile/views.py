@@ -79,6 +79,22 @@ def eatery_view(request, eatery_id):
     _price_loop = [i+1 for i in range(_eatery.pricing)]
     _price_loop_end = [i+1 for i in range(5-_eatery.pricing+1,5)]
     
+    # Checks if user liked the specific specials or not
+    if request.user.is_authenticated():
+        for specials in _eatery.specials_set.all():
+            try:
+                # if this passes the check then the user has already liked it
+                _u.timeline.specials_hearted_set.get(specials_id=specials.id)                
+                specials.user_liked = True
+                
+            except Exception:
+                specials.user_liked = False
+                pass
+            
+            print specials.user_liked
+                
+            specials.save()
+    
     # Our variable list
     variables = {
         'USER': _u,
