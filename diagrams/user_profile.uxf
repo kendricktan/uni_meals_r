@@ -23,8 +23,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>880</x>
-      <y>300</y>
+      <x>1070</x>
+      <y>290</y>
       <w>150</w>
       <h>70</h>
     </coordinates>
@@ -38,13 +38,13 @@
     <id>Relation</id>
     <coordinates>
       <x>950</x>
-      <y>360</y>
-      <w>110</w>
-      <h>110</h>
+      <y>300</y>
+      <w>140</w>
+      <h>170</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
 &lt;&lt;foreign key&gt;&gt;</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+    <additional_attributes>120.0;20.0;10.0;20.0;10.0;150.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -52,7 +52,7 @@
       <x>900</x>
       <y>580</y>
       <w>140</w>
-      <h>100</h>
+      <h>110</h>
     </coordinates>
     <panel_attributes>eatery_reviewed
 --
@@ -259,5 +259,31 @@
     <panel_attributes>lt=.&gt;
 &lt;&lt;foreign key&gt;&gt;</panel_attributes>
     <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>700</x>
+      <y>280</y>
+      <w>150</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>specials_hearted
+--
+- specials_id
+- datetime_hearted</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>840</x>
+      <y>290</y>
+      <w>110</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+&lt;&lt;foreign key&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;90.0;20.0;90.0;160.0</additional_attributes>
   </element>
 </diagram>

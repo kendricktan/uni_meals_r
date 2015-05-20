@@ -191,6 +191,8 @@ class food(models.Model):
     price = models.DecimalField(max_digits=5, decimal_places=2)
     description = models.CharField(max_length=255)
     picture = models.ImageField(upload_to=generate_directory_eatery_food, null=True, blank=True)
+    user_liked = models.BooleanField(default=False) # checks if user liked it or not (mainly for the heart/unheart page)
+    # until another solution is found...
     eatery_profile = models.ForeignKey(eatery_profile)
     
     def __unicode__(self):
@@ -208,6 +210,7 @@ class specials(models.Model):
     hour_valid_from = models.TimeField(null=True, blank=True)
     hour_valid_to = models.TimeField(null=True, blank=True)
     user_liked = models.BooleanField(default=False) # checks if user liked it or not (mainly for the heart/unheart page)
+    # until another solution is found...
     eatery_profile = models.ForeignKey(eatery_profile)
     
     def __unicode__(self):

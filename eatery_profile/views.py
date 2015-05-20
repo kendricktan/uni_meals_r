@@ -90,9 +90,7 @@ def eatery_view(request, eatery_id):
             except Exception:
                 specials.user_liked = False
                 pass
-            
-            print specials.user_liked
-                
+             
             specials.save()
     
     # Our variable list
@@ -111,8 +109,12 @@ def eatery_view(request, eatery_id):
 
     # Checks if user reviewed eatery
     if request.user.is_authenticated():
-        if request.user.user_has_reviewed_eatery(int(eatery_id)):
+        try:
+            request.user.user_has_reviewed_eatery(int(eatery_id))
             variables['USER_REVIEWED'] = True
+            
+        except Exception:
+            pass
     
     # Add review
     if request.method == 'POST':
@@ -131,6 +133,9 @@ def eatery_view(request, eatery_id):
             
         except Exception as e:
             pass
-
+        
+        # Refreshes page so won't POST again
+        return HttpResponseRedirect(request.get_full_path())
+        
     # Returns response
     return render(request, 'eatery.html', variables)
