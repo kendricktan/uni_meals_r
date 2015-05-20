@@ -7,6 +7,7 @@
 {% endblock title %}
 
 {% block content %}
+{% csrf_token %}
 <!-- EATERY PROFILE -->
 <div id="data-div" data-url={{request.get_full_path}}></div>
 <div class="row">
@@ -83,7 +84,7 @@
                             {{special.description}}
                         </div>
                         <div style="margin-top: 25px; font-size: 2.0em" class="col-sm-2 pull-right">
-                            <a href="#" rel="tooltip" title="Heart this"><i class="heart icon"></i><i class="empty heart icon"></i></a>                                            
+                            <a id="heart_special_{{special.id}}" onclick="return user_heart_special(this);" href="/profile/heart/special/{{special.id}}/" rel="tooltip" title="Heart/Unheart this"><i class="empty heart icon"></i></a>                                                                        
                         </div>
                     </div>
                 </div>

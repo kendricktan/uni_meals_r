@@ -16,6 +16,24 @@ function is_email(email){
 	var emailReg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 	return emailReg.test(email); 
 } 
+
+// Gets csrf token
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 /* End useful functions */
 
 /* Forms for authentication */
@@ -230,5 +248,66 @@ $("#btn-change-dp").click(function(){
 })
 
 /* End profile edit */
+
+// Heart food
+function user_heart_special(a_div){      
+    $.ajax({
+        url: $(a_div).attr('href'),    
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: getCookie('csrftoken'),
+        },
+        
+        success: function(json){
+            // changes it to unheart food
+            var url_string = $(a_div).attr("href");
+            var function_string = $(a_div).attr("onclick");            
+            
+            var a_div_id = $(a_div).attr("id");
+            
+            url_string = url_string.replace("heart", "unheart");
+            function_string = function_string.replace("heart", "unheart");            
+            
+            document.getElementById(a_div_id).setAttribute("href", url_string);
+            document.getElementById(a_div_id).setAttribute("onclick", function_string);            
+            document.getElementById(a_div_id).innerHTML = '<i class="heart icon"></i>';            
+        },
+        
+        error: function(xhr, errmsg, err){
+            console.log(xhr);
+        }
+    });
+    return false;
+}
+
+function user_unheart_special(a_div){
+    $.ajax({
+        url: $(a_div).attr('href'),    
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: getCookie('csrftoken'),
+        },
+        
+        success: function(json){
+            // changes it to heart food
+            var url_string = $(a_div).attr("href");
+            var function_string = $(a_div).attr("onclick");            
+            
+            var a_div_id = $(a_div).attr("id");
+            
+            url_string = url_string.replace("unheart", "heart");
+            function_string = function_string.replace("unheart", "heart");            
+            
+            document.getElementById(a_div_id).setAttribute("href", url_string);
+            document.getElementById(a_div_id).setAttribute("onclick", function_string);            
+            document.getElementById(a_div_id).innerHTML = '<i class="empty heart icon"></i>';            
+        },
+        
+        error: function(xhr, errmsg, err){
+            console.log(xhr);
+        }
+    });
+    return false;
+}
 
 /* End Eatery */

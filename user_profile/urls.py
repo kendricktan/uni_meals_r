@@ -9,6 +9,10 @@ urlpatterns = [
     url(r'^edit/(?P<profile_id>[0-9]+)/update_password/$', views.update_profile_password, name='update_profile_password'),
     url(r'^edit/(?P<profile_id>[0-9]+)/update_dp/$', views.update_profile_dp, name='update_profile_dp'),
     
+    # Heart and unhearts food
+    url(r'^heart/special/(?P<specials_id>[0-9]+)/$', views.profile_heart_special, name='profile_heart_special'),
+    url(r'^unheart/special/(?P<specials_id>[0-9]+)/$', views.profile_unheart_special, name='profile_unheart_special'),
+    
     # Sign-up view
     url(r'^signup/$', views.signup_view, name='signup_view'),
     
@@ -17,4 +21,5 @@ urlpatterns = [
     
     # logout and redirects
     url(r'^logout/$', views.logout_view, name='logout_view'),        
+    
 ]

@@ -104,6 +104,14 @@ class food_hearted(models.Model):
     def __unicode__(self):
         return unicode(self.food_id)
         
+class specials_hearted(models.Model):
+    specials_id = models.IntegerField()
+    datetime_hearted = models.DateTimeField(auto_now_add=True)
+    timeline = models.ForeignKey(timeline)
+    
+    def __unicode__(self):
+        return unicode(self.specials_id)
+        
 class vote_given(models.Model):
     eatery_id = models.IntegerField()
     is_upvoted = models.BooleanField()

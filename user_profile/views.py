@@ -200,6 +200,56 @@ def update_profile_password(request, profile_id):
             
     else:
         return HttpResponse('You don\'t have permissions to view this!')
+        
+# Hearts food
+def profile_heart_special(request, specials_id):    
+    _u = None
+    response_data = {}    
+    if request.user.is_authenticated():
+        _u = request.user
+        
+        if request.method == 'POST':
+            
+            try:
+                # checks if user already hearted this before adding it to user's list
+                if specials_hearted.objects.filter(specials_id=specials_id).count() == 0:
+                    _sh = specials_hearted(specials_id=int(specials_id), timeline=_u.timeline)
+                    _sh.save()
+                    response_data['success'] = 'success'
+                
+            except Exception:
+                pass
+                
+    # Returns response
+    return HttpResponse(
+        json.dumps(response_data),
+        content_type="application/json"
+    ) 
+    
+# Unhearts food
+def profile_unheart_special(request, specials_id):
+    _u = None
+    response_data = {}    
+    if request.user.is_authenticated():
+        _u = request.user
+        
+        if request.method == 'POST':
+            
+            try:
+                # checks if food is already hearted
+                if specials_hearted.objects.filter(specials_id=specials_id).count() >= 0:
+                    _sh = _u.timeline.specials_hearted_set.get(specials_id=int(specials_id))
+                    _sh.delete()
+                    response_data['success'] = 'success'
+                
+            except Exception:
+                pass
+                
+    # Returns response
+    return HttpResponse(
+        json.dumps(response_data),
+        content_type="application/json"
+    ) 
     
 '''
     # End Profile
