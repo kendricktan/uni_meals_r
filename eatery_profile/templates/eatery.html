@@ -8,11 +8,12 @@
 
 {% block content %}
 <!-- EATERY PROFILE -->
+<div id="data-div" data-url={{request.get_full_path}}></div>
 <div class="row">
     <div class="container">
         <div style="text-align: center" class="centered col-sm-4">
-            <div id="eatery-map-canvas" style="margin: auto; width: 250px; height: 250px"></div>
-            <div style="width: 250px; text-align: center; margin: auto; line-height: 1em"><a style="font-size: 12px" href="#">{{EATERY.location.address}}</a></div>
+            <div id="eatery-map-canvas" style="margin: auto; width: 200px; height: 200px"></div>
+            <div style="width: 200px; text-align: center; margin: auto; line-height: 1em"><a style="font-size: 12px" href="#">{{EATERY.location.address}}</a></div>
         </div>
         <div class="col-sm-6">
             <div class="eatery-info" id="eatery-encapsulate">
@@ -33,8 +34,12 @@
                     {% for tag in EATERY.tags_set.all %}<a href="#">{{tag.keyword}}</a>; {% endfor %}<br/>
                     {% for special_tag in EATERY.special_tags_set.all %}<a href="#">{{special_tag.keyword}}</a>; {% endfor %}<br/>
                 </p>
+                <!-- WIP -->
+                <!--
                 <button class="btn btn-info">Order in Advance</button>
-                <button class="btn btn-info">Book a Table</button>
+                <button class="btn btn-info">Book a Table</button> 
+                -->
+                <!-- END WIP -->
             </div>
         </div>
         <div class="col-sm-1">
@@ -108,16 +113,20 @@
 
             <!-- EATERY REVIEW TAB -->
             <div class="tab-pane" id="reviews-tab">
-                <form method="POST" action="add_review/">
+                {% if not USER_REVIEWED %}
+                <form id="eatery-review-form" method="POST" action="">
                     <textarea style="font-size: 15px; width:100%" rows="2" name="id_review_text" id="id_review_text" required></textarea>{% csrf_token %}
                     <div style="text-align: right"><button class="btn btn-info">Write a review!</button></div>
                 </form>
+                {% endif %}
                 <hr style="width: 100%" noshade>
                 {% for review in EATERY.reviews_set.all %}
                 <div class="row wall-post-wrapper">                    
                     <!-- REVIEW POST -->
                     <div class="container">
-                        <div class="col-sm-1"><img class="wall-post-op-dp" src="{{MEDIA_URL}}{{review.user_picture_location}}"/></div>      
+                        <div class="col-sm-1">
+                            <img class="wall-post-op-dp" src="{{MEDIA_URL}}{{review.user_picture_location}}"/>
+                        </div>      
                         <div class="col-sm-9 wall-post-text">
                             <a href="#">{{review.user_username}}</a><br/>
                             {{review.review_text}}

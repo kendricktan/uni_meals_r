@@ -230,3 +230,5 @@ $("#btn-change-dp").click(function(){
 })
 
 /* End profile edit */
+
+/* End Eatery */

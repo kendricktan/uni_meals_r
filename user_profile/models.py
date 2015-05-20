@@ -20,8 +20,15 @@ class user_profile(AbstractUser):
     location = models.CharField(max_length=40, null=True, blank=True)
     
     def __unicode__(self):
-        return unicode(self.get_username())
+        return unicode(self.get_username())        
      
+    def user_has_picture(self):
+        return bool(self.picture)
+        
+    def user_has_reviewed_eatery(self, eatery_id):
+        if self.timeline.eatery_reviewed_set.filter(eatery_id=int(eatery_id)).count() > 0:
+            return True
+        return None
 '''
     # MESSAGE
 '''   
@@ -87,7 +94,7 @@ class eatery_reviewed(models.Model):
     timeline = models.ForeignKey(timeline)
     
     def __unicode__(self):
-        return unicode(self.review_text)
+        return unicode(self.review_text)    
         
 class food_hearted(models.Model):
     food_id = models.IntegerField()

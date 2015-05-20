@@ -227,12 +227,25 @@ class reviews(models.Model):
         
     def user_picture_location(self):
         if self.user_id != -1:
-            return user_profile.objects.get(id=self.user_id).picture
+            try:
+                _u = user_profile.objects.get(id=self.user_id)
+                
+                if bool(_u.picture):
+                    return _u.picture
+                
+            except Exception as e:
+                pass
         return 'img/profile/blank.png'
         
     def user_username(self):
         if self.user_id != -1:
-            return user_profile.objects.get(id=self.user_id).get_username()
+            try:
+                _u = user_profile.objects.get(id=self.user_id)                
+                return _u.get_username() 
+            
+            except Exception as e:
+                pass
+            
         return 'Anonymous'
     
 '''

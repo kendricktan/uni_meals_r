@@ -58,67 +58,63 @@ def search_view(request):
 
 # View eatery page
 def eatery_view(request, eatery_id):
+    # Variable list
     _u = None
-    if request.user.is_authenticated():
-        _u = request.user
-        
-    if request.method == 'GET':
-        _eatery = None
-        
-        # Trys to get eatery, if not *will* returns 404 page
-        try:
-            _eatery = eatery_profile.objects.get(id=int(eatery_id))
-            
-        except Exception as e:
-            return HttpResponse('Eatery not found!')
-            
-        _price_loop = [i+1 for i in range(_eatery.pricing)]
-        _price_loop_end = [i+1 for i in range(5-_eatery.pricing+1,5)]
-        
-        variables = {
-            'USER': _u,
-            'EATERY': _eatery,
-            'PRICE_LOOP': _price_loop,
-            'PRICE_LOOP_END': _price_loop_end,
-        }
-        
-        for opening_hours in _eatery.opening_hours_set.all():
-            if opening_hours.is_opened_now:
-                variables['OPEN_NOW'] = opening_hours                
-                break
-        
-        return render(request, 'eatery.html', variables)
-        
-# Add reviews to eatery page
-def eatery_add_review(request, eatery_id):
-    _u = None
-    user_id = -1
-    review_text = None
+    _eatery = None
+    user_id = -1    
     
+    # Checks if user is authenticated
     if request.user.is_authenticated():
         _u = request.user
-        user_id = _u.id
+        user_id = _u.id          
+    
+    # Trys to get eatery, if not *will* returns 404 page
+    try:
+        _eatery = eatery_profile.objects.get(id=int(eatery_id))
         
-    if request.method == 'POST':       
+    except Exception as e:
+        return HttpResponse('Eatery not found!')
+        
+    # Gets restaurant pricing
+    _price_loop = [i+1 for i in range(_eatery.pricing)]
+    _price_loop_end = [i+1 for i in range(5-_eatery.pricing+1,5)]
+    
+    # Our variable list
+    variables = {
+        'USER': _u,
+        'EATERY': _eatery,
+        'PRICE_LOOP': _price_loop,
+        'PRICE_LOOP_END': _price_loop_end,
+    }
+    
+    # Check if eatery is opened now
+    for opening_hours in _eatery.opening_hours_set.all():
+        if opening_hours.is_opened_now:
+            variables['OPEN_NOW'] = opening_hours                
+            break   
+
+    # Checks if user reviewed eatery
+    if request.user.is_authenticated():
+        if request.user.user_has_reviewed_eatery(int(eatery_id)):
+            variables['USER_REVIEWED'] = True
+    
+    # Add review
+    if request.method == 'POST':
         try:
             # add review to eatery
             review_text = request.POST['id_review_text']
-            _ep = eatery_profile.objects.get(id=int(eatery_id))
-            review = reviews(user_id=user_id, review_text=review_text, eatery_profile=_ep)
-            review.save()
+            _eatery = eatery_profile.objects.get(id=int(eatery_id))
+            review = reviews(user_id=user_id, review_text=review_text, eatery_profile=_eatery)
+            review.save()                                    
             
-            '''
-            # if existing + logged in user addeds reviews
-            # add review to user's history
-            if _u is not None:
-                timeline = _u.timeline
-                _er = eatery_reviewed(eatery_id=int(eatery_id), review_stars=3, review_text=review_text, timeline=timeline)
-                _er.save()
-            '''
+            # if existing + logged in user added reviews
+            # add eatery review (er) to user's history
+            if request.user.is_authenticated():                     
+                _er = eatery_reviewed(eatery_id=int(eatery_id), review_text=review_text, timeline=_u.timeline)
+                _er.save()            
             
         except Exception as e:
-            return HttpResponse(e)
-            
-        
-        
-        return HttpResponse(review_text)
+            pass
+
+    # Returns response
+    return render(request, 'eatery.html', variables)

@@ -36,11 +36,21 @@ class register_form(forms.ModelForm):
             pass                    
         
     # Saves form and creates a user
-    def save(self):                   
+    def save(self):                    
         user = super(register_form, self).save()                        
         user.email = self.cleaned_data['email']
         user.set_password(self.cleaned_data['password'])
         user.save()                     
+        
+        # creates wall and associate it with user   
+        user_wall = wall()
+        user_wall.user_profile = user
+        user_wall.save()
+        
+        # creates timeline and associate it with user
+        user_timeline = timeline()
+        user_timeline.user_profile = user
+        user_timeline.save()
 
 # Form to login        
 class login_form(forms.ModelForm):

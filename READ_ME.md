@@ -23,13 +23,15 @@ To fix:
 
 To do:		
 	High Priority:		
+		Vote on eatery
+		User enable to heart food
 		GPS coordinates to search restaurants
-		Add create and associate wall and timeline with user_creation		
+		Anon review, cookie log so can't multiple reviews
+		If user is not logged in and tries to do stuff that requires them to log in (e.g. heart food), sign them up
 	
 	Medium Priority:
-		Enable user to edit profile, upload_photo, etc
 		Create browse app, search app, inbox + message app
-		Delete function
+		User delete image function
 		
 	Low Priority:
 		Ajax auto update when scroll for search, browse, reviews + timeline
@@ -48,3 +50,5 @@ Done:
 	View eatery profile (specials, menu, review)
 	Make eatery page dynamic	
 	Eatery Page links to respective eateries	
+	Add create and associate wall and timeline with user_creation
+	Enable user to edit profile, upload_photo, etc

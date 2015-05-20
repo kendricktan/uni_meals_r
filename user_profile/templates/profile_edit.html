@@ -13,7 +13,11 @@
 	<div class="container">
 		<div style="text-align: center" class="centered col-sm-4">
 			<form enctype="multipart/form-data" id="profile-dp-form" method="POST" action="{{request.get_full_path}}update_dp/">{% csrf_token %}                
-				<img width=200 height=200 src="{{MEDIA_URL}}{{USER.picture}}" alt="User"><br/><br/>
+                {% if USER.user_has_picture %}
+                    <img width=200 height=200 src="{{MEDIA_URL}}{{USER.picture}}" alt="User"><br/><br/>
+                {% else %}
+                    <img width=200 height=200 src="{{MEDIA_URL}}img/profile/blank.png" alt="User"><br/><br/>
+                {% endif %}
                 <div style="text-align:center; color: #C0392B" id="form-status-dp-error"></div>
 				{{ form_dp.as_p }}
 				<br/>
