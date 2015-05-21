@@ -68,35 +68,38 @@ def eatery_view(request, eatery_id):
         _u = request.user
         user_id = _u.id          
     
-    # Trys to get eatery, if not *will* returns 404 page
+    # Trys to get eatery via id, if not *will* returns 404 page
     try:
         _eatery = eatery_profile.objects.get(id=int(eatery_id))
         
     except Exception as e:
         return HttpResponse('Eatery not found!')
         
-    # Gets restaurant pricing
+    # Gets restaurant pricing ($$/$$$)
     _price_loop = [i+1 for i in range(_eatery.pricing)]
     _price_loop_end = [i+1 for i in range(5-_eatery.pricing+1,5)]
+
+    # Check if user liked the specials
+    _specials_list = _eatery.specials_set.all()    
+    _specials_return = []
     
-    # Checks if user liked the specific specials or not
-    if request.user.is_authenticated():
-        for specials in _eatery.specials_set.all():
-            try:
-                # if this passes the check then the user has already liked it
-                _u.timeline.specials_hearted_set.get(specials_id=specials.id)                
-                specials.user_liked = True
-                
-            except Exception:
-                specials.user_liked = False
-                pass
-             
-            specials.save()
+    for _specials in _specials_list:      
+        _specials_return.append((_specials, _specials.specials_hearts.all().filter(user=_u)))
+        
+    # Check if user liked the food
+    _food_list = _eatery.food_set.all()    
+    _food_return = []
     
+    for _food in _food_list:   
+        print food        
+        _food_return.append((_food, _food.food_hearts.all().filter(user=_u)))
+        
     # Our variable list
     variables = {
         'USER': _u,
         'EATERY': _eatery,
+        'SPECIALS_LIST': _specials_return,
+        'FOOD_LIST': _food_return,
         'PRICE_LOOP': _price_loop,
         'PRICE_LOOP_END': _price_loop_end,
     }

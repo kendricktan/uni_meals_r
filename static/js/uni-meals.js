@@ -250,7 +250,7 @@ $("#btn-change-dp").click(function(){
 /* End profile edit */
 
 // Heart food
-function user_heart_special(a_div){      
+function user_heart(a_div){      
     $.ajax({
         url: $(a_div).attr('href'),    
         type: 'POST',
@@ -280,7 +280,7 @@ function user_heart_special(a_div){
     return false;
 }
 
-function user_unheart_special(a_div){
+function user_unheart(a_div){
     $.ajax({
         url: $(a_div).attr('href'),    
         type: 'POST',

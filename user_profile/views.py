@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template.context_processors import csrf
 from datetime import datetime
 from .models import *
+from eatery_profile.models import *
 from .forms import *
 import json
 
@@ -200,8 +201,12 @@ def update_profile_password(request, profile_id):
             
     else:
         return HttpResponse('You don\'t have permissions to view this!')
-        
-# Hearts food
+   
+'''
+    # HEART UNHEART FOOD/SPECIALS
+'''   
+
+# Hearts specials
 def profile_heart_special(request, specials_id):    
     _u = None
     response_data = {}    
@@ -210,23 +215,30 @@ def profile_heart_special(request, specials_id):
         
         if request.method == 'POST':
             
-            try:
-                # checks if user already hearted this before adding it to user's list
-                if specials_hearted.objects.filter(specials_id=specials_id).count() == 0:
-                    _sh = specials_hearted(specials_id=int(specials_id), timeline=_u.timeline)
-                    _sh.save()
-                    response_data['success'] = 'success'
+            try:                                                               
+                # Get the current specials
+                _specials = specials.objects.get(id=int(specials_id))    
+
+                # Checks if user don't have a heart class, if doesn't add one
+                # Heart class basically checks the current special if user has liked it
+                if _specials.specials_hearts.all().filter(user=_u).count() == 0:
+                    _specials_hearts = specials_hearts(user=_u)
+                    _specials_hearts.save()            
+                    
+                    # Adds user heart class to specials
+                    _specials.specials_hearts.add(_specials_hearts)                                                                                 
                 
-            except Exception:
+            except Exception as e:
+                #print e
                 pass
                 
-    # Returns response
-    return HttpResponse(
-        json.dumps(response_data),
-        content_type="application/json"
-    ) 
+        # Returns response
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )             
     
-# Unhearts food
+# Unhearts specials
 def profile_unheart_special(request, specials_id):
     _u = None
     response_data = {}    
@@ -236,11 +248,11 @@ def profile_unheart_special(request, specials_id):
         if request.method == 'POST':
             
             try:
-                # checks if food is already hearted
-                if specials_hearted.objects.filter(specials_id=specials_id).count() >= 0:
-                    _sh = _u.timeline.specials_hearted_set.get(specials_id=int(specials_id))
-                    _sh.delete()
-                    response_data['success'] = 'success'
+                # Get the current specials
+                _specials = specials.objects.get(id=int(specials_id))    
+
+                # Checks if user liked it, if they have then remove it                
+                _specials.specials_hearts.all().get(user=_u).delete()
                 
             except Exception:
                 pass
@@ -251,6 +263,62 @@ def profile_unheart_special(request, specials_id):
         content_type="application/json"
     ) 
     
+# Hearts food
+def profile_heart_food(request, food_id):    
+    _u = None
+    response_data = {}    
+    if request.user.is_authenticated():
+        _u = request.user
+        
+        if request.method == 'POST':            
+            try:                                                               
+                # Get the current specials
+                _food = food.objects.get(id=int(food_id))    
+
+                # Checks if user don't have a heart class, if doesn't add one
+                # Heart class basically checks the current special if user has liked it
+                if _food.food_hearts.all().filter(user=_u).count() == 0:
+                    _food_hearts = food_hearts(user=_u)
+                    _food_hearts.save()            
+                    
+                    # Adds user heart class to specials
+                    _food.food_hearts.add(_food_hearts)                                                                                 
+                
+            except Exception as e:
+                #print e
+                pass
+                
+        # Returns response
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )   
+        
+# Unhearts food
+def profile_unheart_food(request, food_id):
+    _u = None
+    response_data = {}    
+    if request.user.is_authenticated():
+        _u = request.user
+        
+        if request.method == 'POST':
+            
+            try:
+                # Get the current specials
+                _food = food.objects.get(id=int(food_id))    
+
+                # Checks if user liked it, if they have then remove it   
+                _food.food_hearts.all().get(user=_u).delete()
+                
+            except Exception:
+                pass
+                
+    # Returns response
+    return HttpResponse(
+        json.dumps(response_data),
+        content_type="application/json"
+    ) 
+        
 '''
     # End Profile
 '''    

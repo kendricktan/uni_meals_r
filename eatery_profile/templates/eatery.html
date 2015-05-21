@@ -74,18 +74,18 @@
         <div class="tab-content">
             <!-- SPECIALS TAB -->                            
             <div class="tab-pane" id="specials-tab">
-                {% for special in EATERY.specials_set.all %}
+                {% for specials, liked in SPECIALS_LIST %}
                 <div class="row specials-wrapper">
                     <div class="container">
-                        <div class="col-sm-3"><img class="eatery-specials-food-dp" src="{{MEDIA_URL}}{{special.picture}}"/></div>      
+                        <div class="col-sm-3"><img class="eatery-specials-food-dp" src="{{MEDIA_URL}}{{specials.picture}}"/></div>      
                         <div class="col-sm-7 wall-post-text">
-                            <h5>{{special.name}}</h5>
-                            <h6>Special price: ${{special.price}}, <strike>Normal price: ${{special.normal_price}}</strike></h6>
-                            {{special.description}}
+                            <h5>{{specials.name}}</h5>
+                            <h6>Special price: ${{specials.price}}, <strike>Normal price: ${{specials.normal_price}}</strike></h6>
+                            {{specials.description}}
                         </div>
                         <div style="margin-top: 25px; font-size: 2.0em" class="col-sm-2 pull-right">
-                            {% if not special.user_liked %}<a id="heart_special_{{special.id}}" onclick="return user_heart_special(this);" href="/profile/heart/special/{{special.id}}/" rel="tooltip" title="Heart/Unheart this"><i class="empty heart icon"></i></a>
-                            {% else %}<a id="unheart_special_{{special.id}}" onclick="return user_unheart_special(this);" href="/profile/unheart/special/{{special.id}}/" rel="tooltip" title="Heart/Unheart this"><i class="heart icon"></i></a>
+                            {% if not liked %}<a id="heart_special_{{specials.id}}" onclick="return user_heart(this);" href="/profile/heart/special/{{specials.id}}/" rel="tooltip" title="Heart/Unheart this" data-url="specials"><i class="empty heart icon"></i></a>
+                            {% else %}<a id="unheart_special_{{specials.id}}" onclick="return user_unheart(this);" href="/profile/unheart/special/{{specials.id}}/" rel="tooltip" title="Heart/Unheart this" data-url="specials" ><i class="heart icon"></i></a>
                             {% endif %}
                         </div>
                     </div>
@@ -95,8 +95,9 @@
             </div>
             <!-- END SPECIALS TAB -->
 
+            <!-- FOOD TAB -->
             <div class="tab-pane" id="menu-tab">
-                {% for food in EATERY.food_set.all %}
+                {% for food, liked in FOOD_LIST %}
                 <div class="row menu-wrapper">
                     <div class="container">
                         <div class="col-sm-3"><img class="eatery-menu-food-dp" src="{{MEDIA_URL}}{{food.picture}}"/></div>      
@@ -106,13 +107,16 @@
                             {{food.description}}
                         </div>  
                         <div style="margin-top: 25px; font-size: 2.0em" class="col-sm-2 pull-right">
-                            <a href="#" rel="tooltip" title="Heart this"><i class="heart icon"></i><i class="empty heart icon"></i></a>                                            
+                            {% if not liked %}<a id="heart_food_{{food.id}}" onclick="return user_heart(this);" href="/profile/heart/food/{{food.id}}/" rel="tooltip" title="Heart/Unheart this"><i class="empty heart icon"></i></a>
+                            {% else %}<a id="unheart_food_{{food.id}}" onclick="return user_unheart(this);" href="/profile/unheart/food/{{food.id}}/" rel="tooltip" title="Heart/Unheart this" ><i class="heart icon"></i></a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
                 </br>
                 {% endfor %}
             </div>
+            <!-- END FOOD TAB -->
 
             <!-- EATERY REVIEW TAB -->
             <div class="tab-pane" id="reviews-tab">

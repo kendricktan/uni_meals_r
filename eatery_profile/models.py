@@ -1,5 +1,5 @@
 import datetime
-from user_profile.models import user_profile
+from user_profile.models import *
 from django.db import models
 
 '''
@@ -186,19 +186,28 @@ class special_tags(models.Model):
 '''
     # FOOD & SPECIALS
 '''
+class food_hearts(models.Model):    
+    user = models.ForeignKey(user_profile)
+    date_hearted = models.DateTimeField(auto_now_add=True)
+    
 class food(models.Model):
     name = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=5, decimal_places=2)
     description = models.CharField(max_length=255)
     picture = models.ImageField(upload_to=generate_directory_eatery_food, null=True, blank=True)
-    user_liked = models.BooleanField(default=False) # checks if user liked it or not (mainly for the heart/unheart page)
-    # until another solution is found...
+    food_hearts = models.ManyToManyField(food_hearts, null=True, blank=True)
     eatery_profile = models.ForeignKey(eatery_profile)
     
     def __unicode__(self):
         return unicode(self.name)
-
-
+        
+class specials_hearts(models.Model):    
+    user = models.ForeignKey(user_profile)
+    date_hearted = models.DateTimeField(auto_now_add=True)
+    
+    def __unicode__(self):
+        return unicode(self.user.get_username())
+        
 class specials(models.Model):
     name = models.CharField(max_length=50)
     normal_price = models.DecimalField(max_digits=5, decimal_places=2)
@@ -208,10 +217,9 @@ class specials(models.Model):
     date_valid_from = models.DateField()
     date_valid_to = models.DateField()
     hour_valid_from = models.TimeField(null=True, blank=True)
-    hour_valid_to = models.TimeField(null=True, blank=True)
-    user_liked = models.BooleanField(default=False) # checks if user liked it or not (mainly for the heart/unheart page)
-    # until another solution is found...
-    eatery_profile = models.ForeignKey(eatery_profile)
+    hour_valid_to = models.TimeField(null=True, blank=True)    
+    specials_hearts = models.ManyToManyField(specials_hearts, null=True, blank=True)
+    eatery_profile = models.ForeignKey(eatery_profile)    
     
     def __unicode__(self):
         return unicode(self.name)
