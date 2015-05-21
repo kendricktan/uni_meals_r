@@ -351,4 +351,31 @@
 &lt;&lt;many to many&gt;&gt;</panel_attributes>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
   </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>920</x>
+      <y>80</y>
+      <w>140</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>food_hearts
+--
+- user
+- date_hearted
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>900</x>
+      <y>180</y>
+      <w>130</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;many to many&gt;&gt;</panel_attributes>
+    <additional_attributes>20.0;30.0;100.0;20.0</additional_attributes>
+  </element>
 </diagram>
