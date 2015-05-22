@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="13.2">
-  <zoom_level>10</zoom_level>
+  <zoom_level>7</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>500</x>
-      <y>370</y>
-      <w>160</w>
-      <h>100</h>
+      <x>350</x>
+      <y>259</y>
+      <w>112</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>eatery_profile
 --
@@ -20,10 +20,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>940</x>
-      <y>210</y>
-      <w>110</w>
-      <h>110</h>
+      <x>658</x>
+      <y>147</y>
+      <w>77</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>food
 --
@@ -37,10 +37,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>650</x>
-      <y>310</y>
-      <w>360</w>
-      <h>90</h>
+      <x>455</x>
+      <y>217</y>
+      <w>252</w>
+      <h>63</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;foreign key&gt;&gt;</panel_attributes>
@@ -49,10 +49,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>760</x>
-      <y>130</y>
-      <w>90</w>
-      <h>50</h>
+      <x>532</x>
+      <y>91</y>
+      <w>63</w>
+      <h>35</h>
     </coordinates>
     <panel_attributes>tags
 --
@@ -62,10 +62,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>630</x>
-      <y>170</y>
-      <w>190</w>
-      <h>220</h>
+      <x>441</x>
+      <y>119</y>
+      <w>133</w>
+      <h>154</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;many to many&gt;&gt;</panel_attributes>
@@ -75,9 +75,9 @@
     <id>UMLClass</id>
     <coordinates>
       <x>0</x>
-      <y>320</y>
-      <w>160</w>
-      <h>100</h>
+      <y>224</y>
+      <w>112</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>opening_hours
 --
@@ -90,10 +90,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>270</x>
-      <y>440</y>
-      <w>130</w>
-      <h>130</h>
+      <x>189</x>
+      <y>308</y>
+      <w>91</w>
+      <h>91</h>
     </coordinates>
     <panel_attributes>special_days
 --
@@ -107,10 +107,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>150</x>
-      <y>350</y>
-      <w>370</w>
-      <h>40</h>
+      <x>105</x>
+      <y>245</y>
+      <w>259</w>
+      <h>28</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;foreign key&gt;&gt;</panel_attributes>
@@ -119,10 +119,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>340</x>
-      <y>370</y>
-      <w>180</w>
-      <h>90</h>
+      <x>238</x>
+      <y>259</y>
+      <w>126</w>
+      <h>63</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;foreign key&gt;&gt;</panel_attributes>
@@ -131,85 +131,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>510</x>
-      <y>570</y>
-      <w>110</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>votes
---
-- eatery</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>360</x>
-      <y>690</y>
-      <w>110</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>upvoted
---
-- date_voted</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>680</x>
-      <y>690</y>
-      <w>110</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>downvoted
---
-- date_voted</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>400</x>
-      <y>590</y>
-      <w>130</w>
-      <h>120</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;.
-&lt;&lt;foreign key&gt;&gt;</panel_attributes>
-    <additional_attributes>110.0;20.0;10.0;20.0;10.0;100.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>610</x>
-      <y>590</y>
-      <w>150</w>
-      <h>120</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;.
-&lt;&lt;foreign key&gt;&gt;</panel_attributes>
-    <additional_attributes>10.0;20.0;130.0;20.0;130.0;100.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>550</x>
-      <y>460</y>
-      <w>110</w>
-      <h>130</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;.
-&lt;&lt;one to one&gt;&gt;</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1080</x>
-      <y>200</y>
-      <w>150</w>
-      <h>180</h>
+      <x>756</x>
+      <y>140</y>
+      <w>105</w>
+      <h>126</h>
     </coordinates>
     <panel_attributes>specials
 --
@@ -227,10 +152,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>650</x>
-      <y>370</y>
-      <w>520</w>
-      <h>70</h>
+      <x>455</x>
+      <y>259</y>
+      <w>364</w>
+      <h>49</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;foreign key&gt;&gt;</panel_attributes>
@@ -239,27 +164,27 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>920</x>
-      <y>530</y>
-      <w>130</w>
-      <h>120</h>
+      <x>644</x>
+      <y>371</y>
+      <w>91</w>
+      <h>84</h>
     </coordinates>
     <panel_attributes>reviews
 --
-- user_id
-- stars_given
+- user_profile
 - review_text
 - useful_count
-- not_useful_count</panel_attributes>
+- not_useful_count
+- datetime_pub</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>650</x>
-      <y>440</y>
-      <w>340</w>
-      <h>110</h>
+      <x>455</x>
+      <y>308</y>
+      <w>238</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;foreign key&gt;&gt;</panel_attributes>
@@ -268,10 +193,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>740</x>
-      <y>60</y>
-      <w>110</w>
-      <h>50</h>
+      <x>518</x>
+      <y>42</y>
+      <w>77</w>
+      <h>35</h>
     </coordinates>
     <panel_attributes>special_tags
 --
@@ -281,10 +206,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>600</x>
-      <y>80</y>
-      <w>160</w>
-      <h>310</h>
+      <x>420</x>
+      <y>56</y>
+      <w>112</w>
+      <h>217</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;many to many&gt;&gt;</panel_attributes>
@@ -293,10 +218,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>380</x>
+      <x>266</x>
       <y>0</y>
-      <w>180</w>
-      <h>200</h>
+      <w>126</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>location
 --
@@ -315,10 +240,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>450</x>
-      <y>190</y>
-      <w>140</w>
-      <h>200</h>
+      <x>315</x>
+      <y>133</y>
+      <w>98</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;one to one&gt;&gt;</panel_attributes>
@@ -327,14 +252,14 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1120</x>
-      <y>440</y>
-      <w>140</w>
-      <h>70</h>
+      <x>784</x>
+      <y>308</y>
+      <w>98</w>
+      <h>49</h>
     </coordinates>
     <panel_attributes>specials_hearts
 --
-- user
+- user_profile
 - date_hearted
 </panel_attributes>
     <additional_attributes/>
@@ -342,10 +267,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1180</x>
-      <y>370</y>
-      <w>130</w>
-      <h>90</h>
+      <x>826</x>
+      <y>259</y>
+      <w>91</w>
+      <h>63</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;many to many&gt;&gt;</panel_attributes>
@@ -354,14 +279,14 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>920</x>
-      <y>80</y>
-      <w>140</w>
-      <h>70</h>
+      <x>644</x>
+      <y>56</y>
+      <w>98</w>
+      <h>49</h>
     </coordinates>
     <panel_attributes>food_hearts
 --
-- user
+- user_profile
 - date_hearted
 </panel_attributes>
     <additional_attributes/>
@@ -369,13 +294,40 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>900</x>
-      <y>180</y>
-      <w>130</w>
-      <h>50</h>
+      <x>693</x>
+      <y>98</y>
+      <w>91</w>
+      <h>63</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;many to many&gt;&gt;</panel_attributes>
-    <additional_attributes>20.0;30.0;100.0;20.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>343</x>
+      <y>399</y>
+      <w>98</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>user_votes
+--
+- user_profile
+- datetime_voted
+- is_upvoted</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>385</x>
+      <y>322</y>
+      <w>77</w>
+      <h>91</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;foreign key&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
   </element>
 </diagram>

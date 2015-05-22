@@ -15,6 +15,11 @@ urlpatterns = [
     url(r'^heart/food/(?P<food_id>[0-9]+)/$', views.profile_heart_food, name='profile_heart_food'),
     url(r'^unheart/food/(?P<food_id>[0-9]+)/$', views.profile_unheart_food, name='profile_unheart_food'),
     
+    # Upvote/downvote eatery
+    url(r'^upvote/eatery/(?P<eatery_id>[0-9]+)/$', views.profile_eatery_upvote, name='profile_eatery_upvote'),
+    url(r'^downvote/eatery/(?P<eatery_id>[0-9]+)/$', views.profile_eatery_downvote, name='profile_eatery_downvote'),
+    url(r'^clearvote/eatery/(?P<eatery_id>[0-9]+)/$', views.profile_eatery_clearvote, name='profile_eatery_clearvote'),
+    
     # Sign-up view
     url(r'^signup/$', views.signup_view, name='signup_view'),
     

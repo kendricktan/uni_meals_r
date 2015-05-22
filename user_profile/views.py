@@ -203,7 +203,7 @@ def update_profile_password(request, profile_id):
         return HttpResponse('You don\'t have permissions to view this!')
    
 '''
-    # HEART UNHEART FOOD/SPECIALS
+    # Heart/Unheart specials
 '''   
 
 # Hearts specials
@@ -221,8 +221,8 @@ def profile_heart_special(request, specials_id):
 
                 # Checks if user don't have a heart class, if doesn't add one
                 # Heart class basically checks the current special if user has liked it
-                if _specials.specials_hearts.all().filter(user=_u).count() == 0:
-                    _specials_hearts = specials_hearts(user=_u)
+                if _specials.specials_hearts.all().filter(user_profile=_u).count() == 0:
+                    _specials_hearts = specials_hearts(user_profile=_u)
                     _specials_hearts.save()            
                     
                     # Adds user heart class to specials
@@ -252,7 +252,7 @@ def profile_unheart_special(request, specials_id):
                 _specials = specials.objects.get(id=int(specials_id))    
 
                 # Checks if user liked it, if they have then remove it                
-                _specials.specials_hearts.all().get(user=_u).delete()
+                _specials.specials_hearts.all().get(user_profile=_u).delete()
                 
             except Exception:
                 pass
@@ -277,8 +277,8 @@ def profile_heart_food(request, food_id):
 
                 # Checks if user don't have a heart class, if doesn't add one
                 # Heart class basically checks the current special if user has liked it
-                if _food.food_hearts.all().filter(user=_u).count() == 0:
-                    _food_hearts = food_hearts(user=_u)
+                if _food.food_hearts.all().filter(user_profile=_u).count() == 0:
+                    _food_hearts = food_hearts(user_profile=_u)
                     _food_hearts.save()            
                     
                     # Adds user heart class to specials
@@ -308,7 +308,7 @@ def profile_unheart_food(request, food_id):
                 _food = food.objects.get(id=int(food_id))    
 
                 # Checks if user liked it, if they have then remove it   
-                _food.food_hearts.all().get(user=_u).delete()
+                _food.food_hearts.all().get(user_profile=_u).delete()
                 
             except Exception:
                 pass
@@ -318,7 +318,103 @@ def profile_unheart_food(request, food_id):
         json.dumps(response_data),
         content_type="application/json"
     ) 
+
         
+'''
+    # Upvote/Downvote Eatery
+'''    
+
+# Upvote eatery
+def profile_eatery_upvote(request, eatery_id):
+    _u = None
+    response_data = {}
+    if request.user.is_authenticated():
+        _u = request.user
+        
+        if request.method == 'POST':
+            try:
+                _eatery = eatery_profile.objects.get(id=int(eatery_id))
+                
+                # Checks if user has already voted, if not
+                if _eatery.user_votes_set.all().filter(user_profile=_u).count() == 0:
+                    # Creates a vote and associates it with the user
+                    _user_votes = user_votes(user_profile=_u, is_upvoted=True, eatery_profile=_eatery)
+                    _user_votes.save()                     
+                
+                # Returns back eatery_id to JS so it enables the JS to 
+                # recreate buttons that corresponds to the eatery_id
+                response_data['eatery_id'] = int(eatery_id)
+                
+                # Upvoted % 
+                response_data['eatery_upvote_all'] = get_eatery_upvotes(_eatery)
+            
+            except Exception:
+                pass                        
+                        
+    return HttpResponse(
+        json.dumps(response_data),
+        content_type='application/json'
+    )        
+    
+# Downvote eatery
+def profile_eatery_downvote(request, eatery_id):
+    _u = None
+    response_data = {}
+    if request.user.is_authenticated():
+        _u = request.user
+        
+        if request.method == 'POST':
+            try:
+                _eatery = eatery_profile.objects.get(id=int(eatery_id))
+                
+                # Checks if user has already voted, if not
+                if _eatery.user_votes_set.all().filter(user_profile=_u).count() == 0:
+                    # Creates a vote and associates it with the user
+                    _user_votes = user_votes(user_profile=_u, is_upvoted=False, eatery_profile=_eatery)
+                    _user_votes.save()                     
+                    
+                # Returns back eatery_id to JS so it enables the JS to 
+                # recreate buttons that corresponds to the eatery_id
+                response_data['eatery_id'] = int(eatery_id)
+                
+                # Upvoted % 
+                response_data['eatery_upvote_all'] = get_eatery_upvotes(_eatery)
+                
+            except Exception:
+                pass
+                
+    return HttpResponse(
+        json.dumps(response_data),
+        content_type='application/json'
+    )
+    
+# Clear eatery vote
+def profile_eatery_clearvote(request, eatery_id):
+    _u = None
+    response_data = {}
+    if request.user.is_authenticated():
+        _u = request.user
+        
+        if request.method == 'POST':
+            try:
+                _eatery = eatery_profile.objects.get(id=int(eatery_id))                
+                _eatery.user_votes_set.get(user_profile=_u).delete()
+                
+                # Returns back eatery_id to JS so it enables the JS to 
+                # recreate buttons that corresponds to the eatery_id
+                response_data['eatery_id'] = int(eatery_id)
+                
+                # Upvoted % 
+                response_data['eatery_upvote_all'] = get_eatery_upvotes(_eatery)
+            
+            except Exception:
+                pass
+                
+    return HttpResponse(
+        json.dumps(response_data),
+        content_type='application/json'
+    )        
+    
 '''
     # End Profile
 '''    

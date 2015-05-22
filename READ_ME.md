@@ -23,15 +23,16 @@ To fix:
 
 To do:		
 	High Priority:		
-		Vote on eatery
-		Do food for what you did for specials
+		Vote on eatery!
 		GPS coordinates to search restaurants
-		Anon review, cookie log so can't multiple reviews
+		Check if user has reviewed
+		'I find this review useful'
 		If user is not logged in and tries to do stuff that requires them to log in (e.g. heart food), sign them up
 	
 	Medium Priority:
 		Create browse app, search app, inbox + message app
 		User delete image function
+		Merge heart/unheart js
 		
 	Low Priority:
 		Ajax auto update when scroll for search, browse, reviews + timeline
@@ -54,3 +55,4 @@ Done:
 	Enable user to edit profile, upload_photo, etc
 	User enable to heart food
 	Heart will heart/empty heart based on users specials set hearts
+	Do food for what you did for specials hearts

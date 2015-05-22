@@ -19,6 +19,22 @@ def generate_directory_eatery_specials(self, filename):
     url = "eatery_profile/%s/specials/%s" % (str(id), filename)
     return url
     
+def get_eatery_upvotes(_eatery):
+    _eatery_upvotes = _eatery.user_votes_set.all().filter(is_upvoted=True).count()
+    _eatery_downvotes = _eatery.user_votes_set.all().filter(is_upvoted=False).count()
+    _eatery_total_votes = _eatery.user_votes_set.all().count()    
+                
+    # Don't wanna divide by zero
+    _eatery_upvotes = _eatery_upvotes if _eatery_upvotes > 0 else 1
+    _eatery_total_votes = _eatery_total_votes if _eatery_total_votes > 0 else 1
+    
+    _eatery_votes_percentage = (_eatery_upvotes*100)/(_eatery_total_votes)        
+    
+    _eatery_votes_all = []
+    _eatery_votes_all.append((_eatery_votes_percentage, _eatery_total_votes))       
+    
+    return _eatery_votes_all
+    
 '''
     # EATERY
 '''
@@ -40,11 +56,12 @@ class eatery_profile(models.Model):
     def __unicode__(self):
         return unicode(self.name);
    
+    # Pricing for template style $$$/$$
     def pricing_bold(self):
         return [i+1 for i in range(self.pricing)]
         
     def pricing_rest(self):
-        return [i+1 for i in range(5-self.pricing+1, 5)]
+        return [i+1 for i in range(self.pricing, 5)]
 
 '''
     # LOCATION
@@ -187,7 +204,7 @@ class special_tags(models.Model):
     # FOOD & SPECIALS
 '''
 class food_hearts(models.Model):    
-    user = models.ForeignKey(user_profile)
+    user_profile = models.ForeignKey(user_profile)
     date_hearted = models.DateTimeField(auto_now_add=True)
     
 class food(models.Model):
@@ -202,11 +219,11 @@ class food(models.Model):
         return unicode(self.name)
         
 class specials_hearts(models.Model):    
-    user = models.ForeignKey(user_profile)
-    date_hearted = models.DateTimeField(auto_now_add=True)
+    user_profile = models.ForeignKey(user_profile)
+    date_hearted = models.DateTimeField(auto_now_add=True)    
     
     def __unicode__(self):
-        return unicode(self.user.get_username())
+        return unicode(self.user_profile.get_username())
         
 class specials(models.Model):
     name = models.CharField(max_length=50)
@@ -228,7 +245,7 @@ class specials(models.Model):
     # REVIEWS
 '''
 class reviews(models.Model):
-    user_id = models.IntegerField()    
+    user_profile = models.ForeignKey(user_profile)    
     review_text = models.CharField(max_length=255)
     useful_count = models.IntegerField(null=True, blank=True)
     not_useful_count = models.IntegerField(null=True, blank=True)
@@ -238,48 +255,24 @@ class reviews(models.Model):
         return unicode(self.eatery_profile.name + '\'s reviews')        
         
     def user_picture_location(self):
-        if self.user_id != -1:
-            try:
-                _u = user_profile.objects.get(id=self.user_id)
-                
-                if bool(_u.picture):
-                    return _u.picture
-                
-            except Exception as e:
-                pass
+        if self.user_profile.picture:
+            return self.user_profile.picture
         return 'img/profile/blank.png'
         
     def user_username(self):
-        if self.user_id != -1:
-            try:
-                _u = user_profile.objects.get(id=self.user_id)                
-                return _u.get_username() 
-            
-            except Exception as e:
-                pass
-            
-        return 'Anonymous'
+        return self.user_profile.get_username()
     
 '''
     # VOTES 
 '''
-class votes(models.Model):
-    eatery_profile = models.OneToOneField(eatery_profile)
+class user_votes(models.Model):
+    user_profile = models.ForeignKey(user_profile)    
+    datetime_voted = models.DateField(auto_now_add=True)
+    is_upvoted = models.BooleanField()
+    eatery_profile = models.ForeignKey(eatery_profile)
     
     def __unicode__(self):
-        return unicode(self.eatery_profile.name + '\'s votes!')
-        
-class upvoted(models.Model):
-    date_voted = models.DateField(auto_now_add=True)
-    votes = models.ForeignKey(votes)
-    
-    def __unicode__(self):
-        return unicode(self.votes.eatery_profile.name + '\'s upvotes!')
-        
-class downvoted(models.Model):
-    date_voted = models.DateField(auto_now_add=True)
-    votes = models.ForeignKey(votes)
-    
-    def __unicode__(self):
-        return unicode(self.votes.eatery_profile.name + '\'s downvotes!')
+        if self.is_upvoted is True:
+            return unicode(self.user_profile.get_username() + '\'s upvotes!')              
+        return unicode(self.user_profile.get_username() + '\'s downvotes')
         

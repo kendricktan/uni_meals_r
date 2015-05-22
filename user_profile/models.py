@@ -76,47 +76,4 @@ class wall_post_comment(models.Model):
     wall_post = models.ForeignKey(wall_post)
         
     def __unicode__(self):
-        return unicode(self.wall_post.id)
-        
-'''
-    # TIMELINE
-'''
-class timeline(models.Model):
-    user_profile = models.OneToOneField(user_profile)
-    
-    def __unicode__(self):
-        return unicode(self.user_profile.get_username() + '\'s timeline')
-        
-class eatery_reviewed(models.Model):
-    eatery_id = models.IntegerField()    
-    review_text = models.CharField(max_length=255)
-    datetime_reviewed = models.DateTimeField(auto_now_add=True)
-    timeline = models.ForeignKey(timeline)
-    
-    def __unicode__(self):
-        return unicode(self.review_text)    
-        
-class food_hearted(models.Model):
-    food_id = models.IntegerField()
-    datetime_hearted = models.DateTimeField(auto_now_add=True)
-    timeline = models.ForeignKey(timeline)
-    
-    def __unicode__(self):
-        return unicode(self.food_id)
-        
-class specials_hearted(models.Model):
-    specials_id = models.IntegerField()
-    datetime_hearted = models.DateTimeField(auto_now_add=True)
-    timeline = models.ForeignKey(timeline)
-    
-    def __unicode__(self):
-        return unicode(self.specials_id)
-        
-class vote_given(models.Model):
-    eatery_id = models.IntegerField()
-    is_upvoted = models.BooleanField()
-    datetime_voted = models.DateTimeField(auto_now_add=True)
-    timeline = models.ForeignKey(timeline)
-    
-    def __unicode__(self):
-        return unicode(self.eatery_id)        
+        return unicode(self.wall_post.id)        

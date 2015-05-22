@@ -44,13 +44,25 @@
             </div>
         </div>
         <div class="col-sm-1">
-            <div style="line-height: 1em; margin-top: 20px">
-                <button class="btn btn-success"><i class="glyphicon fui-triangle-up"></i></button>
-                <button class="btn btn-danger"><i class="glyphicon fui-triangle-down"></i></button>                                   
+            <div id="div-vote-wrapper" style="line-height: 1em; margin-top: 20px">                
+                {% if not EATERY_VOTED %}
+                <a onclick="return eatery_vote(this);" href="/profile/upvote/eatery/{{EATERY.id}}/"><button id="eatery-{{EATERY.id}}-upvote" class="btn btn-success"><i class="glyphicon fui-triangle-up"></i></button></a>                
+                <a onclick="return eatery_vote(this);" href="/profile/downvote/eatery/{{EATERY.id}}/"><button id="eatery-{{EATERY.id}}-downvote"class="btn btn-danger"><i class="glyphicon fui-triangle-down"></i></button></a>                                
+                {% else %}
+                <a onclick="return eatery_clear_vote(this);" href="/profile/clearvote/eatery/{{EATERY.id}}/">Clear vote</a>
+                {% endif %}
             </div>                    
         </div>
         <div class="col-sm-1">
-            <span style="font-size: 40px"><strong>42%</strong></span><br/>upvoted<br/><br/>     
+            {% for upvote_percentage, votes_total in EATERY_UPVOTE_ALL %}
+            <div style="font-size: 30px;" id="eatery-upvotes-percentage-wrapper">                             
+                <strong>{%if not upvote_percentage %}--%{%else%}{{upvote_percentage}}%{%endif%}</strong>                
+            </div>
+            upvoted
+            <div style="font-size: 14px" id="eatery-votes-total-wrapper">
+                {{votes_total}} votes
+            </div>
+            {% endfor %}
         </div>
         <br/>
     </div>            
@@ -119,13 +131,11 @@
             <!-- END FOOD TAB -->
 
             <!-- EATERY REVIEW TAB -->
-            <div class="tab-pane" id="reviews-tab">
-                {% if not USER_REVIEWED %}
+            <div class="tab-pane" id="reviews-tab">                
                 <form id="eatery-review-form" method="POST" action="">
                     <textarea style="font-size: 15px; width:100%" rows="2" name="id_review_text" id="id_review_text" required></textarea>{% csrf_token %}
                     <div style="text-align: right"><button class="btn btn-info">Write a review!</button></div>
-                </form>
-                {% endif %}
+                </form>                
                 <hr style="width: 100%" noshade>
                 {% for review in EATERY.reviews_set.all %}
                 <div class="row wall-post-wrapper">                    

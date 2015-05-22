@@ -73,18 +73,14 @@ def eatery_view(request, eatery_id):
         _eatery = eatery_profile.objects.get(id=int(eatery_id))
         
     except Exception as e:
-        return HttpResponse('Eatery not found!')
-        
-    # Gets restaurant pricing ($$/$$$)
-    _price_loop = [i+1 for i in range(_eatery.pricing)]
-    _price_loop_end = [i+1 for i in range(5-_eatery.pricing+1,5)]
+        return HttpResponse('Eatery not found!')        
 
     # Check if user liked the specials
     _specials_list = _eatery.specials_set.all()    
     _specials_return = []
     
     for _specials in _specials_list:      
-        _specials_return.append((_specials, _specials.specials_hearts.all().filter(user=_u)))
+        _specials_return.append((_specials, _specials.specials_hearts.all().filter(user_profile=_u)))
         
     # Check if user liked the food
     _food_list = _eatery.food_set.all()    
@@ -92,16 +88,22 @@ def eatery_view(request, eatery_id):
     
     for _food in _food_list:   
         print food        
-        _food_return.append((_food, _food.food_hearts.all().filter(user=_u)))
+        _food_return.append((_food, _food.food_hearts.all().filter(user_profile=_u)))
+
+    # Check if user upvoted/downvoted eatery
+    _eatery_voted = _eatery.user_votes_set.all().filter(user_profile=_u)
+    
+    # Upvoted % 
+    _eatery_votes_all = get_eatery_upvotes(_eatery)
         
     # Our variable list
     variables = {
         'USER': _u,
         'EATERY': _eatery,
+        'EATERY_VOTED': _eatery_voted,
+        'EATERY_UPVOTE_ALL': _eatery_votes_all,
         'SPECIALS_LIST': _specials_return,
-        'FOOD_LIST': _food_return,
-        'PRICE_LOOP': _price_loop,
-        'PRICE_LOOP_END': _price_loop_end,
+        'FOOD_LIST': _food_return,        
     }
     
     # Check if eatery is opened now
@@ -109,30 +111,14 @@ def eatery_view(request, eatery_id):
         if opening_hours.is_opened_now:
             variables['OPEN_NOW'] = opening_hours                
             break   
-
-    # Checks if user reviewed eatery
-    if request.user.is_authenticated():
-        try:
-            request.user.user_has_reviewed_eatery(int(eatery_id))
-            variables['USER_REVIEWED'] = True
-            
-        except Exception:
-            pass
     
     # Add review
     if request.method == 'POST':
         try:
             # add review to eatery
             review_text = request.POST['id_review_text']
-            _eatery = eatery_profile.objects.get(id=int(eatery_id))
-            review = reviews(user_id=user_id, review_text=review_text, eatery_profile=_eatery)
-            review.save()                                    
-            
-            # if existing + logged in user added reviews
-            # add eatery review (er) to user's history
-            if request.user.is_authenticated():                     
-                _er = eatery_reviewed(eatery_id=int(eatery_id), review_text=review_text, timeline=_u.timeline)
-                _er.save()            
+            _user_review = reviews(user_profile=_u, review_text=review_text, eatery_profile=_eatery)
+            _user_review.save()
             
         except Exception as e:
             pass
