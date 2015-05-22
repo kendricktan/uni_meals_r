@@ -23,7 +23,7 @@ To fix:
 
 To do:		
 	High Priority:		
-		Vote on eatery!
+		Fix eatery logic error (1 downvote still 100% upvote)
 		GPS coordinates to search restaurants
 		Check if user has reviewed
 		'I find this review useful'
