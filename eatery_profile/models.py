@@ -27,7 +27,14 @@ def get_eatery_upvotes(_eatery):
     # Don't wanna divide by zero
     _eatery_upvotes = _eatery_upvotes if _eatery_upvotes > 0 else 1    
     
-    _eatery_votes_percentage = (_eatery_upvotes*100)/(_eatery_total_votes if _eatery_total_votes > 0 else 1)        
+    _eatery_votes_percentage = (_eatery_upvotes*100)/(_eatery_total_votes if _eatery_total_votes > 0 else 1) 
+
+    # Some exceptions
+    if _eatery.user_votes_set.all().filter(is_upvoted=True).count() == 0 and _eatery_total_votes > 0:
+        _eatery_votes_percentage = '0'
+        
+    if _eatery_total_votes == 0:
+        _eatery_votes_percentage = '--'
     
     _eatery_votes_all = []
     _eatery_votes_all.append((_eatery_votes_percentage, _eatery_total_votes))       
