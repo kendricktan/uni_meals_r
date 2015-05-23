@@ -87,14 +87,14 @@ def eatery_view(request, eatery_id):
     _food_return = []
     
     for _food in _food_list:   
-        print food        
+        #print food        
         _food_return.append((_food, _food.food_hearts.all().filter(user_profile=_u)))
 
     # Check if user upvoted/downvoted eatery
     _eatery_voted = _eatery.user_votes_set.all().filter(user_profile=_u)
     
     # Upvoted % 
-    _eatery_votes_all = get_eatery_upvotes(_eatery)
+    _eatery_votes_all = get_eatery_upvotes(_eatery)       
         
     # Our variable list
     variables = {
@@ -111,6 +111,15 @@ def eatery_view(request, eatery_id):
         if opening_hours.is_opened_now:
             variables['OPEN_NOW'] = opening_hours                
             break   
+            
+    # Check if user has reviewed    
+    if request.user.is_authenticated():
+        try:
+            variables['EATERY_REVIEWED'] = _eatery.reviews_set.all().filter(user_profile=_u).count()
+            #print variables['EATERY_REVIEWED']
+            
+        except Exception as e:
+            pass
     
     # Add review
     if request.method == 'POST':

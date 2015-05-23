@@ -22,8 +22,7 @@ To improve:
 To fix:
 
 To do:		
-	High Priority:		
-		Fix eatery logic error (1 downvote still 100% upvote)
+	High Priority:				
 		GPS coordinates to search restaurants
 		Check if user has reviewed
 		'I find this review useful'
@@ -31,7 +30,7 @@ To do:
 	
 	Medium Priority:
 		Create browse app, search app, inbox + message app
-		User delete image function
+		User delete image function		
 		Merge heart/unheart js
 		
 	Low Priority:
@@ -39,6 +38,7 @@ To do:
 		Resize user image/crop to suit layout needs
 
 Done:
+	Fix eatery logic error (1 downvote still 100% upvote)
 	Custom user model
 	Error labels when logging in
 	Username doesn't log in when entered email

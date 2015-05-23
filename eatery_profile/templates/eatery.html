@@ -120,7 +120,7 @@
                         </div>  
                         <div style="margin-top: 25px; font-size: 2.0em" class="col-sm-2 pull-right">
                             {% if not liked %}<a id="heart_food_{{food.id}}" onclick="return user_heart(this);" href="/profile/heart/food/{{food.id}}/" rel="tooltip" title="Heart/Unheart this"><i class="empty heart icon"></i></a>
-                            {% else %}<a id="unheart_food_{{food.id}}" onclick="return user_unheart(this);" href="/profile/unheart/food/{{food.id}}/" rel="tooltip" title="Heart/Unheart this" ><i class="heart icon"></i></a>
+                            {% else %}<a id="unheart_food_{{food.id}}" onclick="return user_unheart(this);" href="/profile/unheart/food/{{food.id}}/" rel="tooltip" title="Heart/Unheart this" ><i class="heart icon"></i></a>                            
                             {% endif %}
                         </div>
                     </div>
@@ -133,8 +133,12 @@
             <!-- EATERY REVIEW TAB -->
             <div class="tab-pane" id="reviews-tab">                
                 <form id="eatery-review-form" method="POST" action="">
+                    {% if not EATERY_REVIEWED %}
                     <textarea style="font-size: 15px; width:100%" rows="2" name="id_review_text" id="id_review_text" required></textarea>{% csrf_token %}
                     <div style="text-align: right"><button class="btn btn-info">Write a review!</button></div>
+                    {% else %}
+                    <a style="margin: auto" href="">Clear review</a>
+                    {% endif %}
                 </form>                
                 <hr style="width: 100%" noshade>
                 {% for review in EATERY.reviews_set.all %}

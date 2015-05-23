@@ -258,7 +258,7 @@ class reviews(models.Model):
     eatery_profile = models.ForeignKey(eatery_profile)
     
     def __unicode__(self):
-        return unicode(self.eatery_profile.name + '\'s reviews')        
+        return unicode(self.user_profile.get_username() + '\'s reviews')        
         
     def user_picture_location(self):
         if self.user_profile.picture:
