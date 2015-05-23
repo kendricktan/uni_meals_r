@@ -12,5 +12,7 @@ urlpatterns = [
     url(r'^search/$', views.search_view, name='search_view'),
     
     # Eatery Profile
-    url(r'^eatery/(?P<eatery_id>[0-9]+)/$', views.eatery_view, name='eatery_view'),      
+    url(r'^eatery/(?P<eatery_id>[0-9]+)/$', views.eatery_view, name='eatery_view'),    
+    url(r'^eatery/(?P<eatery_id>[0-9]+)/clear_review/$', views.eatery_clear_review, name='eatery_clear_review'),
+    url(r'^eatery/(?P<eatery_id>[0-9]+)/add_review/$', views.eatery_add_review, name='eatery_add_review'),
 ]

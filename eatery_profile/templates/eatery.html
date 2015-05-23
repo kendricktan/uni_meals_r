@@ -132,12 +132,12 @@
 
             <!-- EATERY REVIEW TAB -->
             <div class="tab-pane" id="reviews-tab">                
-                <form id="eatery-review-form" method="POST" action="">
+                <form id="eatery-review-form" method="POST" action="{{request.get_full_path}}add_review/">
                     {% if not EATERY_REVIEWED %}
                     <textarea style="font-size: 15px; width:100%" rows="2" name="id_review_text" id="id_review_text" required></textarea>{% csrf_token %}
                     <div style="text-align: right"><button class="btn btn-info">Write a review!</button></div>
                     {% else %}
-                    <a style="margin: auto" href="">Clear review</a>
+                    <a href="{{request.get_full_path}}clear_review/">Clear review</a>
                     {% endif %}
                 </form>                
                 <hr style="width: 100%" noshade>

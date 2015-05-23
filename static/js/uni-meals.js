@@ -364,26 +364,30 @@ function eatery_clear_vote(a_div){
         },
         
         success: function(json){ 
-            console.log(json);
+            //console.log(json);
             
             // Change innerHTML back to Upvote/Downbote button
             var eatery_id = json['eatery_id'];  
             document.getElementById('div-vote-wrapper').innerHTML= '<a onclick="return eatery_vote(this);" href="/profile/upvote/eatery/'+eatery_id+'/"><button id="eatery-'+eatery_id+'-upvote" class="btn btn-success"><i class="glyphicon fui-triangle-up"></i></button></a><a onclick="return eatery_vote(this);" href="/profile/downvote/eatery/'+eatery_id+'/"><button id="eatery-'+eatery_id+'-downvote"class="btn btn-danger"><i class="glyphicon fui-triangle-down"></i></button></a>';
             
             // Update vote %
-            var eatery_upvote_percentage = json['eatery_upvote_all'][0][0];
-            var eatery_vote_total = json['eatery_upvote_all'][0][1];
-            
-            if (eatery_upvote_percentage == null && eatery_vote_total == 0){
-                eatery_upvote_percentage = "--";
+            try{
+                var eatery_upvote_percentage = json['eatery_upvote_all'][0][0];
+                var eatery_vote_total = json['eatery_upvote_all'][0][1];
+
+                if (eatery_upvote_percentage == null && eatery_vote_total == 0){
+                    eatery_upvote_percentage = "--";
+                }
+
+                else if (eatery_upvote_percentage == null){
+                    eatery_upvote_percentage = "0";
+                }
+
+                document.getElementById('eatery-upvotes-percentage-wrapper').innerHTML = '<strong>'+eatery_upvote_percentage+'%</strong>';
+                document.getElementById('eatery-votes-total-wrapper').innerHTML = eatery_vote_total + ' votes';
+            } catch(err){
+                console.log(err);
             }
-            
-            else if (eatery_upvote_percentage == null){
-                eatery_upvote_percentage = "0";
-            }
-            
-            document.getElementById('eatery-upvotes-percentage-wrapper').innerHTML = '<strong>'+eatery_upvote_percentage+'%</strong>';
-            document.getElementById('eatery-votes-total-wrapper').innerHTML = eatery_vote_total + ' votes';
         },
         
         error: function(xhr, errmsg, err){
@@ -393,5 +397,4 @@ function eatery_clear_vote(a_div){
     
     return false;
 }
-
 /* End Eatery */

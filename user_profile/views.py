@@ -380,8 +380,8 @@ def profile_eatery_downvote(request, eatery_id):
                 # Upvoted % 
                 response_data['eatery_upvote_all'] = get_eatery_upvotes(_eatery)
                 
-            except Exception:
-                pass
+            except Exception as e:
+                print e
                 
     return HttpResponse(
         json.dumps(response_data),
@@ -397,12 +397,12 @@ def profile_eatery_clearvote(request, eatery_id):
         
         if request.method == 'POST':
             try:
-                _eatery = eatery_profile.objects.get(id=int(eatery_id))                
-                _eatery.user_votes_set.get(user_profile=_u).delete()
-                
                 # Returns back eatery_id to JS so it enables the JS to 
                 # recreate buttons that corresponds to the eatery_id
-                response_data['eatery_id'] = int(eatery_id)
+                response_data['eatery_id'] = int(eatery_id)                               
+                
+                _eatery = eatery_profile.objects.get(id=int(eatery_id))                
+                _eatery.user_votes_set.get(user_profile=_u).delete()                               
                 
                 # Upvoted % 
                 response_data['eatery_upvote_all'] = get_eatery_upvotes(_eatery)
@@ -413,7 +413,7 @@ def profile_eatery_clearvote(request, eatery_id):
     return HttpResponse(
         json.dumps(response_data),
         content_type='application/json'
-    )        
+    )    
     
 '''
     # End Profile

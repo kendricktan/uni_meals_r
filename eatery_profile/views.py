@@ -119,21 +119,47 @@ def eatery_view(request, eatery_id):
             #print variables['EATERY_REVIEWED']
             
         except Exception as e:
-            pass
-    
-    # Add review
-    if request.method == 'POST':
-        try:
-            # add review to eatery
-            review_text = request.POST['id_review_text']
-            _user_review = reviews(user_profile=_u, review_text=review_text, eatery_profile=_eatery)
-            _user_review.save()
-            
-        except Exception as e:
-            pass
-        
-        # Refreshes page so won't POST again
-        return HttpResponseRedirect(request.get_full_path())
+            pass    
         
     # Returns response
     return render(request, 'eatery.html', variables)
+  
+# Add user eatery review
+def eatery_add_review(request, eatery_id):
+    _u = None
+    response_data = {}
+    if request.user.is_authenticated():
+        _u = request.user
+        
+        if request.method == 'POST':
+            try:                
+                review_text = request.POST['id_review_text']
+                
+                _eatery = eatery_profile.objects.get(id=int(eatery_id))
+                
+                if _eatery.reviews_set.all().filter(user_profile=_u).count() == 0:            
+                    _user_review = reviews(user_profile=_u, review_text=review_text, eatery_profile=_eatery)
+                    _user_review.save()
+                
+            except Exception as e:
+                pass
+                
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+  
+# Removes user eatery review
+def eatery_clear_review(request, eatery_id):
+    _u = None
+    response_data = {}
+    if request.user.is_authenticated():
+        _u = request.user      
+        
+        try:
+            _eatery = eatery_profile.objects.get(id=int(eatery_id))
+            _user_reviews = _eatery.reviews_set.all().filter(user_profile=_u)
+            for _user_review in _user_reviews:
+                _user_review.delete()
+                
+        except Exception as e:
+            pass
+            
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
