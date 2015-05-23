@@ -23,8 +23,7 @@ To fix:
 
 To do:		
 	High Priority:				
-		GPS coordinates to search restaurants
-		Check if user has reviewed
+		GPS coordinates to search restaurants		
 		'I find this review useful'
 		If user is not logged in and tries to do stuff that requires them to log in (e.g. heart food), sign them up
 	
@@ -56,3 +55,4 @@ Done:
 	User enable to heart food
 	Heart will heart/empty heart based on users specials set hearts
 	Do food for what you did for specials hearts
+	Check if user has reviewed
