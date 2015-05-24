@@ -58,6 +58,7 @@ class eatery_profile(models.Model):
     phone = models.CharField(max_length=15)
     description = models.CharField(max_length=500)
     pricing = models.IntegerField(choices=PRICING_ENUM)
+    datetime_added = models.DateTimeField(auto_now_add=True)
     
     def __unicode__(self):
         return unicode(self.name);

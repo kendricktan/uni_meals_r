@@ -7,14 +7,15 @@
       <x>455</x>
       <y>392</y>
       <w>112</w>
-      <h>70</h>
+      <h>84</h>
     </coordinates>
     <panel_attributes>eatery_profile
 --
 - name
 - phone
 - description
-- pricing</panel_attributes>
+- pricing
+- datetime_added</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -320,13 +321,13 @@
     <id>Relation</id>
     <coordinates>
       <x>490</x>
-      <y>455</y>
+      <y>469</y>
       <w>77</w>
-      <h>91</h>
+      <h>77</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;foreign key&gt;&gt;</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
