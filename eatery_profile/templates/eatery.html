@@ -141,7 +141,7 @@
                     {% endif %}
                 </form>                
                 <hr style="width: 100%" noshade>
-                {% for review in EATERY.reviews_set.all %}
+                {% for review, user_reviewed_review in REVIEW_LIST %}
                 <div class="row wall-post-wrapper">                    
                     <!-- REVIEW POST -->
                     <div class="container">
@@ -152,9 +152,13 @@
                             <a href="#">{{review.user_username}}</a><br/>
                             {{review.review_text}}
                         </div>
-                        <div class="col-sm-2 pull-right">
-                            <a style="font-size: 1.5em;" href="#" rel="tooltip" title="I find this useful"><i class="glyphicon fui-check"></i></a>
-                            <a style="font-size: 1.5em; color: #C0392B" href="#" rel="tooltip" title="I don't find this useful"><i class="glyphicon fui-cross"></i></a>
+                        <div id="div-review-opinion-{{review.id}}" class="col-sm-2 pull-right">
+                            {% if not user_reviewed_review %}
+                            <a data-url-path="{{request.get_full_path}}" data-div-wrapper="div-review-opinion-{{review.id}}" onclick="return review_reviews_usefullness(this, true);" style="font-size: 1.5em;" href="{{request.get_full_path}}review/{{review.id}}/" rel="tooltip" title="I find this useful"><i class="glyphicon fui-check"></i></a>
+                            <a data-url-path="{{request.get_full_path}}" data-div-wrapper="div-review-opinion-{{review.id}}" onclick="return review_reviews_usefullness(this, false);" style="font-size: 1.5em; color: #C0392B" href="{{request.get_full_path}}review/{{review.id}}/" rel="tooltip" title="I don't find this useful"><i class="glyphicon fui-cross"></i></a>
+                            {% else %}
+                            <a data-url-path="{{request.get_full_path}}" data-div-wrapper="div-review-opinion-{{review.id}}" onclick="return review_clear_usefullness(this)" href="{{request.get_full_path}}review/{{review.id}}/clear/">Clear opinion</a>
+                            {% endif %}
                         </div>
                     </div>
                     <!-- END POST -->

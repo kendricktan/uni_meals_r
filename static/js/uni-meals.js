@@ -397,4 +397,59 @@ function eatery_clear_vote(a_div){
     
     return false;
 }
+
+
+// Review review's usefulness
+function review_reviews_usefullness(a_div, is_useful){
+    var div_id = $(a_div).attr('data-div-wrapper');
+    var url_full_path = $(a_div).attr('data-url-path');
+    
+    $.ajax({
+        url: $(a_div).attr('href'),
+        type: 'POST',
+        data:{
+            is_useful: is_useful,
+            csrfmiddlewaretoken: getCookie('csrftoken'),
+        },
+        
+        success: function(json){
+            var eatery_id = json['eatery_id'];
+            var review_id = json['review_id'];
+            
+            document.getElementById(div_id).innerHTML = '<a data-url-path="'+url_full_path+'" data-div-wrapper="div-review-opinion-'+review_id+'" onclick="return review_clear_usefullness(this)" href="'+url_full_path+'review/'+review_id+'/clear/">Clear opinion</a>';
+        },
+        
+        error: function(xhr, errmsg, err){
+            console.log(xhr);
+        }
+    });
+    
+    return false;
+}
+
+// Clear review's usefulness
+function review_clear_usefullness(a_div){
+    var div_id = $(a_div).attr('data-div-wrapper');
+    var url_full_path = $(a_div).attr('data-url-path');
+    
+    $.ajax({
+        url: $(a_div).attr('href'),
+        type: 'POST',
+        data:{
+            csrfmiddlewaretoken: getCookie('csrftoken'),            
+        },
+        
+        success: function(json){
+            var eatery_id = json['eatery_id'];
+            var review_id = json['review_id'];
+            
+            document.getElementById(div_id).innerHTML = '<a data-url-path="'+url_full_path+'" data-div-wrapper="div-review-opinion-'+review_id+'" onclick="return review_reviews_usefullness(this, true);" style="font-size: 1.5em;" href="'+url_full_path+'review/'+review_id+'/" rel="tooltip" title="I find this useful"><i class="glyphicon fui-check"></i></a><a data-url-path="'+url_full_path+'" data-div-wrapper="div-review-opinion-'+review_id+'" onclick="return review_reviews_usefullness(this, false);" style="font-size: 1.5em; color: #C0392B" href="'+url_full_path+'review/'+review_id+'/" rel="tooltip" title="I don\'t find this useful"><i class="glyphicon fui-cross"></i></a>';
+        },
+        
+        error: function(xhr, errmsg, err){
+            console.log(xhr);
+        }
+    });
+    return false;
+}
 /* End Eatery */

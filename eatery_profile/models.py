@@ -267,6 +267,14 @@ class reviews(models.Model):
         
     def user_username(self):
         return self.user_profile.get_username()
+        
+class reviews_usefulness(models.Model):
+    user_profile = models.ForeignKey(user_profile)
+    is_useful = models.BooleanField()
+    reviews = models.ForeignKey(reviews)
+    
+    def __unicode__(self):
+        return unicode(self.user_profile.get_username() + ' reviewed review: ' + str(self.reviews.id))
     
 '''
     # VOTES 

@@ -94,7 +94,14 @@ def eatery_view(request, eatery_id):
     _eatery_voted = _eatery.user_votes_set.all().filter(user_profile=_u)
     
     # Upvoted % 
-    _eatery_votes_all = get_eatery_upvotes(_eatery)       
+    _eatery_votes_all = get_eatery_upvotes(_eatery) 
+
+    # Check is user has reviewed xx or yy's review
+    _reviews_list = _eatery.reviews_set.all()
+    _reviews_return = []
+    
+    for _review in _reviews_list:
+        _reviews_return.append((_review, _review.reviews_usefulness_set.all().filter(user_profile=_u)))
         
     # Our variable list
     variables = {
@@ -103,7 +110,8 @@ def eatery_view(request, eatery_id):
         'EATERY_VOTED': _eatery_voted,
         'EATERY_UPVOTE_ALL': _eatery_votes_all,
         'SPECIALS_LIST': _specials_return,
-        'FOOD_LIST': _food_return,        
+        'FOOD_LIST': _food_return,   
+        'REVIEW_LIST': _reviews_return,
     }
     
     # Check if eatery is opened now
@@ -163,3 +171,69 @@ def eatery_clear_review(request, eatery_id):
             pass
             
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    
+# Reviews usefulness of review
+def eatery_review_usefulness(request, eatery_id, review_id):
+    _u = None
+    response_data = {}
+    if request.user.is_authenticated():
+        _u = request.user
+        
+        if request.method == 'POST':
+            try:
+                # Gets eatery
+                _eatery = eatery_profile.objects.get(id=int(eatery_id))
+                
+                # Gets POST data about usefulness
+                is_useful = request.POST['is_useful'] 
+
+                # Gets current review
+                _reviews = _eatery.reviews_set.get(id=int(review_id))
+                    
+                # Checks if use already has made a review for this review
+                # If doesn't then adds his/her opinion into it
+                if _reviews.reviews_usefulness_set.all().filter(user_profile=_u).count() == 0:
+                    _reviews_usefullness = reviews_usefulness(user_profile=_u, is_useful=is_useful, reviews=_reviews)
+                    _reviews_usefullness.save()                
+                
+            except Exception as e:
+                pass
+                
+            response_data['eatery_id'] = int(eatery_id)
+            response_data['review_id'] = int(review_id)
+                
+    return HttpResponse(
+        json.dumps(response_data),
+        content_type='application/json'
+    )
+
+# Reviews use opinion on review usefulness
+def eatery_review_usefulness_clear(request, eatery_id, review_id):
+    _u = None
+    response_data = {}
+    if request.user.is_authenticated():
+        _u = request.user
+        
+        if request.method == 'POST':
+            try:
+                # Gets eatery
+                _eatery = eatery_profile.objects.get(id=int(eatery_id))
+
+                # Gets current review
+                _reviews = _eatery.reviews_set.get(id=int(review_id))
+                    
+                # Removes usereview
+                for _user_review_usefullness in _reviews.reviews_usefulness_set.all().filter(user_profile=_u):
+                    _user_review_usefullness.delete()
+                
+            except Exception as e:
+                pass
+                
+            response_data['eatery_id'] = int(eatery_id)
+            response_data['review_id'] = int(review_id)
+                
+    return HttpResponse(
+        json.dumps(response_data),
+        content_type='application/json'
+    )
+    
