@@ -23,21 +23,23 @@ To fix:
 
 To do:		
 	High Priority:				
-		GPS coordinates to search restaurants		
-		'I find this review useful'
-		If user is not logged in and tries to do stuff that requires them to log in (e.g. heart food), sign them up
+		GPS coordinates to search restaurants	
+		Tags for restaurant, serach related restaurant...
 	
 	Medium Priority:
+		If user is not logged in and tries to do stuff that requires them to log in (e.g. heart food), sign them up		
 		Create browse app, search app, inbox + message app
-		User delete image function		
-		Merge heart/unheart js
+		User delete image function				
 		
 	Low Priority:
 		Ajax auto update when scroll for search, browse, reviews + timeline
 		Resize user image/crop to suit layout needs
+		
+	Etc:
+		Clean up javascript code + views.py code 
+			- (e.g. merge heart/unheart into ONE function, not multiple ones)
 
 Done:
-	Fix eatery logic error (1 downvote still 100% upvote)
 	Custom user model
 	Error labels when logging in
 	Username doesn't log in when entered email
@@ -56,3 +58,5 @@ Done:
 	Heart will heart/empty heart based on users specials set hearts
 	Do food for what you did for specials hearts
 	Check if user has reviewed
+	'I find this review useful'
+	Fix eatery logic error (1 downvote still 100% upvote)
