@@ -24,7 +24,9 @@ To fix:
 To do:		
 	High Priority:				
 		GPS coordinates to search restaurants	
-		Tags for restaurant, serach related restaurant...
+		Tags for restaurant, search related restaurant...
+		Create browse page
+		Create search page
 	
 	Medium Priority:
 		If user is not logged in and tries to do stuff that requires them to log in (e.g. heart food), sign them up		

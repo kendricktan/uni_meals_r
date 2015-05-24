@@ -2,45 +2,89 @@ from django.contrib.auth import authenticate, logout as auth_logout, login as au
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template.context_processors import csrf
-from datetime import datetime
+from datetime import datetime, timedelta
+from math import log, sqrt
 from user_profile.models import *
 from .models import *
 from .forms import *
 import json
 
+'''
+    # Ranking Algorithm
+'''
+
+#### Sort by: Best
+def _confidence_best(ups, downs):
+    n = ups + downs
+    
+    if n == 0:
+        return 0
+        
+    z = 1.0 #1.0 = 85%, 1.6 = 95%
+    phat = float(ups)/n
+    
+    return sqrt(phat+z*z/(2*n)-z*((phat*(1-phat)+z*z/(4*n))/n))/(1+z*z/n)
+    
+'''
+    # HttpResponse
+'''
+
 def index_view(request):
     _u = None
+    variables = {}
     if request.user.is_authenticated():
         _u = request.user
         
     if request.method == 'GET':
-        form = search_form()
-        variables = {
-            'USER': _u,
-            'form': form,
-        }
+        _form = search_form()
+        
+        variables['USER'] = _u
+        variables['FORM'] = _form
+
         return render(request, 'index.html', variables)           
     
 def browse_view(request):
     _u = None
+    variables = {}
     if request.user.is_authenticated():
         _u = request.user
+        variables['USER'] = _u
         
-    if request.method == 'GET':        
-        variables = {
-            'USER': _u,           
-        }
-        return render(request, 'browse.html', variables)
+    if request.method == 'GET':                          
+        # Best ranking algorithm
+        _eatery_list = eatery_profile.objects.all()
+        _eatery_return = []
+        
+        for eatery in _eatery_list:
+            _eatery_upvotes = eatery.user_votes_set.all().filter(is_upvoted=True).count()
+            _eatery_downvotes = eatery.user_votes_set.all().filter(is_upvoted=False).count()
+            _eatery_total_votes = eatery.user_votes_set.all().count()
+            
+            _eatery_return.append((eatery, _confidence_best(_eatery_upvotes, _eatery_downvotes), _eatery_upvotes, _eatery_total_votes))
+            
+        # Sort from descending points (most popular -> not popular)
+        _eatery_return = sorted(_eatery_return, key=lambda _eatery_return_lambda: _eatery_return_lambda[1], reverse=True)
+        
+        variables['EATERIES'] = _eatery_return
+        
+        # Prints 1st item
+        #print _eatery_return[0:1]
+        
+    if request.method == 'POST':
+        _eatery_return = []
+        
+    return render(request, 'browse.html', variables)
     
 def search_view(request):
     _u = None
+    variables = {}
     if request.user.is_authenticated():
         _u = request.user
         
     if request.method == 'GET':        
-        variables = {
-            'USER': _u,           
-        }
+    
+        variables['USER'] = _u
+        
         return render(request, 'search.html', variables)
         
     if request.method == 'POST':
@@ -48,9 +92,7 @@ def search_view(request):
         query = request.POST['query']
         nearby = request.POST['nearby']
         
-        variables = {
-            'USER': _u,           
-        }       
+        variables['USER'] = _u     
         
         # Algorithm to find eatery, chuck here
             

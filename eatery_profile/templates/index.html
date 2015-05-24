@@ -59,8 +59,8 @@ Uni Meals - Home
     <div class="container col-sm-10 col-sm-offset-1">
         <div class="form-group">
             <form id="form-search" method="POST" action="/search/">{% csrf_token %}
-                <div class="col-sm-6">{{form.query}}</div>
-                <div class="col-sm-6">{{form.nearby}}</div>
+                <div class="col-sm-6">{{FORM.query}}</div>
+                <div class="col-sm-6">{{FORM.nearby}}</div>
                 <div class="row" style="margin-bottom: 15px;"></div>
                 <div class="col-xs-6">
                     <div class="btn-right">

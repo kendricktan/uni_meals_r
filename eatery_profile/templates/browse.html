@@ -7,6 +7,44 @@ Uni Meals - Browse
 {% endblock title %}
 
 {% block content %}
+<!-- DISCOVER UNI MEALS-->
+<div class="container">
+    <h3>Hello</h3>
+    <h6>Discover great deals from Uni Meals today!</h6>
+
+    
+    <div class="col-sm-3 pull-right">
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                Sort by: <strong>Magic</strong><span class="caret"></span>
+            </button>                
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Magic</a></li>
+                <li><a href="#">Whats Hot</a></li>
+                <li><a href="#">Whats New</a></li>
+            </ul>
+        </div>  
+    </div>                                   
+</div>
+
+<div class="container">
+    {% for eatery, score, upvotes, total_votes in EATERIES %}
+    <hr noshade>
+    <div class="search-results">
+        <a href="/eatery/{{eatery.id}}/"><strong>{{eatery.name}}</strong></a> @ {{eatery.location.suburb}}<br/>
+        <div class="result-div">                    
+            {% for tags in eatery.tags_set.all %}
+            <a href="">{{tags}}</a>; 
+            {% endfor %}
+        </div>                
+        <div class="addition-info-results">
+            {{upvotes}} out of {{total_votes}} people recommends this
+        </div>
+    </div>    
+    {% endfor %}    
+    <hr noshade>
+</div>
+<!-- END DISCOVER UNI MEALS-->
 {% endblock content %}
 
 {% block additional_scripts %}
