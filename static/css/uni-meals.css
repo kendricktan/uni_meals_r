@@ -403,3 +403,7 @@
     color: #E74C3C;     
     font-size: 13px;
 }
+
+.search-results {
+    line-height: 0.5em;
+}

@@ -24,11 +24,11 @@ To fix:
 To do:		
 	High Priority:				
 		GPS coordinates to search restaurants	
-		Tags for restaurant, search related restaurant...
-		Create browse page
+		Tags for restaurant, search related restaurant...		
 		Create search page
 	
 	Medium Priority:
+		Browse page slicing results to 20 results until it auto updates
 		If user is not logged in and tries to do stuff that requires them to log in (e.g. heart food), sign them up		
 		Create browse app, search app, inbox + message app
 		User delete image function				
@@ -62,3 +62,4 @@ Done:
 	Check if user has reviewed
 	'I find this review useful'
 	Fix eatery logic error (1 downvote still 100% upvote)
+	Create browse page

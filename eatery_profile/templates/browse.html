@@ -13,25 +13,28 @@ Uni Meals - Browse
     <h6>Discover great deals from Uni Meals today!</h6>
 
     
-    <div class="col-sm-3 pull-right">
+    <div class="col-sm-2 pull-right">
         <div class="btn-group">
             <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
                 Sort by: <strong>Magic</strong><span class="caret"></span>
             </button>                
             <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Best</a></li>
+                <li><a href="#">Popular</a></li>
+                <li><a href="#">New</a></li>
                 <li><a href="#">Magic</a></li>
-                <li><a href="#">Whats Hot</a></li>
-                <li><a href="#">Whats New</a></li>
             </ul>
         </div>  
     </div>                                   
 </div>
 
 <div class="container">
-    {% for eatery, score, upvotes, total_votes in EATERIES %}
+    {% for eatery, score, upvotes, total_votes, pricing_bold, pricing_rest in EATERIES %}
     <hr noshade>
     <div class="search-results">
-        <a href="/eatery/{{eatery.id}}/"><strong>{{eatery.name}}</strong></a> @ {{eatery.location.suburb}}<br/>
+        <a href="/eatery/{{eatery.id}}/"><strong>{{eatery.name}}</strong></a>&nbsp;@&nbsp;{{eatery.location.suburb}}&nbsp;        
+        <span style="font-size: 14px">{% for i in pricing_bold %}${% endfor %}<span style="color: #BDC3C7">{% for i in pricing_rest %}${% endfor %}</span>&nbsp;</span>
+        <br/>
         <div class="result-div">                    
             {% for tags in eatery.tags_set.all %}
             <a href="">{{tags}}</a>; 

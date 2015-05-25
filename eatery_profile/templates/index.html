@@ -93,14 +93,9 @@ Uni Meals - Home
     })
     
     // Wait till page fully loades
-    $(window).bind("load", function() {
-        // Wait 3 seconds after page is loaded to get location (usually done in 1.5 seconds)
-        //setTimeout(function(){
-        //    document.getElementById('id_nearby').value = getSuburb() + ", " + getPostal_code();
-        //},3000)    
+    $(window).bind("load", function() {   
         document.getElementById('id_nearby').value = "Current location";
     });
-
 </script>
                                
 {% endblock additional_scripts %}

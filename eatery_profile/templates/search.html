@@ -7,4 +7,138 @@ Uni Meals - Search
 {% endblock title %}
 
 {% block content %}
+<!-- SEARCH-->
+<div class="row">
+    <div class="container col-sm-10 col-sm-offset-1">
+        <div class="form-group">
+            <form id="form-search" method="POST" action="/search/">{% csrf_token %}
+                <div class="col-sm-6">{{FORM.query}}</div>
+                <div class="col-sm-6">{{FORM.nearby}}</div>
+                <div class="row" style="margin-bottom: 15px;"></div>
+                <div class="col-xs-6">
+                    <div class="btn-right">
+                        <button class="btn btn-success btn-wide" type="submit">Search</button>
+                    </div>           
+                </div>                                    
+            </form>
+            <div class="col-xs-6">
+                <div class="btn-left">
+                    <button class="btn btn-success btn-wide" type="submit">Random</button>
+                </div>           
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END SEARCH -->
+
+<hr noshade>
+
+<!-- FILTER RESULTS -->
+<div style="margin-top: 25px" class="container">
+    <h4>42 results for 'query'</h4>
+    <div><span style="color: #E74C3C; font-size: 18px"><strong>Filter results:</strong></span></div>
+    <!-- DROPDOWN BOXES -->
+    <div class="col-xs-12">
+
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+            Max pricing: Moderate<span class="caret"></span>
+        </button>                
+        <ul class="dropdown-menu" role="menu">
+            <li><a data-value="Max pricing: " href="#">Cheap</a></li>
+            <li><a data-value="Max pricing: " href="#">Affordable</a></li>
+            <li><a data-value="Max pricing: " href="#">Moderate</a></li>
+            <li><a data-value="Max pricing: " href="#">Expensive</a></li>
+            <li><a data-value="Max pricing: " href="#">Very Expensive</a></li>
+        </ul>
+    </div> 
+
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+            Location: Nearby<span class="caret"></span>
+        </button>                
+        <ul class="dropdown-menu" role="menu">
+            <li><a data-value="Location: " href="#">Nearby</a></li>            
+            <li><a data-value="Location: " href="#">Same Suburb</a></li>
+            <li><a data-value="Location: " href="#">Same City</a></li>
+            <li><a data-value="Location: " href="#">Same State</a></li>
+            <li><a data-value="Location: " href="#">Don't care</a></li>
+        </ul>
+    </div>          
+    <div class="btn-group">
+        <button data-value="Sorted by: " type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+            Sort by: Best<span class="caret"></span>
+        </button>                
+        <ul class="dropdown-menu" role="menu">
+            <li><a data-value="Sort by: " href="#">Best</a></li>
+            <li><a data-value="Sort by: " href="#">Popularity</a></li>
+            <li><a data-value="Sort by: " href="#">Newest</a></li>
+            <li><a data-value="Sort by: " href="#">Magic</a></li>
+        </ul>
+    </div>  
+    </div>
+    <!-- END DROPDOWN BOXES -->
+</div>
+<!-- END FILTER RESULTS -->
+
+<!-- FEATURED EATERIES -->
+<hr noshade>
+<div class="container">
+    <h5>Featured Eateries</h5><br/>
+    <div class="search-results">
+        <span style="color: #2980B9"><strong>Restaurant name</strong></span>, UQ Saint Lucia<br/>
+        <div class="result-div">                    
+            Insert short description here<br/>                    
+        </div>                
+        <div class="addition-info-results">
+            42 people recommends this
+        </div>
+    </div>
+</div>
+<hr noshade>
+<!-- END FEATURED EATERIES -->
+
+<!-- REGULAR EATERIES -->        
+<div class="container">    
+    {% for eatery, score, upvotes, total_votes, pricing_bold, pricing_rest in EATERIES %}
+    <div class="search-results">        
+        <a href="/eatery/{{eatery.id}}/"><strong>{{eatery.name}}</strong></a></span>&nbsp;@&nbsp;{{eatery.location.suburb}}
+        <span style="font-size: 14px">{% for i in pricing_bold %}${% endfor %}<span style="color: #BDC3C7">{% for i in pricing_rest %}${% endfor %}</span>&nbsp;</span>
+        <br/>
+        <div class="result-div">                    
+            {% for tags in eatery.tags_set.all %}
+            <a href="">{{tags}}</a>; 
+            {% endfor %}
+        </div>                
+        <div class="addition-info-results">
+            {{upvotes}} out of {{total_votes}} people recommends this
+        </div>
+    </div>
+    <hr noshade>
+    {% endfor %}    
+</div>
+<!-- EMD REGULAR EATERIES -->
 {% endblock content %}
+
+{% block additional_scripts %}
+<!-- Google Map API -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"> </script>
+<script src="{% static "js/geolocation.js" %}"></script>
+<script>
+    // Wait till page fully loades
+    $(window).bind("load", function() {   
+        document.getElementById('id_nearby').value = "Current location";
+    });
+    
+    function retrieve_results(){
+        //console.log('Retrieving results');
+    }
+
+    $(".dropdown-menu li a").click(function(){
+        event.preventDefault();
+        var selText = $(this).text();
+        $(this).parents('.btn-group').find('.dropdown-toggle').html($(this).attr('data-value') + selText+' <span class="caret"></span>');
+        retrieve_results();
+    });
+</script>
+{% endblock additional_scripts %}

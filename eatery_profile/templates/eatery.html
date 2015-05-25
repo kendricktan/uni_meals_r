@@ -149,7 +149,7 @@
                             <img class="wall-post-op-dp" src="{{MEDIA_URL}}{{review.user_picture_location}}"/>
                         </div>      
                         <div class="col-sm-9 wall-post-text">
-                            <a href="#">{{review.user_username}}</a><br/>
+                            <a href="/profile/{{review.user_profile.id}}/">{{review.user_username}}</a><br/>
                             {{review.review_text}}
                         </div>
                         <div id="div-review-opinion-{{review.id}}" class="col-sm-2 pull-right">

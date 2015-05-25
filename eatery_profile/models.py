@@ -63,10 +63,11 @@ class eatery_profile(models.Model):
     def __unicode__(self):
         return unicode(self.name);
    
-    # Pricing for template style $$$/$$
+    # Pricing for template style ($$$)/$$
     def pricing_bold(self):
         return [i+1 for i in range(self.pricing)]
         
+    # Pricing for template style $$$/($$)
     def pricing_rest(self):
         return [i+1 for i in range(self.pricing, 5)]
 
