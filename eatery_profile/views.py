@@ -149,6 +149,7 @@ def search_view(request):
                     if _special_tag_list.filter(keyword__contains=query).count() != 0:
                         contains_query = True                                     
                 
+                # If eatery contains any instance of the query then it'll be added to the list, with the default sorting algorithm applied to it
                 if contains_query is True:
                     _eatery_upvotes = eatery.user_votes_set.all().filter(is_upvoted=True).count()
                     _eatery_downvotes = eatery.user_votes_set.all().filter(is_upvoted=False).count()
