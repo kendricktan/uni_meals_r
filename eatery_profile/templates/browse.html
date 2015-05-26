@@ -7,6 +7,7 @@ Uni Meals - Browse
 {% endblock title %}
 
 {% block content %}
+{% csrf_token %}
 <!-- DISCOVER UNI MEALS-->
 <div class="container">
     <h3>Hello</h3>
@@ -15,24 +16,24 @@ Uni Meals - Browse
     
     <div class="col-sm-2 pull-right">
         <div class="btn-group">
-            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
-                Sort by: <strong>Magic</strong><span class="caret"></span>
+            <button type="button" id="id_btn_sort_by" value="Best" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                Sort by: <strong>Best</strong><span class="caret"></span>
             </button>                
             <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Best</a></li>
-                <li><a href="#">Popular</a></li>
-                <li><a href="#">New</a></li>
-                <li><a href="#">Magic</a></li>
+                <li><a data-value="Sort by: " href="#">Best</a></li>
+                <li><a data-value="Sort by: " href="#">Popularity</a></li>
+                <li><a data-value="Sort by: " href="#">Newest</a></li>
+                <li><a data-value="Sort by: " href="#">Magic</a></li>
             </ul>
         </div>  
     </div>                                   
 </div>
 
-<div class="container">
+<div id="div-browse-results" class="container">
     {% for eatery, score, upvotes, total_votes, pricing_bold, pricing_rest in EATERIES %}
     <hr noshade>
     <div class="search-results">
-        <a href="/eatery/{{eatery.id}}/"><strong>{{eatery.name}}</strong></a>&nbsp;@&nbsp;{{eatery.location.suburb}}&nbsp;        
+        <a href="/eatery/{{eatery.id}}/"><strong>{{eatery.name}}</strong></a>&nbsp;@&nbsp;{{eatery.location.suburb}}&nbsp;
         <span style="font-size: 14px">{% for i in pricing_bold %}${% endfor %}<span style="color: #BDC3C7">{% for i in pricing_rest %}${% endfor %}</span>&nbsp;</span>
         <br/>
         <div class="result-div">                    
@@ -54,4 +55,15 @@ Uni Meals - Browse
 <!-- Google Map API -->
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"> </script>
 <script src="{% static "js/geolocation.js" %}"></script>
+<script>
+    // Dropdown boxes
+    $(".dropdown-menu li a").click(function(){
+        event.preventDefault();
+        var selText = $(this).text();
+        $(this).parents('.btn-group').find('.dropdown-toggle').html($(this).attr('data-value') + selText+' <span class="caret"></span>');
+        $(this).parents('.btn-group').find('.dropdown-toggle').val(selText);
+        
+        browse_sort();
+    });
+</script>
 {% endblock additional_scripts %}

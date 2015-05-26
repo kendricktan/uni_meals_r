@@ -17,7 +17,7 @@ Uni Meals - Search
                 <div class="row" style="margin-bottom: 15px;"></div>
                 <div class="col-xs-6">
                     <div class="btn-right">
-                        <button class="btn btn-success btn-wide" type="submit">Search</button>
+                        <button onclick="return filter_results();" class="btn btn-success btn-wide" type="submit">Search</button>
                     </div>           
                 </div>                                    
             </form>
@@ -72,7 +72,7 @@ Uni Meals - Search
                 <li><a data-value="Sort by: " href="#">Magic</a></li>
             </ul>
         </div>
-        <button onclick="return filter_results()" type="button" class="btn btn-primary btn-sm">
+        <button onclick="return filter_results();" type="button" class="btn btn-primary btn-sm">
             Filter results
         </button>
         <btn></btn>
@@ -132,21 +132,12 @@ Uni Meals - Search
         document.getElementById('id_location').value = "{{LOCATION}}";
         
         // Dropdown boxes
-        
-    });
-    
-    function retrieve_results(){
-        //console.log('Retrieving results');
-    }
-    
-    // Dropdown menus
-    $(".dropdown-menu li a").click(function(){
-        event.preventDefault();
-        var selText = $(this).text();
-        $(this).parents('.btn-group').find('.dropdown-toggle').html($(this).attr('data-value') + selText+' <span class="caret"></span>');
-        $(this).parents('.btn-group').find('.dropdown-toggle').val(selText);  
-        
-        retrieve_results();
-    });
+        $(".dropdown-menu li a").click(function(){
+            event.preventDefault();
+            var selText = $(this).text();
+            $(this).parents('.btn-group').find('.dropdown-toggle').html($(this).attr('data-value') + selText+' <span class="caret"></span>');
+            $(this).parents('.btn-group').find('.dropdown-toggle').val(selText);
+        });
+    });        
 </script>
 {% endblock additional_scripts %}

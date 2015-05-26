@@ -7,6 +7,7 @@ urlpatterns = [
     
     # Browse
     url(r'^browse/$', views.browse_view, name='browse_view'),
+    url(r'^browse_ajax/$', views.browse_ajax, name='browse_ajax'),
     
     # Search
     url(r'^search/$', views.search_view, name='search_view'),

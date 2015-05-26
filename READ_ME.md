@@ -22,15 +22,13 @@ To improve:
 To fix:
 
 To do:		
-	High Priority:				
-		GPS coordinates to search restaurants	
-		Popular search
-		Ajax scroll when reaches x % of page
-		Browse page slicing results to 20 results until it auto updates		
+	High Priority:						
+		Browse page + search page slicing results to 20 results until it auto updates		
+		Ajax scroll when reaches x % of page	
 	
 	Medium Priority:		
 		If user is not logged in and tries to do stuff that requires them to log in (e.g. heart food), sign them up		
-		Create  inbox + message app
+		Create inbox + message app
 		User delete image function				
 		
 	Low Priority:
@@ -65,4 +63,5 @@ Done:
 	Create browse page
 	Create search page (query + location)
 	Fix dropdown boxes for search	
-	
+	GPS coordinates to search restaurants	
+	Popular search

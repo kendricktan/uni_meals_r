@@ -455,7 +455,11 @@ function review_clear_usefullness(a_div){
 /* End Eatery */
 
 /* Search results */
+
+// Filter search results
 function filter_results(){
+    event.preventDefault();
+    
     var search_query = document.getElementById('id_query').value;
     var location_query = document.getElementById('id_location').value;
     var max_pricing_val = document.getElementById('id_btn_max_pricing').value;
@@ -463,7 +467,7 @@ function filter_results(){
     var sort_by_val = document.getElementById('id_btn_sort_by').value;        
 
     $.ajax({
-        url: /search_ajax/,
+        url: '/search_ajax/',
         type: 'POST',
         data:{
             search_query: search_query,
@@ -509,4 +513,53 @@ function filter_results(){
     });
     return false;
 }
-    /* End search results */
+
+// sort by browse results
+function browse_sort(){
+    event.preventDefault();
+    var sort_by_val = document.getElementById('id_btn_sort_by').value; 
+    
+    $.ajax({
+        url: '/browse_ajax/',
+        type: 'POST',
+        data:{
+            sort_by_val: sort_by_val,
+            csrfmiddlewaretoken: getCookie('csrftoken'),
+        },
+        
+        success: function(json){
+            var div_contents = "";
+            
+            // Search results div
+            for(var i = 0; i < json['EATERIES_COUNT']; i++){
+                div_contents += '<hr noshade><div class="search-results">';
+                div_contents += '<a href="/eatery/'+json['EATERY_ID'][i]+'/"><strong>'+json['EATERY_NAME'][i]+'</strong></a></span>&nbsp;@&nbsp;'+json['EATERY_LOCATION_SUBURB'][i]+'&nbsp;&nbsp;';
+                div_contents += '<span style="font-size: 14px">';
+                for (var j = 0; j < json['EATERY_PRICING_BOLD'][i]; j++){
+                    div_contents += '$';
+                }                
+                div_contents += '<span style="color: #BDC3C7">';
+                for (var j = 0; j < json['EATERY_PRICING_REST'][i]; j++){
+                    div_contents += '$';
+                }
+                div_contents += '</span></span><br/><div class="result-div">';
+                for (var j = 0; j < json['EATERY_TAGS'][i].length; j++){
+                    div_contents += '<a href="#">'+ json['EATERY_TAGS'][i][j] +'</a>;&nbsp;'
+                }
+                div_contents += '</div>';
+                div_contents += '<div class="addition-info-results">';
+                div_contents += json['EATERY_UPVOTES'][i] + ' out of '+ json['EATERY_TOTAL_VOTES'][i] +' people recommends this';
+                div_contents += '</div>';                                
+            }
+            div_contents += '<hr noshade>';
+            document.getElementById('div-browse-results').innerHTML = div_contents;                        
+        },
+
+        error: function(xhr, errmsg, err){
+            console.log(xhr);
+        }
+    });
+    
+    return false;    
+}
+/* End search results */

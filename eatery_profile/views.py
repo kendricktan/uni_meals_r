@@ -12,6 +12,14 @@ import json
 '''
     # Ranking Algorithm
 '''
+#### ENUM for sorting
+SORT_TYPE = ['Best', 'Popular', 'Newest', 'Magic']
+
+def get_max_pricing(max_pricing):
+    for ENUM_PRICE in PRICING_ENUM:
+        if ENUM_PRICE[1] == max_pricing:
+            return ENUM_PRICE[0]  
+    return None
 
 #### Sort by: Best
 def _confidence_best(ups, downs):
@@ -25,8 +33,22 @@ def _confidence_best(ups, downs):
     
     return sqrt(phat+z*z/(2*n)-z*((phat*(1-phat)+z*z/(4*n))/n))/(1+z*z/n)
     
+#### Sort by: Popular
+epoch = datetime.datetime(1970, 1, 1)
+
+def epoch_seconds(date):
+    td = date.replace(tzinfo=None) - epoch
+    return td.days * 86400 + td.seconds + (float(td.microseconds) / 1000000)
+
+def _confidence_popular(ups, downs, date):
+    s = ups-downs
+    order = log(max(abs(s), 1), 10)
+    sign = 1 if s > 0 else -1 if s < 0 else 0
+    seconds = epoch_seconds(date) - 1.42*10**9 # 45 years in seconds
+    return round(sign * order + seconds / 45000, 7)
+    
 #### Return list of eateries for search
-def _search_eateries(query_list, location_list, is_nearby, max_price):
+def _search_eateries(query_list, location_list, is_nearby, max_price, sort_type):
     # Default search:
         # Pricing: Moderate
         # Location: nearby
@@ -95,18 +117,60 @@ def _search_eateries(query_list, location_list, is_nearby, max_price):
                         _eatery_upvotes = eatery.user_votes_set.all().filter(is_upvoted=True).count()
                         _eatery_downvotes = eatery.user_votes_set.all().filter(is_upvoted=False).count()
                         _eatery_total_votes = eatery.user_votes_set.all().count()                                
-                                                
-                        _eatery_return.append((eatery, _confidence_best(_eatery_upvotes, _eatery_downvotes), _eatery_upvotes, _eatery_total_votes, eatery.pricing_bold(), eatery.pricing_rest()))
+                           
+                        # Sort score given based on sort type
+                        if sort_type == 'Best':
+                            _eatery_return.append((eatery, _confidence_best(_eatery_upvotes, _eatery_downvotes), _eatery_upvotes, _eatery_total_votes, eatery.pricing_bold(), eatery.pricing_rest()))
+                        elif sort_type == 'Popularity':
+                            _eatery_return.append((eatery, _confidence_popular(_eatery_upvotes, _eatery_downvotes, eatery.datetime_added), _eatery_upvotes, _eatery_total_votes, eatery.pricing_bold(), eatery.pricing_rest()))
+                        elif sort_type == 'Newest':
+                            _eatery_return.append((eatery, eatery.datetime_added, _eatery_upvotes, _eatery_total_votes, eatery.pricing_bold(), eatery.pricing_rest()))
+                        
                         
                 elif is_nearby is False:
                     _eatery_upvotes = eatery.user_votes_set.all().filter(is_upvoted=True).count()
                     _eatery_downvotes = eatery.user_votes_set.all().filter(is_upvoted=False).count()
                     _eatery_total_votes = eatery.user_votes_set.all().count()                                
-                                            
-                    _eatery_return.append((eatery, _confidence_best(_eatery_upvotes, _eatery_downvotes), _eatery_upvotes, _eatery_total_votes, eatery.pricing_bold(), eatery.pricing_rest()))
-                    
+                      
+                    # Sort score given based on sort type
+                    if sort_type == 'Best':
+                        _eatery_return.append((eatery, _confidence_best(_eatery_upvotes, _eatery_downvotes), _eatery_upvotes, _eatery_total_votes, eatery.pricing_bold(), eatery.pricing_rest()))
+                    elif sort_type == 'Popularity':
+                        _eatery_return.append((eatery, _confidence_popular(_eatery_upvotes, _eatery_downvotes, eatery.datetime_added), _eatery_upvotes, _eatery_total_votes, eatery.pricing_bold(), eatery.pricing_rest()))
+                    elif sort_type == 'Newest':
+                        _eatery_return.append((eatery, eatery.datetime_added, _eatery_upvotes, _eatery_total_votes, eatery.pricing_bold(), eatery.pricing_rest()))
+      
+    
+    # Sort it 
+    _eatery_return = sorted(_eatery_return, key=lambda _eatery_return_lambda: _eatery_return_lambda[1], reverse=True)
+        
     return _eatery_return
     
+#### Return list of eateries for browsing
+def _browse_eateries(sort_by):
+    # Best ranking algorithm
+    _eatery_list = eatery_profile.objects.all()
+    _eatery_return = []
+    
+    for eatery in _eatery_list:
+        _eatery_upvotes = eatery.user_votes_set.all().filter(is_upvoted=True).count()
+        _eatery_downvotes = eatery.user_votes_set.all().filter(is_upvoted=False).count()
+        _eatery_total_votes = eatery.user_votes_set.all().count()
+        
+        if sort_by == 'Best':
+            _eatery_return.append((eatery, _confidence_best(_eatery_upvotes, _eatery_downvotes), _eatery_upvotes, _eatery_total_votes, eatery.pricing_bold(), eatery.pricing_rest()))
+        elif sort_by == 'Popularity':
+            _eatery_return.append((eatery, _confidence_popular(_eatery_upvotes, _eatery_downvotes, eatery.datetime_added), _eatery_upvotes, _eatery_total_votes, eatery.pricing_bold(), eatery.pricing_rest()))
+        elif sort_by == 'Newest':
+            _eatery_return.append((eatery, eatery.datetime_added, _eatery_upvotes, _eatery_total_votes, eatery.pricing_bold(), eatery.pricing_rest()))
+        
+        # Add slice here
+        
+    # Sort from descending points (most popular -> not popular)
+    _eatery_return = sorted(_eatery_return, key=lambda _eatery_return_lambda: _eatery_return_lambda[1], reverse=True)        
+    
+    return _eatery_return
+
 '''
     #### End Ranking algorithm
 '''
@@ -139,28 +203,55 @@ def browse_view(request):
     if request.method == 'GET':    
     
         # Best ranking algorithm
-        _eatery_list = eatery_profile.objects.all()
         _eatery_return = []
+        _eatery_return = _browse_eateries('Best')
         
-        for eatery in _eatery_list:
-            _eatery_upvotes = eatery.user_votes_set.all().filter(is_upvoted=True).count()
-            _eatery_downvotes = eatery.user_votes_set.all().filter(is_upvoted=False).count()
-            _eatery_total_votes = eatery.user_votes_set.all().count()
-            
-            _eatery_return.append((eatery, _confidence_best(_eatery_upvotes, _eatery_downvotes), _eatery_upvotes, _eatery_total_votes, eatery.pricing_bold(), eatery.pricing_rest()))
-            
-        # Sort from descending points (most popular -> not popular)
-        _eatery_return = sorted(_eatery_return, key=lambda _eatery_return_lambda: _eatery_return_lambda[1], reverse=True)
-        
-        variables['EATERIES'] = _eatery_return
-        
-        # Prints 1st item
-        #print _eatery_return[0:1]
-        
-    if request.method == 'POST':
-        _eatery_return = []       
+        variables['EATERIES'] = _eatery_return          
         
     return render(request, 'browse.html', variables)
+    
+def browse_ajax(request):
+    response_data = {}
+    if request.method == 'GET':
+        return HttpResponseRedirect('/')
+    
+    if request.method == 'POST':
+        # Sort by...
+        sort_by = request.POST['sort_by_val']
+        
+        # Gets eatery return
+        _eatery_return = _browse_eateries(sort_by)
+
+        # Ajax response_data
+        response_data['EATERIES_COUNT'] = len(_eatery_return)
+                        
+        # Initialize our return list
+        response_data['EATERY_ID'] = []
+        response_data['EATERY_NAME'] = []
+        response_data['EATERY_TAGS'] = []
+        response_data['EATERY_LOCATION_SUBURB'] = []
+        response_data['EATERY_UPVOTES'] = []
+        response_data['EATERY_TOTAL_VOTES'] = []
+        response_data['EATERY_PRICING_BOLD'] = []
+        response_data['EATERY_PRICING_REST'] = []
+        
+        # Slice this section for ajax scroll results
+        for x in range(0, len(_eatery_return)):
+            response_data['EATERY_ID'].append(_eatery_return[x][0].id)
+            response_data['EATERY_NAME'].append(_eatery_return[x][0].name)
+            tags_list = [str(tags) for tags in _eatery_return[x][0].tags_set.all()]
+            response_data['EATERY_TAGS'].append(tags_list)
+            #response_data['EATERY_TAGS'].append()
+            response_data['EATERY_LOCATION_SUBURB'].append(_eatery_return[x][0].location.suburb)
+            response_data['EATERY_UPVOTES'].append(_eatery_return[x][2])
+            response_data['EATERY_TOTAL_VOTES'].append(_eatery_return[x][3])
+            response_data['EATERY_PRICING_BOLD'].append(len(_eatery_return[x][4]))
+            response_data['EATERY_PRICING_REST'].append(len(_eatery_return[x][5])) 
+        
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type='application/json'
+        )
     
 # Returns search results
 def search_view(request):
@@ -182,10 +273,7 @@ def search_view(request):
         location_list = request.POST['location']               
         
         _eatery_return = []
-        _eatery_return = _search_eateries(query_list, location_list, True, 4)
-            
-        # Sort best
-        _eatery_return = sorted(_eatery_return, key=lambda _eatery_return_lambda: _eatery_return_lambda[1], reverse=True)
+        _eatery_return = _search_eateries(query_list, location_list, True, 4, 'Best')
         
         variables['SEARCH_QUERY'] = query_list
         variables['LOCATION'] = location_list
@@ -201,28 +289,22 @@ def search_ajax(request):
         return HttpResponseRedirect('/')
     
     if request.method == 'POST':
+        # Gets query list etc
         query_list = request.POST['search_query']
         location_list = request.POST['location_query']                           
         
         # Gets price moderation
-        max_price = 3        
-        for ENUM_PRICE in PRICING_ENUM:
-            if ENUM_PRICE[1] == request.POST['max_pricing_val']:
-                max_price = ENUM_PRICE[0]
+        max_price = get_max_pricing(request.POST['max_pricing_val']) if get_max_pricing(request.POST['max_pricing_val']) is not None else 3
         
         # Checks if request is nearby
         is_nearby = (request.POST['location_val'].lower()=='nearby')
         
-        # Gets eatery return
-        _eatery_return = _search_eateries(query_list, location_list, is_nearby, max_price)
-        
         # Sort by...
-        sort_by_val = request.POST['sort_by_val']               
-            
-        # Sort by ...
-        if sort_by_val == 'Best':
-            _eatery_return = sorted(_eatery_return, key=lambda _eatery_return_lambda: _eatery_return_lambda[1], reverse=True)            
+        sort_by = request.POST['sort_by_val']               
         
+        # Gets eatery return
+        _eatery_return = _search_eateries(query_list, location_list, is_nearby, max_price, sort_by)
+
         # Ajax response_data
         response_data['SEARCH_QUERY'] = query_list
         response_data['LOCATION'] = location_list
