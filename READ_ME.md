@@ -24,8 +24,8 @@ To fix:
 To do:		
 	High Priority:				
 		GPS coordinates to search restaurants	
-		Tags for restaurant, search related restaurant...		
-		Create search page
+		Fix dropdown boxes for search	
+		
 	
 	Medium Priority:
 		Browse page slicing results to 20 results until it auto updates
@@ -63,3 +63,4 @@ Done:
 	'I find this review useful'
 	Fix eatery logic error (1 downvote still 100% upvote)
 	Create browse page
+	Create search page (query + location)

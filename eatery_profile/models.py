@@ -1,4 +1,5 @@
 import datetime
+import shlex
 from user_profile.models import *
 from django.db import models
 
@@ -91,7 +92,30 @@ class location(models.Model):
     def __unicode__(self):
         return unicode(self.eatery_profile.name + '\'s location')
         
-
+    def is_nearby(self, query_list):
+        postal_code_threshold = 3
+    
+        # replace the commas in query list
+        query_list.replace(',', ' ')
+        for query in shlex.split(query_list):
+        
+            # if is digit we can just compare it to postal codes
+            if query.isdigit():
+                try:
+                    # If within the range of close postal_codes
+                    if int(query) >= self.postal_code-postal_code_threshold and int(query) <= self.postal_code+postal_code_threshold:
+                        return True                    
+                except Exception:
+                    pass
+                    
+            # else if not digit, we just want the same suburb + city
+            else:
+                if self.city.lower().find(query.lower()) != -1:
+                    return True
+                elif self.suburb.lower().find(query.lower()) != -1:
+                    return True            
+        
+        return False
 '''
     # OPERATIONAL INFO
 '''
@@ -255,8 +279,7 @@ class specials(models.Model):
 class reviews(models.Model):
     user_profile = models.ForeignKey(user_profile)    
     review_text = models.CharField(max_length=255)
-    useful_count = models.IntegerField(null=True, blank=True)
-    not_useful_count = models.IntegerField(null=True, blank=True)
+    datetime_pub = models.DateTimeField(auto_now_add=True)
     eatery_profile = models.ForeignKey(eatery_profile)
     
     def __unicode__(self):

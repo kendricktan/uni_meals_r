@@ -76,6 +76,7 @@ def browse_view(request):
         
     return render(request, 'browse.html', variables)
     
+# Returns search results
 def search_view(request):
     _u = None
     variables = {}
@@ -92,75 +93,78 @@ def search_view(request):
         
     if request.method == 'POST':        
         query = request.POST['query']
-        nearby = request.POST['nearby']               
+        location = request.POST['location']               
+                
+        # Default search:
+            # Pricing: Moderate
+            # Location: nearby
+            # Sort by: Best
+            
+        # Algorithm to find eatery, chuck here
+        # Best ranking algorithm
         
-        if nearby.lower() == 'current location':
-            # Default search:
-                # Pricing: Moderate
-                # Location: nearby
-                # Sort by: Best
+        # Search through restaurant description, name, 
+            # specials, food, 
+                # name
+                # description                    
+            # tags, special_tags
+                # Keywords
                 
-            # Algorithm to find eatery, chuck here
-            # Best ranking algorithm
+        _eatery_list = eatery_profile.objects.all()
+        _eatery_return = []
+        
+        for eatery in _eatery_list:
+            # Boolean var to check if eatery contains query
+            contains_query = False
             
-            # Search through restaurant description, name, 
-                # specials, food, 
-                    # name
-                    # description                    
-                # tags, special_tags
-                    # Keywords
-            
-            
-            _eatery_list = eatery_profile.objects.all()
-            _eatery_return = []
-            
-            for eatery in _eatery_list:
-                # Boolean var to check if eatery contains query
-                contains_query = False
-                
-                # Checks eatery description + name
-                if eatery.description.find(query) != -1 or eatery.name.find(query) != -1:
-                    contains_query = True
-                            
-                _specials_list = eatery.specials_set.all()
-                _food_list = eatery.food_set.all()
-                _tags_list = eatery.tags_set.all()
-                _special_tag_list = eatery.special_tags_set.all()
-                
-                # Checks eatery's specials, food, tags, and specials_tag
-                
-                # Specials
-                if contains_query is False:                    
-                    if _specials_list.filter(name__contains=query).count() != 0 or _specials_list.filter(description__contains=query).count() != 0:
-                        contains_query = True
-                
-                # Food
-                if contains_query is False:                    
-                    if _food_list.filter(name__contains=query).count() != 0 or _food_list.filter(description__contains=query).count() != 0:
-                        contains_query = True  
-
-                # Tags
-                if contains_query is False:                    
-                    if _tags_list.filter(keyword__contains=query).count() != 0:
-                        contains_query = True 
+            # Checks eatery description + name
+            if eatery.description.lower().find(query.lower()) != -1 or eatery.name.lower().find(query.lower()) != -1:
+                contains_query = True
                         
-                # Special tags
-                if contains_query is False:                    
-                    if _special_tag_list.filter(keyword__contains=query).count() != 0:
-                        contains_query = True                                     
-                
-                # If eatery contains any instance of the query then it'll be added to the list, with the default sorting algorithm applied to it
-                if contains_query is True:
+            _specials_list = eatery.specials_set.all()
+            _food_list = eatery.food_set.all()
+            _tags_list = eatery.tags_set.all()
+            _special_tag_list = eatery.special_tags_set.all()
+            
+            # Checks eatery's specials, food, tags, and specials_tag
+            
+            # Specials
+            if contains_query is False:                    
+                if _specials_list.filter(name__icontains=query).count() != 0 or _specials_list.filter(description__icontains=query).count() != 0:
+                    contains_query = True
+            
+            # Food
+            if contains_query is False:                    
+                if _food_list.filter(name__icontains=query).count() != 0 or _food_list.filter(description__icontains=query).count() != 0:
+                    contains_query = True  
+
+            # Tags
+            if contains_query is False:                    
+                if _tags_list.filter(keyword__icontains=query).count() != 0:
+                    contains_query = True 
+                    
+            # Special tags
+            if contains_query is False:                    
+                if _special_tag_list.filter(keyword__icontains=query).count() != 0:
+                    contains_query = True                                     
+            
+            # If eatery contains any instance of the query then it'll be added to the list, with the default sorting algorithm applied to it
+            if contains_query is True:
+                # Checks if location is nearby                
+                if eatery.location.is_nearby(location) is True:            
                     _eatery_upvotes = eatery.user_votes_set.all().filter(is_upvoted=True).count()
                     _eatery_downvotes = eatery.user_votes_set.all().filter(is_upvoted=False).count()
-                    _eatery_total_votes = eatery.user_votes_set.all().count()
+                    _eatery_total_votes = eatery.user_votes_set.all().count()                                
                     
                     _eatery_return.append((eatery, _confidence_best(_eatery_upvotes, _eatery_downvotes), _eatery_upvotes, _eatery_total_votes, eatery.pricing_bold(), eatery.pricing_rest()))
-                
-            # Sort from descending points (most popular -> not popular)
-            _eatery_return = sorted(_eatery_return, key=lambda _eatery_return_lambda: _eatery_return_lambda[1], reverse=True)
             
-            variables['EATERIES'] = _eatery_return
+        # Sort from descending points (most popular -> not popular)
+        _eatery_return = sorted(_eatery_return, key=lambda _eatery_return_lambda: _eatery_return_lambda[1], reverse=True)
+        
+        variables['SEARCH_QUERY'] = query
+        variables['LOCATION'] = location
+        variables['EATERIES'] = _eatery_return
+        variables['EATERIES_COUNT'] = len(_eatery_return)
             
         return render(request, 'search.html', variables)
 

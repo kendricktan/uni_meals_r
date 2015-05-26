@@ -13,7 +13,7 @@ Uni Meals - Search
         <div class="form-group">
             <form id="form-search" method="POST" action="/search/">{% csrf_token %}
                 <div class="col-sm-6">{{FORM.query}}</div>
-                <div class="col-sm-6">{{FORM.nearby}}</div>
+                <div class="col-sm-6">{{FORM.location}}</div>                
                 <div class="row" style="margin-bottom: 15px;"></div>
                 <div class="col-xs-6">
                     <div class="btn-right">
@@ -35,7 +35,7 @@ Uni Meals - Search
 
 <!-- FILTER RESULTS -->
 <div style="margin-top: 25px" class="container">
-    <h4>42 results for 'query'</h4>
+    <h4>{{EATERIES_COUNT}} results for '{{SEARCH_QUERY}}'</h4>
     <div><span style="color: #E74C3C; font-size: 18px"><strong>Filter results:</strong></span></div>
     <!-- DROPDOWN BOXES -->
     <div class="col-xs-12">
@@ -58,10 +58,7 @@ Uni Meals - Search
             Location: Nearby<span class="caret"></span>
         </button>                
         <ul class="dropdown-menu" role="menu">
-            <li><a data-value="Location: " href="#">Nearby</a></li>            
-            <li><a data-value="Location: " href="#">Same Suburb</a></li>
-            <li><a data-value="Location: " href="#">Same City</a></li>
-            <li><a data-value="Location: " href="#">Same State</a></li>
+            <li><a data-value="Location: " href="#">Nearby</a></li>
             <li><a data-value="Location: " href="#">Don't care</a></li>
         </ul>
     </div>          
@@ -127,13 +124,15 @@ Uni Meals - Search
 <script>
     // Wait till page fully loades
     $(window).bind("load", function() {   
-        document.getElementById('id_nearby').value = "Current location";
+        document.getElementById('id_query').value = "{{SEARCH_QUERY}}";
+        document.getElementById('id_location').value = "{{LOCATION}}";
     });
     
     function retrieve_results(){
         //console.log('Retrieving results');
     }
-
+    
+    // Dropdown menus
     $(".dropdown-menu li a").click(function(){
         event.preventDefault();
         var selText = $(this).text();

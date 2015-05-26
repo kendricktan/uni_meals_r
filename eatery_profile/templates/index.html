@@ -60,7 +60,7 @@ Uni Meals - Home
         <div class="form-group">
             <form id="form-search" method="POST" action="/search/">{% csrf_token %}
                 <div class="col-sm-6">{{FORM.query}}</div>
-                <div class="col-sm-6">{{FORM.nearby}}</div>
+                <div class="col-sm-6">{{FORM.location}}</div>                
                 <div class="row" style="margin-bottom: 15px;"></div>
                 <div class="col-xs-6">
                     <div class="btn-right">
@@ -88,13 +88,17 @@ Uni Meals - Home
 
     // Loads right off the bat
     $(window).load(function(){
-        initialize();
-                
+        initialize();                
     })
     
-    // Wait till page fully loades
+    // Wait till page fully loads
     $(window).bind("load", function() {   
-        document.getElementById('id_nearby').value = "Current location";
+        //document.getElementById('id_nearby').value = "Current location";                
+        setTimeout(function set_location(){
+             if(getPostal_code() != null){
+                 document.getElementById('id_location').value = getPostal_code();                      
+             }
+        }, 3000);
     });
 </script>
                                
