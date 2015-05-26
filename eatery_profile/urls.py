@@ -10,6 +10,7 @@ urlpatterns = [
     
     # Search
     url(r'^search/$', views.search_view, name='search_view'),
+    url(r'^search_ajax/$', views.search_ajax, name='search_ajax'),
     
     # Eatery Profile
     url(r'^eatery/(?P<eatery_id>[0-9]+)/$', views.eatery_view, name='eatery_view'),    

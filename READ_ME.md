@@ -24,13 +24,13 @@ To fix:
 To do:		
 	High Priority:				
 		GPS coordinates to search restaurants	
-		Fix dropdown boxes for search	
-		
+		Popular search
+		Ajax scroll when reaches x % of page
+		Browse page slicing results to 20 results until it auto updates		
 	
-	Medium Priority:
-		Browse page slicing results to 20 results until it auto updates
+	Medium Priority:		
 		If user is not logged in and tries to do stuff that requires them to log in (e.g. heart food), sign them up		
-		Create browse app, search app, inbox + message app
+		Create  inbox + message app
 		User delete image function				
 		
 	Low Priority:
@@ -64,3 +64,5 @@ Done:
 	Fix eatery logic error (1 downvote still 100% upvote)
 	Create browse page
 	Create search page (query + location)
+	Fix dropdown boxes for search	
+	

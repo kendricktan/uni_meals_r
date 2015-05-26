@@ -63,6 +63,9 @@ class eatery_profile(models.Model):
     
     def __unicode__(self):
         return unicode(self.name);
+        
+    def within_price_range(self, pricing):
+        return self.pricing <= pricing
    
     # Pricing for template style ($$$)/$$
     def pricing_bold(self):
@@ -92,27 +95,27 @@ class location(models.Model):
     def __unicode__(self):
         return unicode(self.eatery_profile.name + '\'s location')
         
-    def is_nearby(self, query_list):
+    def is_nearby(self, location_list):
         postal_code_threshold = 3
     
-        # replace the commas in query list
-        query_list.replace(',', ' ')
-        for query in shlex.split(query_list):
+        # replace the commas in location list
+        location_list.replace(',', ' ')
+        for location in shlex.split(location_list):
         
             # if is digit we can just compare it to postal codes
-            if query.isdigit():
+            if location.isdigit():
                 try:
                     # If within the range of close postal_codes
-                    if int(query) >= self.postal_code-postal_code_threshold and int(query) <= self.postal_code+postal_code_threshold:
+                    if int(location) >= self.postal_code-postal_code_threshold and int(location) <= self.postal_code+postal_code_threshold:
                         return True                    
                 except Exception:
                     pass
                     
             # else if not digit, we just want the same suburb + city
             else:
-                if self.city.lower().find(query.lower()) != -1:
+                if self.city.lower().find(location.lower()) != -1:
                     return True
-                elif self.suburb.lower().find(query.lower()) != -1:
+                elif self.suburb.lower().find(location.lower()) != -1:
                     return True            
         
         return False

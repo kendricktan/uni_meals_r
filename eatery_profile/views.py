@@ -25,6 +25,92 @@ def _confidence_best(ups, downs):
     
     return sqrt(phat+z*z/(2*n)-z*((phat*(1-phat)+z*z/(4*n))/n))/(1+z*z/n)
     
+#### Return list of eateries for search
+def _search_eateries(query_list, location_list, is_nearby, max_price):
+    # Default search:
+        # Pricing: Moderate
+        # Location: nearby
+        # Sort by: Best
+        
+    # Algorithm to find eatery, chuck here
+    # Best ranking algorithm
+    
+    # Search through restaurant description, name, 
+        # specials, food, 
+            # name
+            # description                    
+        # tags, special_tags
+            # Keywords
+            
+    _eatery_list = eatery_profile.objects.all()
+    _eatery_return = []
+    
+    for eatery in _eatery_list:
+        # Boolean var to check if eatery contains query
+        contains_query = False
+        
+        # Checks eatery description + name
+        for query in shlex.split(query_list):
+            if eatery.description.lower().find(query.lower()) != -1 or eatery.name.lower().find(query.lower()) != -1:
+                contains_query = True
+                    
+        _specials_list = eatery.specials_set.all()
+        _food_list = eatery.food_set.all()
+        _tags_list = eatery.tags_set.all()
+        _special_tag_list = eatery.special_tags_set.all()
+        
+        # Checks eatery's specials, food, tags, and specials_tag
+        
+        # Specials
+        if contains_query is False:     
+            for query in shlex.split(query_list):
+                if _specials_list.filter(name__icontains=query).count() != 0 or _specials_list.filter(description__icontains=query).count() != 0:
+                    contains_query = True
+        
+        # Food
+        if contains_query is False:   
+            for query in shlex.split(query_list):
+                if _food_list.filter(name__icontains=query).count() != 0 or _food_list.filter(description__icontains=query).count() != 0:
+                    contains_query = True  
+
+        # Tags
+        if contains_query is False:    
+            for query in shlex.split(query_list):
+                if _tags_list.filter(keyword__icontains=query).count() != 0:
+                    contains_query = True 
+                
+        # Special tags
+        if contains_query is False:   
+            for query in shlex.split(query_list):
+                if _special_tag_list.filter(keyword__icontains=query).count() != 0:
+                    contains_query = True                                     
+        
+        # If eatery contains any instance of the query then it'll be added to the list, with the default sorting algorithm applied to it
+        if contains_query is True:
+            # Checks if Eatery price is within user search
+            if eatery.within_price_range(max_price):            
+                # Checks if location is nearby    
+                if is_nearby:
+                    if eatery.location.is_nearby(location_list) is True:                       
+                        _eatery_upvotes = eatery.user_votes_set.all().filter(is_upvoted=True).count()
+                        _eatery_downvotes = eatery.user_votes_set.all().filter(is_upvoted=False).count()
+                        _eatery_total_votes = eatery.user_votes_set.all().count()                                
+                                                
+                        _eatery_return.append((eatery, _confidence_best(_eatery_upvotes, _eatery_downvotes), _eatery_upvotes, _eatery_total_votes, eatery.pricing_bold(), eatery.pricing_rest()))
+                        
+                elif is_nearby is False:
+                    _eatery_upvotes = eatery.user_votes_set.all().filter(is_upvoted=True).count()
+                    _eatery_downvotes = eatery.user_votes_set.all().filter(is_upvoted=False).count()
+                    _eatery_total_votes = eatery.user_votes_set.all().count()                                
+                                            
+                    _eatery_return.append((eatery, _confidence_best(_eatery_upvotes, _eatery_downvotes), _eatery_upvotes, _eatery_total_votes, eatery.pricing_bold(), eatery.pricing_rest()))
+                    
+    return _eatery_return
+    
+'''
+    #### End Ranking algorithm
+'''
+
 '''
     # HttpResponse
 '''
@@ -92,82 +178,84 @@ def search_view(request):
         return HttpResponseRedirect('/')
         
     if request.method == 'POST':        
-        query = request.POST['query']
-        location = request.POST['location']               
-                
-        # Default search:
-            # Pricing: Moderate
-            # Location: nearby
-            # Sort by: Best
-            
-        # Algorithm to find eatery, chuck here
-        # Best ranking algorithm
+        query_list = request.POST['query']
+        location_list = request.POST['location']               
         
-        # Search through restaurant description, name, 
-            # specials, food, 
-                # name
-                # description                    
-            # tags, special_tags
-                # Keywords
-                
-        _eatery_list = eatery_profile.objects.all()
         _eatery_return = []
-        
-        for eatery in _eatery_list:
-            # Boolean var to check if eatery contains query
-            contains_query = False
+        _eatery_return = _search_eateries(query_list, location_list, True, 4)
             
-            # Checks eatery description + name
-            if eatery.description.lower().find(query.lower()) != -1 or eatery.name.lower().find(query.lower()) != -1:
-                contains_query = True
-                        
-            _specials_list = eatery.specials_set.all()
-            _food_list = eatery.food_set.all()
-            _tags_list = eatery.tags_set.all()
-            _special_tag_list = eatery.special_tags_set.all()
-            
-            # Checks eatery's specials, food, tags, and specials_tag
-            
-            # Specials
-            if contains_query is False:                    
-                if _specials_list.filter(name__icontains=query).count() != 0 or _specials_list.filter(description__icontains=query).count() != 0:
-                    contains_query = True
-            
-            # Food
-            if contains_query is False:                    
-                if _food_list.filter(name__icontains=query).count() != 0 or _food_list.filter(description__icontains=query).count() != 0:
-                    contains_query = True  
-
-            # Tags
-            if contains_query is False:                    
-                if _tags_list.filter(keyword__icontains=query).count() != 0:
-                    contains_query = True 
-                    
-            # Special tags
-            if contains_query is False:                    
-                if _special_tag_list.filter(keyword__icontains=query).count() != 0:
-                    contains_query = True                                     
-            
-            # If eatery contains any instance of the query then it'll be added to the list, with the default sorting algorithm applied to it
-            if contains_query is True:
-                # Checks if location is nearby                
-                if eatery.location.is_nearby(location) is True:            
-                    _eatery_upvotes = eatery.user_votes_set.all().filter(is_upvoted=True).count()
-                    _eatery_downvotes = eatery.user_votes_set.all().filter(is_upvoted=False).count()
-                    _eatery_total_votes = eatery.user_votes_set.all().count()                                
-                    
-                    _eatery_return.append((eatery, _confidence_best(_eatery_upvotes, _eatery_downvotes), _eatery_upvotes, _eatery_total_votes, eatery.pricing_bold(), eatery.pricing_rest()))
-            
-        # Sort from descending points (most popular -> not popular)
+        # Sort best
         _eatery_return = sorted(_eatery_return, key=lambda _eatery_return_lambda: _eatery_return_lambda[1], reverse=True)
         
-        variables['SEARCH_QUERY'] = query
-        variables['LOCATION'] = location
+        variables['SEARCH_QUERY'] = query_list
+        variables['LOCATION'] = location_list
         variables['EATERIES'] = _eatery_return
         variables['EATERIES_COUNT'] = len(_eatery_return)
             
         return render(request, 'search.html', variables)
 
+# Returns search results via ajax
+def search_ajax(request):
+    response_data = {}
+    if request.method == 'GET':
+        return HttpResponseRedirect('/')
+    
+    if request.method == 'POST':
+        query_list = request.POST['search_query']
+        location_list = request.POST['location_query']                           
+        
+        # Gets price moderation
+        max_price = 3        
+        for ENUM_PRICE in PRICING_ENUM:
+            if ENUM_PRICE[1] == request.POST['max_pricing_val']:
+                max_price = ENUM_PRICE[0]
+        
+        # Checks if request is nearby
+        is_nearby = (request.POST['location_val'].lower()=='nearby')
+        
+        # Gets eatery return
+        _eatery_return = _search_eateries(query_list, location_list, is_nearby, max_price)
+        
+        # Sort by...
+        sort_by_val = request.POST['sort_by_val']               
+            
+        # Sort by ...
+        if sort_by_val == 'Best':
+            _eatery_return = sorted(_eatery_return, key=lambda _eatery_return_lambda: _eatery_return_lambda[1], reverse=True)            
+        
+        # Ajax response_data
+        response_data['SEARCH_QUERY'] = query_list
+        response_data['LOCATION'] = location_list
+        response_data['EATERIES_COUNT'] = len(_eatery_return)
+                        
+        # Initialize our return list
+        response_data['EATERY_ID'] = []
+        response_data['EATERY_NAME'] = []
+        response_data['EATERY_TAGS'] = []
+        response_data['EATERY_LOCATION_SUBURB'] = []
+        response_data['EATERY_UPVOTES'] = []
+        response_data['EATERY_TOTAL_VOTES'] = []
+        response_data['EATERY_PRICING_BOLD'] = []
+        response_data['EATERY_PRICING_REST'] = []
+        
+        # Slice this section for ajax scroll results
+        for x in range(0, len(_eatery_return)):
+            response_data['EATERY_ID'].append(_eatery_return[x][0].id)
+            response_data['EATERY_NAME'].append(_eatery_return[x][0].name)
+            tags_list = [str(tags) for tags in _eatery_return[x][0].tags_set.all()]
+            response_data['EATERY_TAGS'].append(tags_list)
+            #response_data['EATERY_TAGS'].append()
+            response_data['EATERY_LOCATION_SUBURB'].append(_eatery_return[x][0].location.suburb)
+            response_data['EATERY_UPVOTES'].append(_eatery_return[x][2])
+            response_data['EATERY_TOTAL_VOTES'].append(_eatery_return[x][3])
+            response_data['EATERY_PRICING_BOLD'].append(len(_eatery_return[x][4]))
+            response_data['EATERY_PRICING_REST'].append(len(_eatery_return[x][5])) 
+        
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type='application/json'
+        )
+        
 # View eatery page
 def eatery_view(request, eatery_id):
     # Variable list
