@@ -43,7 +43,7 @@ Uni Meals - Search
             <button type="button" value="Expensive" id="id_btn_max_pricing" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
                 Max pricing: Expensive<span class="caret"></span>
             </button>                
-            <ul class="dropdown-menu" role="menu">
+            <ul id="filter-menu" class="dropdown-menu" role="menu">
                 <li><a data-value="Max pricing: " href="#">Cheap</a></li>
                 <li><a data-value="Max pricing: " href="#">Affortable</a></li>
                 <li><a data-value="Max pricing: " href="#">Moderate</a></li>
@@ -56,7 +56,7 @@ Uni Meals - Search
             <button type="button" value="Nearby" id="id_btn_location" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
                 Location: Nearby<span class="caret"></span>
             </button>                
-            <ul class="dropdown-menu" role="menu">
+            <ul id="filter-menu" class="dropdown-menu" role="menu">
                 <li><a data-value="Location: " href="#">Nearby</a></li>
                 <li><a data-value="Location: " href="#">Don't care</a></li>
             </ul>
@@ -65,7 +65,7 @@ Uni Meals - Search
             <button type="button" value="Best" id="id_btn_sort_by" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
                 Sort by: Best<span class="caret"></span>
             </button>                
-            <ul class="dropdown-menu" role="menu">
+            <ul id="filter-menu" class="dropdown-menu" role="menu">
                 <li><a data-value="Sort by: " href="#">Best</a></li>
                 <li><a data-value="Sort by: " href="#">Popularity</a></li>
                 <li><a data-value="Sort by: " href="#">Newest</a></li>
@@ -132,7 +132,7 @@ Uni Meals - Search
         document.getElementById('id_location').value = "{{LOCATION}}";
         
         // Dropdown boxes
-        $(".dropdown-menu li a").click(function(){
+        $("#filter-menu li a").click(function(){
             event.preventDefault();
             var selText = $(this).text();
             $(this).parents('.btn-group').find('.dropdown-toggle').html($(this).attr('data-value') + selText+' <span class="caret"></span>');

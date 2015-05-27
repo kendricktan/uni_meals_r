@@ -19,7 +19,7 @@ Uni Meals - Browse
             <button type="button" id="id_btn_sort_by" value="Best" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
                 Sort by: <strong>Best</strong><span class="caret"></span>
             </button>                
-            <ul class="dropdown-menu" role="menu">
+            <ul id="browse-menu" class="dropdown-menu" role="menu">
                 <li><a data-value="Sort by: " href="#">Best</a></li>
                 <li><a data-value="Sort by: " href="#">Popularity</a></li>
                 <li><a data-value="Sort by: " href="#">Newest</a></li>
@@ -57,7 +57,7 @@ Uni Meals - Browse
 <script src="{% static "js/geolocation.js" %}"></script>
 <script>
     // Dropdown boxes
-    $(".dropdown-menu li a").click(function(){
+    $("#browse-menu li a").click(function(){
         event.preventDefault();
         var selText = $(this).text();
         $(this).parents('.btn-group').find('.dropdown-toggle').html($(this).attr('data-value') + selText+' <span class="caret"></span>');
