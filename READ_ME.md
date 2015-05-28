@@ -23,16 +23,15 @@ To fix:
 
 To do:		
 	High Priority:						
-		Search page slicing results to 20 results until it auto updates		
-		Ajax scroll when reaches x % of page	
+		Create inbox + message app
+		User delete image function		
 	
 	Medium Priority:		
 		If user is not logged in and tries to do stuff that requires them to log in (e.g. heart food), sign them up		
-		Create inbox + message app
-		User delete image function				
+		Create user timeline
 		
 	Low Priority:
-		Ajax auto update when scroll for search, browse, reviews + timeline
+		Ajax auto update when scroll for reviews + timeline
 		Resize user image/crop to suit layout needs
 		
 	Etc:
@@ -66,3 +65,5 @@ Done:
 	GPS coordinates to search restaurants	
 	Popular search
 	Browse Ajax
+	Search page slicing results to 20 results until it auto updates		
+	Ajax scroll when reaches x % of page	
