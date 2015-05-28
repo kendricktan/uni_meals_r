@@ -21,7 +21,7 @@ Uni Meals - Browse
             </button>                
             <ul id="browse-menu" class="dropdown-menu" role="menu">
                 <li><a data-value="Sort by: " href="#">Best</a></li>
-                <li><a data-value="Sort by: " href="#">Popularity</a></li>
+                <li><a data-value="Sort by: " href="#">Trending</a></li>
                 <li><a data-value="Sort by: " href="#">Newest</a></li>
                 <li><a data-value="Sort by: " href="#">Magic</a></li>
             </ul>
@@ -56,14 +56,132 @@ Uni Meals - Browse
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"> </script>
 <script src="{% static "js/geolocation.js" %}"></script>
 <script>
+    var item_no = 1;
+    var is_getting = false;
+    
     // Dropdown boxes
     $("#browse-menu li a").click(function(){
         event.preventDefault();
         var selText = $(this).text();
         $(this).parents('.btn-group').find('.dropdown-toggle').html($(this).attr('data-value') + selText+' <span class="caret"></span>');
         $(this).parents('.btn-group').find('.dropdown-toggle').val(selText);
-        
+        item_no = 1;
         browse_sort();
-    });
+    });    
+    
+    // Checks scroll position
+    $(window).scroll(function (event) {
+        var height = $(window).scrollTop();
+        //console.log(height+'/'+item_no*$(window).height()*0.65);
+        // If scroll reaches 80% of page, get 10 more eateries
+        if (height >= item_no*$(window).height()*0.65){  
+            if(!is_getting){
+                //console.log('got stuff!');
+                browse_get_more();
+                item_no += 1;
+            }
+        }                
+    }); 
+    
+    // sort by browse results
+    function browse_sort(){
+        event.preventDefault();
+        var sort_by_val = document.getElementById('id_btn_sort_by').value; 
+
+        $.ajax({
+            url: '/browse_ajax/',
+            type: 'POST',
+            data:{
+                sort_by_val: sort_by_val,
+                csrfmiddlewaretoken: getCookie('csrftoken'),
+            },
+
+            success: function(json){
+                var div_contents = "";
+
+                // Search results div
+                for(var i = 0; i < json['EATERIES_COUNT']; i++){
+                    div_contents += '<hr noshade><div class="search-results">';
+                    div_contents += '<a href="/eatery/'+json['EATERY_ID'][i]+'/"><strong>'+json['EATERY_NAME'][i]+'</strong></a></span>&nbsp;@&nbsp;'+json['EATERY_LOCATION_SUBURB'][i]+'&nbsp;&nbsp;';
+                    div_contents += '<span style="font-size: 14px">';
+                    for (var j = 0; j < json['EATERY_PRICING_BOLD'][i]; j++){
+                        div_contents += '$';
+                    }                
+                    div_contents += '<span style="color: #BDC3C7">';
+                    for (var j = 0; j < json['EATERY_PRICING_REST'][i]; j++){
+                        div_contents += '$';
+                    }
+                    div_contents += '</span></span><br/><div class="result-div">';
+                    for (var j = 0; j < json['EATERY_TAGS'][i].length; j++){
+                        div_contents += '<a href="#">'+ json['EATERY_TAGS'][i][j] +'</a>;&nbsp;'
+                    }
+                    div_contents += '</div>';
+                    div_contents += '<div class="addition-info-results">';
+                    div_contents += json['EATERY_UPVOTES'][i] + ' out of '+ json['EATERY_TOTAL_VOTES'][i] +' people recommends this';
+                    div_contents += '</div>';                                
+                }
+                div_contents += '<hr noshade>';
+                document.getElementById('div-browse-results').innerHTML = div_contents;                        
+            },
+
+            error: function(xhr, errmsg, err){
+                console.log(xhr);
+            }
+        });
+
+        return false;    
+    }
+    
+    // Gets eatery from database if scroll > body 0.5%
+    function browse_get_more(){
+        is_getting = true;
+        var sort_by_val = document.getElementById('id_btn_sort_by').value; 
+        
+        $.ajax({
+            url: '/browse_ajax/',
+            type: 'POST',
+            data:{
+                item_no: item_no,
+                sort_by_val: sort_by_val,            
+                csrfmiddlewaretoken: getCookie('csrftoken'),
+            },
+
+            success: function(json){
+                var div_contents = "";
+
+                // Search results div
+                for(var i = 0; i < json['EATERIES_COUNT']; i++){
+                    div_contents += '<div class="search-results">';
+                    div_contents += '<a href="/eatery/'+json['EATERY_ID'][i]+'/"><strong>'+json['EATERY_NAME'][i]+'</strong></a></span>&nbsp;@&nbsp;'+json['EATERY_LOCATION_SUBURB'][i]+'&nbsp;&nbsp;';
+                    div_contents += '<span style="font-size: 14px">';
+                    for (var j = 0; j < json['EATERY_PRICING_BOLD'][i]; j++){
+                        div_contents += '$';
+                    }                
+                    div_contents += '<span style="color: #BDC3C7">';
+                    for (var j = 0; j < json['EATERY_PRICING_REST'][i]; j++){
+                        div_contents += '$';
+                    }
+                    div_contents += '</span></span><br/><div class="result-div">';
+                    for (var j = 0; j < json['EATERY_TAGS'][i].length; j++){
+                        div_contents += '<a href="#">'+ json['EATERY_TAGS'][i][j] +'</a>;&nbsp;'
+                    }
+                    div_contents += '</div>';
+                    div_contents += '<div class="addition-info-results">';
+                    div_contents += json['EATERY_UPVOTES'][i] + ' out of '+ json['EATERY_TOTAL_VOTES'][i] +' people recommends this';
+                    div_contents += '</div>';                                
+                    div_contents += '<hr noshade>';
+                }        
+                document.getElementById('div-browse-results').innerHTML += div_contents;      
+
+                is_getting = false;                        
+            },
+
+            error: function(xhr, errmsg, err){
+                console.log(xhr);
+                console.log(errmsg);
+                console.log(err);
+            }
+        });       
+    }
 </script>
 {% endblock additional_scripts %}

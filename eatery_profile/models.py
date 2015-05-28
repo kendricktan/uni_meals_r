@@ -116,7 +116,11 @@ class location(models.Model):
                 if self.city.lower().find(location.lower()) != -1:
                     return True
                 elif self.suburb.lower().find(location.lower()) != -1:
-                    return True            
+                    return True  
+                    
+                # maybe even address
+                elif self.address.lower().find(location.lower()) != -1:
+                    return True
         
         return False
 '''

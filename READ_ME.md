@@ -23,7 +23,7 @@ To fix:
 
 To do:		
 	High Priority:						
-		Browse page + search page slicing results to 20 results until it auto updates		
+		Search page slicing results to 20 results until it auto updates		
 		Ajax scroll when reaches x % of page	
 	
 	Medium Priority:		
@@ -65,3 +65,4 @@ Done:
 	Fix dropdown boxes for search	
 	GPS coordinates to search restaurants	
 	Popular search
+	Browse Ajax
