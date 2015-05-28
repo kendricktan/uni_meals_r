@@ -37,6 +37,9 @@ Uni Meals - Search
 -->
 <!-- END SEARCH -->
 
+<input type="hidden" id="id_query" value=""/>
+<input type="hidden" id="id_location" value=""/>
+
 <!-- FILTER RESULTS -->
 <div style="margin-top: 25px" class="container">
     <div id="div-search-results-count"><h4>{{EATERIES_COUNT_ALL}} results for '{{SEARCH_QUERY}}' @ '{{LOCATION}}'</h4></div>
@@ -141,23 +144,23 @@ Uni Meals - Search
     // Wait till page fully loades
     $(window).bind("load", function() {   
         // Search textboxes autoload
-        //document.getElementById('id_query').value = "{{SEARCH_QUERY}}";
-        //document.getElementById('id_location').value = "{{LOCATION}}";
+        document.getElementById('id_query').value = "{{SEARCH_QUERY}}";
+        document.getElementById('id_location').value = "{{LOCATION}}";
         
         search_query = document.getElementById('id_query').value;
         location_query = document.getElementById('id_location').value;
         max_pricing_val = document.getElementById('id_btn_max_pricing').value;
         location_val = document.getElementById('id_btn_location').value;
-        sort_by_val = document.getElementById('id_btn_sort_by').value; 
-        
-        // Dropdown boxes
-        $("#filter-menu li a").click(function(){
-            event.preventDefault();
-            var selText = $(this).text();
-            $(this).parents('.btn-group').find('.dropdown-toggle').html($(this).attr('data-value') + selText+' <span class="caret"></span>');
-            $(this).parents('.btn-group').find('.dropdown-toggle').val(selText);
-        });                
+        sort_by_val = document.getElementById('id_btn_sort_by').value;                         
     }); 
+    
+    // Dropdown boxes
+    $("#filter-menu li a").click(function(){
+        event.preventDefault();
+        var selText = $(this).text();
+        $(this).parents('.btn-group').find('.dropdown-toggle').html($(this).attr('data-value') + selText+' <span class="caret"></span>');
+        $(this).parents('.btn-group').find('.dropdown-toggle').val(selText);
+    });  
     
     
     // Filter search results
@@ -212,7 +215,7 @@ Uni Meals - Search
                 }
                 document.getElementById('div-search-results').innerHTML = div_contents;
 
-                document.getElementById('div-search-results-count').innerHTML = '<h4>'+json['EATERIES_COUNT_ALL']+' results for \''+json['SEARCH_QUERY']+'\'</h4>'
+                document.getElementById('div-search-results-count').innerHTML = '<h4>'+json['EATERIES_COUNT_ALL']+' results for \''+json['SEARCH_QUERY']+'\' @ '+json['LOCATION']+'</h4>'
             },
 
             error: function(xhr, errmsg, err){
