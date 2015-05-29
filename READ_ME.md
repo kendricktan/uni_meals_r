@@ -26,13 +26,11 @@ To do:
 		Unread messages
 		User delete image function		
 	
-	Medium Priority:		
-		Sort reviews by...
+	Medium Priority:				
 		If user is not logged in and tries to do stuff that requires them to log in (e.g. heart food), sign them up		
 		Create user timeline
 		
-	Low Priority:		
-		Ajax auto update when scroll for reviews + timeline
+	Low Priority:				
 		Resize user image/crop to suit layout needs
 		
 	Etc:
@@ -71,3 +69,5 @@ Done:
 	Create inbox + message app
 	Create reply message button
 	Create message user page
+	Sort reviews by...
+	Ajax auto update when scroll for reviews + timeline

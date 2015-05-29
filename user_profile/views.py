@@ -134,14 +134,12 @@ def inbox_message_view(request, message_id):
         _u = request.user
         variables['USER'] = _u
         
-        _message = message.objects.get(id=int(message_id))
-        _message.is_read = True
-        _message.save()
+        _message = message.objects.get(id=int(message_id))        
         
         if request.method == 'GET':            
             
             # If this message is related to user then we can allow them to view it
-            if _message.op_user_profile == _u or _message.received_user_profile == _u:
+            if _message.op_user_profile == _u or _message.received_user_profile == _u:                
                 
                 variables['MESSAGE'] = _message
                 variables['MESSAGE_REPLIES'] = _message.message_reply_set.all()
