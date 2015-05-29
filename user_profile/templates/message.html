@@ -1,0 +1,86 @@
+{% extends "generic.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+{{USER.username}}'s message
+{% endblock title %}
+
+{% block content %}
+<!-- MESSAGE -->
+<div class="container">
+    <div class="message-post-wrapper">
+        <div class="col-sm-12">
+            <span style="text-align: center"><h4>{{MESSAGE.title}}</h4></span>            
+        </div>
+
+        <!-- MESSAGE ROOT -->                    
+        <div class="container">
+            <div class="col-sm-12">
+                <!-- USER DP -->
+                <div style="text-align: center" class="col-sm-2">
+                    {% if MESSAGE.op_user_profile.picture %}
+                        <img width=75 height=75 src="{{MEDIA_URL}}{{MESSAGE.op_user_profile.picture}}" alt="User">
+                    {% else %}
+                        <img width=75 height=75 src="{{MEDIA_URL}}img/profile/blank.png" alt="User">
+                    {% endif%}
+                    <br/>
+                    <a href="#">{{MESSAGE.op_user_profile.username}}</a>
+                </div>                            
+                <!-- END USER DP -->
+
+                <!-- USER TEXT -->
+                <div style="" class="col-sm-10">
+                    <span class="message-datetime">{{MESSAGE.get_datetime_sent}} to {{MESSAGE.received_user_profile.username}}</span><br/>
+                    {{MESSAGE.text}}
+                </div>
+                <!-- END USER TEXT -->                            
+            </div>                                        
+        </div>
+        <!-- END MESSAGE ROOT -->
+
+        <hr noshade>
+
+        <!-- MESSAGE CONTENT -->
+        {% for message in MESSAGE_REPLIES %}
+        <div class="container">
+            <div class="col-sm-12">
+                <!-- USER DP -->
+                <div style="text-align: center" class="col-sm-2">
+                    {% if message.op_user_profile.picture %}
+                        <img width=75 height=75 src="{{MEDIA_URL}}{{message.op_user_profile.picture}}" alt="User">
+                    {% else %}
+                        <img width=75 height=75 src="{{MEDIA_URL}}img/profile/blank.png" alt="User">
+                    {% endif%}
+                    <br/>
+                    {{message.op_user_profile.username}}
+                </div>                            
+                <!-- END USER DP -->
+
+                <!-- USER TEXT -->
+                <div class="col-sm-10">
+                    <span class="message-datetime">{{message.get_datetime_sent}}</span><br/>
+                    {{message.text}}
+                </div>
+                <!-- END USER TEXT -->                            
+            </div>                                        
+        </div>
+        <hr noshade>
+        {% endfor %}
+        <!-- END MESSAGE CONTENT -->        
+
+        <div class="container">
+            <form method="POST" action="{{request.get_full_path}}">{% csrf_token %}
+                <textarea placeholder="Enter reply here" style="font-size: 15px; width:97%;" rows="4" name="id_msg_reply_textarea" id="id_msg_reply_textarea"></textarea><br/>
+                <button style="width:97%" class="btn btn-info">Reply</button>                    
+            </form>
+        </div>
+
+        <hr noshade>
+    </div>            
+</div>
+<!-- END MESSAGE -->  
+{% endblock content %}
+
+{% block additional_scripts %}     
+{% endblock additional_scripts %}

@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>232</x>
-      <y>552</y>
+      <x>368</x>
+      <y>312</y>
       <w>144</w>
       <h>112</h>
     </coordinates>
@@ -23,8 +23,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>424</x>
-      <y>456</y>
+      <x>560</x>
+      <y>216</y>
       <w>104</w>
       <h>56</h>
     </coordinates>
@@ -37,8 +37,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>344</x>
-      <y>464</y>
+      <x>480</x>
+      <y>224</y>
       <w>96</w>
       <h>104</h>
     </coordinates>
@@ -49,8 +49,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>296</x>
-      <y>344</y>
+      <x>432</x>
+      <y>104</y>
       <w>280</w>
       <h>224</h>
     </coordinates>
@@ -61,8 +61,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>32</x>
-      <y>576</y>
+      <x>168</x>
+      <y>336</y>
       <w>80</w>
       <h>40</h>
     </coordinates>
@@ -74,8 +74,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>104</x>
-      <y>584</y>
+      <x>240</x>
+      <y>344</y>
       <w>144</w>
       <h>32</h>
     </coordinates>
@@ -86,8 +86,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>8</x>
-      <y>432</y>
+      <x>144</x>
+      <y>192</y>
       <w>144</w>
       <h>72</h>
     </coordinates>
@@ -101,8 +101,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>56</x>
-      <y>496</y>
+      <x>192</x>
+      <y>256</y>
       <w>88</w>
       <h>96</h>
     </coordinates>
@@ -113,8 +113,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>0</x>
-      <y>304</y>
+      <x>136</x>
+      <y>64</y>
       <w>168</w>
       <h>72</h>
     </coordinates>
@@ -128,8 +128,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>72</x>
-      <y>368</y>
+      <x>208</x>
+      <y>128</y>
       <w>88</w>
       <h>80</h>
     </coordinates>
@@ -140,8 +140,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>440</x>
-      <y>240</y>
+      <x>576</x>
+      <y>0</y>
       <w>152</w>
       <h>64</h>
     </coordinates>
@@ -155,8 +155,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>256</x>
-      <y>272</y>
+      <x>392</x>
+      <y>32</y>
       <w>200</w>
       <h>296</h>
     </coordinates>
@@ -167,63 +167,38 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>256</x>
-      <y>720</y>
+      <x>392</x>
+      <y>520</y>
       <w>120</w>
-      <h>88</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>message
 --
-- op_id
 - title
 - text
-- datetime_sent</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>248</x>
-      <y>872</y>
-      <w>120</w>
-      <h>72</h>
-    </coordinates>
-    <panel_attributes>message_reply
---
-- op_id
-- text
+- is_read
 - datetime_sent</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>304</x>
-      <y>656</y>
-      <w>88</w>
-      <h>80</h>
+      <x>440</x>
+      <y>416</y>
+      <w>136</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-&lt;&lt;foreign key&gt;&gt;</panel_attributes>
-    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>296</x>
-      <y>800</y>
-      <w>88</w>
-      <h>88</h>
-    </coordinates>
-    <panel_attributes>lt=.&gt;
-&lt;&lt;foreign key&gt;&gt;</panel_attributes>
-    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+&lt;&lt;foreign key&gt;&gt;
+(op_user_profile)
+(received_user_profile)</panel_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>424</x>
-      <y>392</y>
+      <x>560</x>
+      <y>152</y>
       <w>112</w>
       <h>48</h>
     </coordinates>
@@ -237,8 +212,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>320</x>
-      <y>408</y>
+      <x>456</x>
+      <y>168</y>
       <w>120</w>
       <h>160</h>
     </coordinates>
@@ -249,8 +224,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>560</x>
-      <y>312</y>
+      <x>696</x>
+      <y>72</y>
       <w>104</w>
       <h>96</h>
     </coordinates>
@@ -262,5 +237,32 @@
 - not_useful_count
 - datetime_pub</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>392</x>
+      <y>656</y>
+      <w>120</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>message_reply
+--
+- text
+- is_read
+- datetime_sent</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>592</y>
+      <w>88</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+&lt;&lt;foreign key&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>

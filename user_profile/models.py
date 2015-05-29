@@ -33,24 +33,43 @@ class user_profile(AbstractUser):
     # MESSAGE
 '''   
 class message(models.Model):
-    op_id = models.IntegerField()
-    title = models.CharField(max_length=255)
+    op_user_profile = models.ForeignKey(user_profile, null=True, related_name='op_user_profile')
+    received_user_profile = models.ForeignKey(user_profile, null=True, related_name='received_user_profile')    
+    title = models.CharField(max_length=255, null=True)
     text = models.CharField(max_length=32767)
     datetime_sent = models.DateTimeField(auto_now_add=True)
-    user_profile = models.ForeignKey(user_profile)
+    is_read = models.BooleanField(default=False)    
     
     def __unicode__(self):
-        return unicode(self.user_profile.get_username() + '\'s message, id: ' + self.id)
+        return unicode(self.op_user_profile.get_username() + '\'s message to ' + self.received_user_profile.get_username() + ', id: ' + str(self.id))
+        
+    def get_datetime_sent(self):
+        return self.datetime_sent.strftime('%d:%m:%y') + ' at ' + self.datetime_sent.strftime('%H:%M')
+        
+    def get_short_description(self):
+        if self.message_reply_set.all().count() == 0:
+            if len(self.text) >= 255:
+                return unicode(self.text[0:255] + '...')
+            return unicode(self.text)
+        else:
+            if len(self.message_reply_set.last().text) >= 255:
+                return unicode(self.message_reply_set.last().text[0:255] + '...')
+            else:
+                return unicode(self.message_reply_set.last().text)
         
 class message_reply(models.Model):
-    op_id = models.IntegerField()
+    op_user_profile = models.ForeignKey(user_profile, null=True)        
     text = models.CharField(max_length=32767)
     datetime_sent = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
     message = models.ForeignKey(message)
     
+    def get_datetime_sent(self):
+        return self.datetime_sent.strftime('%d:%m:%y') + ' at ' + self.datetime_sent.strftime('%H:%M')
+        
     def __unicode__(self):
-        return unicode(self.message.title() + '\'s message reply, id: ' + self.id)
-  
+        return unicode(self.op_user_profile.get_username() + '\'s reply, id: ' + str(self.id))
+
 '''
     # WALL
 '''

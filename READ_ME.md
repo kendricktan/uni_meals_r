@@ -22,15 +22,16 @@ To improve:
 To fix:
 
 To do:		
-	High Priority:						
-		Create inbox + message app
+	High Priority:								
+		Unread messages
 		User delete image function		
 	
 	Medium Priority:		
+		Sort reviews by...
 		If user is not logged in and tries to do stuff that requires them to log in (e.g. heart food), sign them up		
 		Create user timeline
 		
-	Low Priority:
+	Low Priority:		
 		Ajax auto update when scroll for reviews + timeline
 		Resize user image/crop to suit layout needs
 		
@@ -67,3 +68,6 @@ Done:
 	Browse Ajax
 	Search page slicing results to 20 results until it auto updates		
 	Ajax scroll when reaches x % of page	
+	Create inbox + message app
+	Create reply message button
+	Create message user page

@@ -1,0 +1,33 @@
+{% extends "generic.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+{{USER.username}}'s message
+{% endblock title %}
+
+{% block content %}
+<!-- MESSAGE -->
+<div class="container">
+    <div class="message-post-wrapper">
+        <div class="col-sm-12">
+            <span style="text-align: center"><h5>New message to {{USER_TARGET.username}}</h5></span>            
+        </div>     
+
+        <div class="container">
+            <form method="POST" action="{{request.get_full_path}}">{% csrf_token %}
+                <input type="hidden" name="id_user_target_id" id="id_user_target_id" value="{{USER_TARGET.id}}"/>
+                <input type="text" placeholder="Enter title here..." style="padding-left: 10px; width: 97%" name="id_msg_title" id="id_msg_title" value=""/>
+                <textarea placeholder="Enter message here" style="font-size: 15px; width:97%;" rows="4" name="id_msg_textarea" id="id_msg_textarea"></textarea><br/>
+                <button style="width:97%" class="btn btn-info">Send</button>                    
+            </form>
+        </div>
+
+        <hr noshade>
+    </div>            
+</div>
+<!-- END MESSAGE -->  
+{% endblock content %}
+
+{% block additional_scripts %}     
+{% endblock additional_scripts %}

@@ -92,6 +92,111 @@ def logout_view(request):
     # End Authentication
 '''
 
+'''
+    # Inbox
+'''
+
+def inbox_view(request):
+    _u = None
+    variables = {}
+    
+    if request.user.is_authenticated():
+        _u = request.user        
+        variables['USER'] = _u
+        
+        if request.method == 'GET':            
+            
+            # Gets messages received
+            _message_all = []
+            for _message_ in message.objects.all():
+                if _message_.op_user_profile == _u or _message_.received_user_profile == _u:
+                    _message_all.append(_message_)
+            _message_all_unread = message.objects.all().filter(received_user_profile=_u, is_read=False)
+            
+            # Gets sent message
+            _message_all_sent = message.objects.all().filter(op_user_profile=_u)
+            
+            variables['MESSAGE_ALL'] = _message_all
+            variables['MESSAGE_ALL_UNREAD'] = _message_all_unread
+            variables['MESSAGE_ALL_SENT'] = _message_all_sent
+            
+        
+        return render(request, 'inbox.html', variables)
+    
+    else:
+        return HttpResponseRedirect('/profile/signup/')
+
+def inbox_message_view(request, message_id):
+    _u = None
+    variables = {}
+    
+    if request.user.is_authenticated():
+        _u = request.user
+        variables['USER'] = _u
+        
+        _message = message.objects.get(id=int(message_id))
+        _message.is_read = True
+        _message.save()
+        
+        if request.method == 'GET':            
+            
+            # If this message is related to user then we can allow them to view it
+            if _message.op_user_profile == _u or _message.received_user_profile == _u:
+                
+                variables['MESSAGE'] = _message
+                variables['MESSAGE_REPLIES'] = _message.message_reply_set.all()
+            
+                return render(request, 'message.html', variables)
+                
+        if request.method == 'POST':
+            _message.is_read = False
+            _message.save()
+            _message_reply_text = request.POST['id_msg_reply_textarea']
+            _message_reply = message_reply(op_user_profile=_u, text=_message_reply_text, message=_message)
+            _message_reply.save()
+            
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            
+    return HttpResponseRedirect('/')
+        
+        
+# Generate new mail
+def inbox_message_new_view(request):
+    _u = None
+    variables = {}
+    
+    if request.user.is_authenticated():
+        _u = request.user
+        variables['USER'] = _u
+        
+        if request.method == 'POST':
+            # user just click message button
+            try:
+                _receiver = user_profile.objects.get(id=int(request.POST['id_target_user']))
+                variables['USER_TARGET'] = _receiver
+                
+            except Exception:
+                pass
+    
+            # user pressed send button
+            try:
+                _receiver = user_profile.objects.get(id=int(request.POST['id_user_target_id']))                
+                _message_text = request.POST['id_msg_textarea']
+                _message_title = request.POST['id_msg_title']
+                _m = message(op_user_profile=_u, received_user_profile=_receiver, title=_message_title, text=_message_text)
+                _m.save()
+                
+                return HttpResponseRedirect('/profile/inbox/')
+                
+            except Exception:
+                pass
+            
+            
+    return render(request, 'new_message.html', variables)
+    
+'''
+    # End inbox
+'''
 
 '''
     # Profile
@@ -100,10 +205,20 @@ def logout_view(request):
 # Request to view the profile page
 def profile_view(request, profile_id):
     _u = None
+    variables = {}
+    
     if request.user.is_authenticated():
         _u = request.user
+        variables['USER'] = _u
         
-    return render(request, 'profile.html', {'USER' : _u})   
+    try:
+        _u_target = user_profile.objects.get(id=int(profile_id))
+        variables['USER_TARGET'] = _u_target
+        
+    except Exception:
+        pass        
+        
+    return render(request, 'profile.html', variables)   
         
 # Request to view the profile editing page
 def profile_edit_view(request, profile_id):

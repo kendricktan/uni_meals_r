@@ -215,7 +215,7 @@ Uni Meals - Search
                 }
                 document.getElementById('div-search-results').innerHTML = div_contents;
 
-                document.getElementById('div-search-results-count').innerHTML = '<h4>'+json['EATERIES_COUNT_ALL']+' results for \''+json['SEARCH_QUERY']+'\' @ '+json['LOCATION']+'</h4>'
+                document.getElementById('div-search-results-count').innerHTML = '<h4>'+json['EATERIES_COUNT_ALL']+' results for \''+json['SEARCH_QUERY']+'\' @ \''+json['LOCATION']+'\'</h4>'
             },
 
             error: function(xhr, errmsg, err){

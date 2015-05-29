@@ -1,0 +1,135 @@
+{% extends "generic.html" %}
+
+{% block title %}
+{{USER.username}}'s Inbox
+{% endblock title %}
+
+{% block content %}
+<!-- INBOX TABS -->
+<div class="row">
+    <div class="container">
+        <div class="col-sm-12"> 
+            <div id="tab-wizard">
+                <h5>{{USER.username}}'s inbox</h5>
+                <hr style="width: 100%" noshade>
+                <!-- TABS -->
+                <ul class="nav nav-pills">
+                    <li><a href="#all-messages-tab" data-toggle="tab">All</a></li>
+                    <li><a href="#unread-messages-tab" data-toggle="tab">Unread</a></li>                            
+                    <li><a href="#sent-messages-tab" data-toggle="tab">Sent</a></li>                            
+                </ul>
+                <!-- END TABS -->                        
+                <hr style="width: 100%" noshade>  
+
+                <!-- TAB CONTENT -->
+                <div class="tab-content">
+                    <!-- ALL MESSAGES TAB -->                            
+                    <div class="tab-pane" id="all-messages-tab">
+                        <div class="container">
+                            {% for message in MESSAGE_ALL%}
+                            <!-- MESSAGE OP -->                             
+                            <div class="row inbox-post-wrapper">
+                                <div class="col-sm-12">
+                                    <!-- USER DP -->
+                                    <div style="text-align: center" class="col-sm-2">
+                                        {% if message.op_user_profile.picture %}
+                                            <img width=50 height=50 src="{{MEDIA_URL}}{{message.op_user_profile.picture}}" alt="User">
+                                        {% else %}
+                                            <img width=50 height=50 src="{{MEDIA_URL}}img/profile/blank.png" alt="User">
+                                        {% endif%}
+                                        <br/>
+                                        <a href="/profile/{{message.op_user_profile.id}}/">{{message.op_user_profile.username}}</a>
+                                    </div>                            
+                                    <!-- END USER DP -->
+                                    <a href="/profile/inbox/message/{{message.id}}/">
+                                        <!-- USER TEXT -->
+                                        <div class="col-sm-10">
+                                            <strong>{{message.title}}</strong><br/>
+                                            {{message.get_short_description}}
+                                        </div>
+                                        <!-- END USER TEXT -->                            
+                                    </a>                                                                                   
+                                </div>
+                            </div>   
+                            {% endfor %}
+                            <!-- END MESSAGE OP -->                             
+                        </div>
+                    </div>
+                    <!-- END ALL MESSAGES TAB -->
+
+                    <!-- UNREAD MESSAGES TAB -->                                                        
+                    <div class="tab-pane" id="unread-messages-tab">
+                        <div class="container">
+                            {% for message in MESSAGE_ALL_UNREAD%}
+                            <!-- MESSAGE OP -->                             
+                            <div class="row inbox-post-wrapper">
+                                <div class="col-sm-12">
+                                    <!-- USER DP -->
+                                    <div style="text-align: center" class="col-sm-2">
+                                        {% if message.op_user_profile.picture %}
+                                            <img width=50 height=50 src="{{MEDIA_URL}}{{message.op_user_profile.picture}}" alt="User">
+                                        {% else %}
+                                            <img width=50 height=50 src="{{MEDIA_URL}}img/profile/blank.png" alt="User">
+                                        {% endif%}
+                                        <br/>
+                                        <a href="/profile/{{message.op_user_profile.id}}/">{{message.op_user_profile.username}}</a>
+                                    </div>                            
+                                    <!-- END USER DP -->
+                                    <a href="/profile/inbox/message/{{message.id}}/">
+                                        <!-- USER TEXT -->
+                                        <div class="col-sm-10">
+                                            <strong>{{message.title}}</strong><br/>
+                                            {{message.get_short_description}}
+                                        </div>
+                                        <!-- END USER TEXT -->                            
+                                    </a>                                                                                   
+                                </div>
+                            </div>   
+                            {% endfor %}
+                            <!-- END MESSAGE OP -->                             
+                        </div>
+                    </div>
+                    <!-- END ALL MESSAGES TAB -->
+                    
+                    <!-- SENT MESSAGES TAB -->                                                        
+                    <div class="tab-pane" id="sent-messages-tab">
+                        <div class="container">
+                            <!-- MESSAGE OP -->                  
+                            {% for message in MESSAGE_ALL_SENT%}
+                            <!-- MESSAGE OP -->                             
+                            <div class="row inbox-post-wrapper">
+                                <div class="col-sm-12">
+                                    <!-- USER DP -->
+                                    <div style="text-align: center" class="col-sm-2">
+                                        {% if message.op_user_profile.picture %}
+                                            <img width=50 height=50 src="{{MEDIA_URL}}{{message.op_user_profile.picture}}" alt="User">
+                                        {% else %}
+                                            <img width=50 height=50 src="{{MEDIA_URL}}img/profile/blank.png" alt="User">
+                                        {% endif%}
+                                        <br/>
+                                        <a href="#">{{message.op_user_profile.username}}</a>
+                                    </div>                            
+                                    <!-- END USER DP -->
+                                    <a href="/profile/inbox/message/{{message.id}}/">
+                                        <!-- USER TEXT -->
+                                        <div class="col-sm-10">
+                                            <strong>{{message.title}}</strong><br/>
+                                            {{message.get_short_description}}
+                                        </div>
+                                        <!-- END USER TEXT -->                            
+                                    </a>                                                                                   
+                                </div>
+                            </div>   
+                            {% endfor %}
+                            <!-- END MESSAGE OP --> 
+                        </div>
+                    </div>
+                    <!-- END ALL MESSAGES TAB -->
+                </div>
+                <!-- END TAB CONTENT -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END INBOX TABS -->    
+{% endblock content %}

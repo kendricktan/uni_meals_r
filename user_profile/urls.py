@@ -20,6 +20,11 @@ urlpatterns = [
     url(r'^downvote/eatery/(?P<eatery_id>[0-9]+)/$', views.profile_eatery_downvote, name='profile_eatery_downvote'),
     url(r'^clearvote/eatery/(?P<eatery_id>[0-9]+)/$', views.profile_eatery_clearvote, name='profile_eatery_clearvote'),
     
+    # Inbox
+    url(r'^inbox/$', views.inbox_view, name='inbox_view'),
+    url(r'^inbox/message/(?P<message_id>[0-9]+)/$', views.inbox_message_view, name='inbox_message_view'),
+    url(r'^inbox/message/new/$', views.inbox_message_new_view, name='inbox_message_new_view'),
+    
     # Sign-up view
     url(r'^signup/$', views.signup_view, name='signup_view'),
     
@@ -27,6 +32,5 @@ urlpatterns = [
     url(r'^login/$', views.login_view, name='login_view'),
     
     # logout and redirects
-    url(r'^logout/$', views.logout_view, name='logout_view'),        
-    
+    url(r'^logout/$', views.logout_view, name='logout_view'),                
 ]
