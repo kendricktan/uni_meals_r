@@ -19,10 +19,11 @@
             <div class="profile-info">
                 <p><strong>{{USER_TARGET.username}}</strong>{% if USER_TARGET.location %} @ {{USER_TARGET.location}} {% endif %}</p>
                 <p><strong>About me</strong><br/>{% if USER_TARGET.description %} {{USER_TARGET.description}} {% else %}I enjoy using uni meals!{% endif %}</p>
-                <form method="POST" action="/profile/inbox/message/new/">{% csrf_token %}
+                <button class="btn btn-info"><a style="color: #fff;" href="mailto:{{USER_TARGET.email}}">Email me</a></button>
+                <!--<form method="POST" action="/profile/inbox/message/new/">{% csrf_token %}
                     <input type="hidden" name="id_target_user" id="id_target_user" value="{{USER_TARGET.id}}"/>
                     <button class="btn btn-info">Message</button>
-                </form>
+                </form>-->
             </div>
         </div>
         <br/>
@@ -38,7 +39,7 @@
                 <hr style="width: 100%" noshade>
                 <!-- TABS -->
                 <ul class="nav nav-pills">
-                    <li><a href="#wall-tab" data-toggle="tab">Wall</a></li>
+                    <!--<li><a href="#wall-tab" data-toggle="tab">Wall</a></li>-->
                     <li><a href="#timeline-tab" data-toggle="tab">Timeline</a></li>
                 </ul>
                 <!-- END TABS -->
@@ -47,7 +48,7 @@
 
             <div class="tab-content">
                 <!-- USER_TARGET WALL -->
-                <div class="tab-pane" id="wall-tab">
+                <!--<div class="tab-pane" id="wall-tab">
                     <form method="post" action="">
                         <textarea style="font-size: 15px; width:100%" rows="2" id="wall-post"></textarea>
                         <div style="text-align: right"><button class="btn btn-info">Post!</button></div>
@@ -55,14 +56,14 @@
                     <hr style="width: 100%" noshade>
                     <div class="row wall-post-wrapper">                    
                         <!-- POST -->
-                        <div class="container">
+                        <!--<div class="container">
                             <div class="col-sm-1">{% if USER_TARGET.picture %}<img class="wall-post-reply-dp" src="{{MEDIA_URL}}{{USER_TARGET.picture}}" alt="User">{% else %}<img class="wall-post-reply-dp" src="{{MEDIA_URL}}img/profile/blank.png" alt="User">{% endif%}</div>      
                             <div class="col-sm-11 wall-post-text">G'day mate! I'm just testing out to see how this thingy majigy is going to render these text and see if it is actually of standard to be user</div>                           
                         </div>
                         <!-- END POST -->
 
                         <!-- REPLY -->
-                        <div class="container">
+                        <!--<div class="container">
                             <div class="col-sm-2">{% if USER_TARGET.picture %}<img class="wall-post-reply-dp" src="{{MEDIA_URL}}{{USER_TARGET.picture}}" alt="User">{% else %}<img class="wall-post-reply-dp" src="{{MEDIA_URL}}img/profile/blank.png" alt="User">{% endif%}</div>      
                             <div class="col-sm-10 wall-post-text">G'day mate! I'm just testing out to see how this thingy majigy is going to render these text and see if it is actually of standard to be user</div>                           
                         </div>
@@ -74,13 +75,13 @@
                         <!-- END REPLY -->
 
                         <!-- USER_TARGET REPLY -->
-                        <div class="container">
+                        <!--<div class="container">
                             <div class="col-xs-2">{% if USER_TARGET.picture %}<img class="wall-post-reply-dp" src="{{MEDIA_URL}}{{USER_TARGET.picture}}" alt="User">{% else %}<img class="wall-post-reply-dp" src="{{MEDIA_URL}}img/profile/blank.png" alt="User">{% endif%}</div>      
                             <div class="col-xs-8"><input class="wall-post-reply-textarea" id="wall-post-reply"></input></div>                           
                             <div class="col-xs-2"><div style="margin-left: auto; margin-right: auto"><button class="btn btn-info">Reply!</button></div></div>
                         </div>
                         <!-- END USER_TARGET REPLY -->
-                    </div>    
+                    <!--</div>    
                 </div>
                 <!-- END USER_TARGET WALL -->
 
@@ -88,91 +89,44 @@
                 <div class="tab-pane" id="timeline-tab">
                     <hr noshade>
                     <ul class="timeline">
-                        <li>
-                            <div class="timeline-badge success"><i class="glyphicon fui-check"></i></div>
+                        {% for identifier, title, time_title, text, eatery_id, datetime in TIMELINE %}
+                            {% ifequal identifier 'r' %}
+                            <li class="timeline-inverted">
+                                <div class="timeline-badge success"><i class="glyphicon fui-check"></i></div>
+                            {% endifequal %}
+                            
+                            {% ifequal identifier 'uv' %}
+                            <li class="timeline">
+                                <div class="timeline-badge success"><i class="glyphicon fui-triangle-up"></i></div>
+                            {% endifequal %}
+                            
+                            {% ifequal identifier 'dv' %}
+                            <li class="timeline-inverted">
+                                <div class="timeline-badge success"><i class="glyphicon fui-triangle-"></i></div>
+                            {% endifequal %}
+                            
+                            {% ifequal identifier 'fh' %}
+                            <li>
+                                <div class="timeline-badge warning"><i class="glyphicon fui-heart"></i></div>
+                            {% endifequal %}
+                            
+                            {% ifequal identifier 'sh' %}
+                            <li>
+                                <div class="timeline-badge warning"><i class="glyphicon fui-heart"></i></div>
+                            {% endifequal %}
                             <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h4 class="timeline-title">Review</h4>
-                                    <p><small class="text-muted"><i class="glyphicon fui-time"></i> 11 hours ago</small></p>
-                                </div>
-                                <div class="timeline-body">
-                                    <p>Gave XYZ eatery a review</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="timeline-inverted">
-                            <div class="timeline-badge warning"><i class="glyphicon fui-heart"></i></div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h4 class="timeline-title">Favourites</h4>
-                                    <p><small class="text-muted"><i class="glyphicon fui-time"></i> 13 hours ago</small></p>
-                                </div>
-                                <div class="timeline-body">
-                                    <p>Favourited XYZ food</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="timeline-badge info"><i class="glyphicon fui-credit-card"></i></div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h4 class="timeline-title">Rewards</h4>
-                                    <p><small class="text-muted"><i class="glyphicon fui-time"></i>19:35 on 05/05/2015</small></p>
-                                </div>
-                                <div class="timeline-body">
-                                    <p>User xxx gained a free meal at XYZ restaurant.</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="timeline-inverted">
-                            <div class="timeline-badge success"><i class="glyphicon fui-triangle-up"></i></div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h4 class="timeline-title">Voted Up</h4>
-                                    <p><small class="text-muted"><i class="glyphicon fui-time"></i>06:15 on 02/05/2015</small></p>
-                                </div>
-                                <div class="timeline-body">
-                                    <p>User Voted up XYA restaurant.</p>
-                                    <hr>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
-                                            <i class="glyphicon fui-gear"></i> <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#">Action</a></li>
-                                            <li><a href="#">Another action</a></li>
-                                            <li><a href="#">Something else here</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">Separated link</a></li>
-                                        </ul>
+                                <a href="/eatery/{{eatery_id}}">
+                                    <div class="timeline-heading">
+                                        <h4 class="timeline-title">{{title}}</h4>
+                                        <p><small class="text-muted"><i class="glyphicon fui-time"></i>&nbsp;{{time_title}}</small></p>
                                     </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="timeline-badge danger"><i class="glyphicon fui-triangle-down"></i></div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h4 class="timeline-title">Voted Down</h4>
-                                </div>
-                                <div class="timeline-body">
-                                    <p>User Voted up XYA restaurant.</p>
-                                    <hr>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
-                                            <i class="glyphicon fui-gear"></i> <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#">Action</a></li>
-                                            <li><a href="#">Another action</a></li>
-                                            <li><a href="#">Something else here</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">Separated link</a></li>
-                                        </ul>
+                                    <div class="timeline-body">
+                                        <p>{{text}}</p>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         </li>
+                        {% endfor %}                        
                     </ul>
                 </div>
                 <!-- END GENERIC TIMELINE -->

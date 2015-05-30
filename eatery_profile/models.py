@@ -244,7 +244,10 @@ class special_tags(models.Model):
 '''
 class food_hearts(models.Model):    
     user_profile = models.ForeignKey(user_profile)
-    date_hearted = models.DateTimeField(auto_now_add=True)
+    datetime_hearted = models.DateTimeField(auto_now_add=True)
+    
+    def get_datetime_hearted(self):
+        return self.datetime_hearted.strftime('%d/%m/%y') + ' at ' + self.datetime_hearted.strftime('%H:%M')    
     
 class food(models.Model):
     name = models.CharField(max_length=50)
@@ -259,10 +262,13 @@ class food(models.Model):
         
 class specials_hearts(models.Model):    
     user_profile = models.ForeignKey(user_profile)
-    date_hearted = models.DateTimeField(auto_now_add=True)    
+    datetime_hearted = models.DateTimeField(auto_now_add=True)    
     
     def __unicode__(self):
         return unicode(self.user_profile.get_username())
+        
+    def get_datetime_hearted(self):
+        return self.datetime_hearted.strftime('%d/%m/%y') + ' at ' + self.datetime_hearted.strftime('%H:%M')    
         
 class specials(models.Model):
     name = models.CharField(max_length=50)
@@ -290,7 +296,10 @@ class reviews(models.Model):
     eatery_profile = models.ForeignKey(eatery_profile)
     
     def __unicode__(self):
-        return unicode(self.user_profile.get_username() + '\'s reviews')        
+        return unicode(self.user_profile.get_username() + '\'s reviews')   
+
+    def get_datetime_pub(self):
+        return self.datetime_pub.strftime('%d/%m/%y') + ' at ' + self.datetime_pub.strftime('%H:%M')    
         
     def user_picture_location(self):
         if self.user_profile.picture:
@@ -313,7 +322,7 @@ class reviews_usefulness(models.Model):
 '''
 class user_votes(models.Model):
     user_profile = models.ForeignKey(user_profile)    
-    datetime_voted = models.DateField(auto_now_add=True)
+    datetime_voted = models.DateTimeField(auto_now_add=True)
     is_upvoted = models.BooleanField()
     eatery_profile = models.ForeignKey(eatery_profile)
     
@@ -321,4 +330,7 @@ class user_votes(models.Model):
         if self.is_upvoted is True:
             return unicode(self.user_profile.get_username() + '\'s upvotes!')              
         return unicode(self.user_profile.get_username() + '\'s downvotes')
+        
+    def get_datetime_voted(self):
+        return self.datetime_voted.strftime('%d/%m/%y') + ' at ' + self.datetime_voted.strftime('%H:%M')    
         

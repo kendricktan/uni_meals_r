@@ -95,7 +95,8 @@ def logout_view(request):
 '''
     # Inbox
 '''
-
+# Depreciated
+'''
 def inbox_view(request):
     _u = None
     variables = {}
@@ -191,7 +192,7 @@ def inbox_message_new_view(request):
             
             
     return render(request, 'new_message.html', variables)
-    
+'''
 '''
     # End inbox
 '''
@@ -209,12 +210,48 @@ def profile_view(request, profile_id):
         _u = request.user
         variables['USER'] = _u
         
+    # tries to get current profile viewing, if can't get that profile then redirects to homepage
     try:
         _u_target = user_profile.objects.get(id=int(profile_id))
         variables['USER_TARGET'] = _u_target
         
+        # Compile reviews, vote, specials_hearts, and food_hearted
+        _timeline_return = []
+        
+        # format = (identifier, title, time-title, text, eatery_id, datetime)
+        
+        # votes
+        for _vote in _u_target.user_votes_set.all():
+            _vote_title = 'Upvoted ' if _vote.is_upvoted else 'Downvoted ' + _vote.eatery_profile.name
+            _vote_text = _u_target.username + (' upvoted ' if _vote.is_upvoted else ' downvoted ') + _vote.eatery_profile.name
+            _timeline_return.append(('uv' if _vote.is_upvoted else 'dv', _vote_title, _vote.get_datetime_voted(), _vote_text, _vote.eatery_profile.id, _vote.datetime_voted))
+            
+        # Reviews
+        for _review in _u_target.reviews_set.all():  
+            _review_title = 'Reviewed ' + _review.eatery_profile.name
+            _review_text = '\''+ _review.review_text +'\''
+            _timeline_return.append(('r', _review_title, _review.get_datetime_pub(), _review_text, _review.eatery_profile.id, _review.datetime_pub))
+            
+        # Specials hearts
+        for _sh in _u_target.specials_hearts_set.all():
+            _sh_title = 'Hearted'
+            _sh_text = 'Hearted ' + _sh.specials_set.first().eatery_profile.name + '\'s ' + _sh.specials_set.first().name
+            _timeline_return.append(('sh', _sh_title, _sh.get_datetime_hearted(), _sh_text, _sh.specials_set.first().eatery_profile.id, _sh.datetime_hearted))
+            
+        # food hearts
+        for _fh in _u_target.food_hearts_set.all():
+            _fh_title = 'Hearted'
+            _fh_text = 'Hearted ' + _fh.food_set.first().eatery_profile.name + '\'s ' + _fh.food_set.first().name
+            _timeline_return.append(('sh', _fh_title, _fh.get_datetime_hearted(), _fh_text, _fh.food_set.first().eatery_profile.id, _fh.datetime_hearted))
+            
+        # Sort it 
+        _timeline_return = sorted(_timeline_return, key=lambda _timeline_return_lambda: _timeline_return_lambda[5], reverse=True)
+    
+        variables['TIMELINE'] = _timeline_return
+        
     except Exception:
-        pass        
+        return HttpResponseRedirect('/')        
+          
         
     return render(request, 'profile.html', variables)   
         

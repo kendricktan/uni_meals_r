@@ -44,7 +44,7 @@ class message(models.Model):
         return unicode(self.op_user_profile.get_username() + '\'s message to ' + self.received_user_profile.get_username() + ', id: ' + str(self.id))
         
     def get_datetime_sent(self):
-        return self.datetime_sent.strftime('%d:%m:%y') + ' at ' + self.datetime_sent.strftime('%H:%M')
+        return self.datetime_sent.strftime('%d/%m/%y') + ' at ' + self.datetime_sent.strftime('%H:%M')
         
     def get_short_description(self):
         if self.message_reply_set.all().count() == 0:
@@ -65,7 +65,7 @@ class message_reply(models.Model):
     message = models.ForeignKey(message)
     
     def get_datetime_sent(self):
-        return self.datetime_sent.strftime('%d:%m:%y') + ' at ' + self.datetime_sent.strftime('%H:%M')
+        return self.datetime_sent.strftime('%d/%m/%y') + ' at ' + self.datetime_sent.strftime('%H:%M')
         
     def __unicode__(self):
         return unicode(self.op_user_profile.get_username() + '\'s reply, id: ' + str(self.id))
