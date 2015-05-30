@@ -23,12 +23,10 @@ To fix:
 
 To do:		
 	High Priority:								
-		Unread messages
-		User delete image function		
+	
 	
 	Medium Priority:				
-		If user is not logged in and tries to do stuff that requires them to log in (e.g. heart food), sign them up		
-		Create user timeline
+		If user is not logged in and tries to do stuff that requires them to log in (e.g. heart food), sign them up				
 		
 	Low Priority:				
 		Resize user image/crop to suit layout needs
@@ -71,3 +69,4 @@ Done:
 	Create message user page
 	Sort reviews by...
 	Ajax auto update when scroll for reviews + timeline
+	Create user timeline

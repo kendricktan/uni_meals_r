@@ -92,7 +92,7 @@
                         {% for identifier, title, time_title, text, eatery_id, datetime in TIMELINE %}
                             {% ifequal identifier 'r' %}
                             <li class="timeline-inverted">
-                                <div class="timeline-badge success"><i class="glyphicon fui-check"></i></div>
+                                <div class="timeline-badge info"><i class="glyphicon fui-check"></i></div>
                             {% endifequal %}
                             
                             {% ifequal identifier 'uv' %}
@@ -102,7 +102,7 @@
                             
                             {% ifequal identifier 'dv' %}
                             <li class="timeline-inverted">
-                                <div class="timeline-badge success"><i class="glyphicon fui-triangle-"></i></div>
+                                <div class="timeline-badge danger"><i class="glyphicon fui-triangle-down"></i></div>
                             {% endifequal %}
                             
                             {% ifequal identifier 'fh' %}

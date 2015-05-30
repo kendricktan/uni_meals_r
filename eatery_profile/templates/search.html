@@ -124,7 +124,17 @@ Uni Meals - Search
     <hr noshade>
     {% endfor %}    
 </div>
+<div id="div-end-of-results" class="container" style="margin-bottom: 15px; text-align: center">
+</div>
 <!-- EMD REGULAR EATERIES -->
+
+<!-- LOAD MORE BUTTON -->
+<div class="container">
+    <button onclick="return load_more_onclick()" type="button" style="width: 100%" class="btn btn-primary btn-wide">
+        Load more
+    </button>
+</div>
+<!-- END LOAD MORE BUTTON -->
 {% endblock content %}
 
 {% block additional_scripts %}
@@ -227,7 +237,7 @@ Uni Meals - Search
 
     
     // Checks scroll position
-    $(window).scroll(function (event) {
+    /*$(window).scroll(function (event) {
         var height = $(window).scrollTop();
         //console.log(height+'/'+item_no*$(window).height()*0.65);
         // If scroll reaches 80% of page, get 10 more eateries
@@ -238,7 +248,12 @@ Uni Meals - Search
                 item_no += 1;
             }
         }                
-    }); 
+    }); */
+    
+    function load_more_onclick(){
+        get_more_results();
+        item_no += 1;
+    }
     
     // Checks more results when user past scrolling point
     function get_more_results(){          
@@ -256,32 +271,39 @@ Uni Meals - Search
             },
 
             success: function(json){
-                var div_contents = "";
-
-                // Search results div
-                for(var i = 0; i < json['EATERIES_COUNT']; i++){
-                    div_contents += '<div class="search-results">';
-                    div_contents += '<a href="/eatery/'+json['EATERY_ID'][i]+'/"><strong>'+json['EATERY_NAME'][i]+'</strong></a></span>&nbsp;@&nbsp;'+json['EATERY_LOCATION_SUBURB'][i]+'&nbsp;';
-                    div_contents += '<span style="font-size: 14px">';
-                    for (var j = 0; j < json['EATERY_PRICING_BOLD'][i]; j++){
-                        div_contents += '$';
-                    }                
-                    div_contents += '<span style="color: #BDC3C7">';
-                    for (var j = 0; j < json['EATERY_PRICING_REST'][i]; j++){
-                        div_contents += '$';
-                    }
-                    div_contents += '</span></span><br/><div class="result-div">';
-                    for (var j = 0; j < json['EATERY_TAGS'][i].length; j++){
-                        div_contents += '<a href="#">'+ json['EATERY_TAGS'][i][j] +'</a>;&nbsp;'
-                    }
-                    div_contents += '</div>';
-                    div_contents += '<div class="addition-info-results">';
-                    div_contents += json['EATERY_UPVOTES'][i] + ' out of '+ json['EATERY_TOTAL_VOTES'][i] +' people recommends this';
-                    div_contents += '</div><hr noshade>';                                
+                // If end of results
+                if(json['EATERIES_COUNT'] == 0){
+                    document.getElementById('div-end-of-results').innerHTML = "End of results";
                 }
-                document.getElementById('div-search-results').innerHTML += div_contents;                
                 
-                is_getting = false;
+                else{
+                    var div_contents = "";
+
+                    // Search results div
+                    for(var i = 0; i < json['EATERIES_COUNT']; i++){
+                        div_contents += '<div class="search-results">';
+                        div_contents += '<a href="/eatery/'+json['EATERY_ID'][i]+'/"><strong>'+json['EATERY_NAME'][i]+'</strong></a></span>&nbsp;@&nbsp;'+json['EATERY_LOCATION_SUBURB'][i]+'&nbsp;';
+                        div_contents += '<span style="font-size: 14px">';
+                        for (var j = 0; j < json['EATERY_PRICING_BOLD'][i]; j++){
+                            div_contents += '$';
+                        }                
+                        div_contents += '<span style="color: #BDC3C7">';
+                        for (var j = 0; j < json['EATERY_PRICING_REST'][i]; j++){
+                            div_contents += '$';
+                        }
+                        div_contents += '</span></span><br/><div class="result-div">';
+                        for (var j = 0; j < json['EATERY_TAGS'][i].length; j++){
+                            div_contents += '<a href="#">'+ json['EATERY_TAGS'][i][j] +'</a>;&nbsp;'
+                        }
+                        div_contents += '</div>';
+                        div_contents += '<div class="addition-info-results">';
+                        div_contents += json['EATERY_UPVOTES'][i] + ' out of '+ json['EATERY_TOTAL_VOTES'][i] +' people recommends this';
+                        div_contents += '</div><hr noshade>';                                
+                    }
+                    document.getElementById('div-search-results').innerHTML += div_contents;                
+
+                    is_getting = false;
+                }
             },
 
             error: function(xhr, errmsg, err){

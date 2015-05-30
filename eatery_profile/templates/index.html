@@ -61,18 +61,18 @@ Uni Meals - Home
             <form id="form-search" method="POST" action="/search/">{% csrf_token %}
                 <div class="col-sm-6">{{FORM.query}}</div>
                 <div class="col-sm-6">{{FORM.location}}</div>                
-                <div class="row" style="margin-bottom: 15px;"></div>
+                <div style="margin-bottom: 15px" class="container"></div>
                 <div class="col-xs-6">
                     <div class="btn-right">
                         <button class="btn btn-success btn-wide" type="submit">Search</button>
                     </div>           
                 </div>                                    
-            </form>
-            <div class="col-xs-6">
-                <div class="btn-left">
-                    <button class="btn btn-success btn-wide" type="submit">Random</button>
-                </div>           
-            </div>
+                <div class="col-xs-6">
+                    <div class="btn-left">
+                        <button class="btn btn-success btn-wide" type="submit">Random</button>
+                    </div>  
+                </div>
+            </form>            
         </div>
     </div>
 </div>
@@ -93,10 +93,10 @@ Uni Meals - Home
     
     // Wait till page fully loads
     $(window).bind("load", function() {   
-        //document.getElementById('id_nearby').value = "Current location";                
+        document.getElementById('id_location').value = 'brisbane';                  
         setTimeout(function set_location(){
              if(getPostal_code() != null){
-                 document.getElementById('id_location').value = getPostal_code();                      
+                 //document.getElementById('id_location').value = getPostal_code();                 
              }
         }, 3000);
     });

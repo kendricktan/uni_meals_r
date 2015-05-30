@@ -222,7 +222,7 @@ def profile_view(request, profile_id):
         
         # votes
         for _vote in _u_target.user_votes_set.all():
-            _vote_title = 'Upvoted ' if _vote.is_upvoted else 'Downvoted ' + _vote.eatery_profile.name
+            _vote_title = ('Upvoted ' if _vote.is_upvoted else 'Downvoted ') + _vote.eatery_profile.name
             _vote_text = _u_target.username + (' upvoted ' if _vote.is_upvoted else ' downvoted ') + _vote.eatery_profile.name
             _timeline_return.append(('uv' if _vote.is_upvoted else 'dv', _vote_title, _vote.get_datetime_voted(), _vote_text, _vote.eatery_profile.id, _vote.datetime_voted))
             
